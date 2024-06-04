@@ -5,6 +5,7 @@ import Onboardings from './Screens/Onboarding';
 import Board from './Screens/Board';
 import Preview from './Screens/Preview';
 import LastPage from './Screens/lastpage';
+import Success from './Screens/Success';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
 				<Stack.Screen name="Board" component={Board} />
 				<Stack.Screen name="ImagePreview" component={Preview} />
 				<Stack.Screen name="Lastpage" component={Lastpage} />
+				<Stack.Screen name="Success" component={Success} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
