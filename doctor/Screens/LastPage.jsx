@@ -7,7 +7,7 @@ const LastPage = () => {
 			<View style={styles.animation}>
 				<LottieView
 					style={{ flex: 1 }}
-					source={require('./assets/Animation - 1717495665577.json')}
+					source={require('../assets/Animation - 1717495665577.json')}
 					autoPlay
 					loop
 				/>

@@ -4,7 +4,7 @@ import Home from './Screens/Home';
 import Onboardings from './Screens/Onboarding';
 import Board from './Screens/Board';
 import Preview from './Screens/Preview';
-import LastPage from './Screens/lastpage';
+import LastPage from './Screens/LastPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,7 @@ export default function App() {
 				<Stack.Screen name="Onboarding" component={Onboardings} />
 				<Stack.Screen name="Board" component={Board} />
 				<Stack.Screen name="ImagePreview" component={Preview} />
-				<Stack.Screen name="Lastpage" component={Lastpage} />
+				<Stack.Screen name="Lastpage" component={LastPage} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
