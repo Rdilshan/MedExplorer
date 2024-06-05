@@ -1,7 +1,40 @@
 from flask import Flask, request
 import os
 
+import tensorflow as tf
+from tensorflow import keras
 
+from image_utils  import prepare_dataset
+from image_utils  import decode_batch_predictions
+
+
+class CTCLayer(keras.layers.Layer):
+    def __init__(self, name=None, **kwargs):
+        super().__init__(name=name, **kwargs)
+        self.loss_fn = keras.backend.ctc_batch_cost
+
+    def call(self, y_true, y_pred):
+        batch_len = tf.cast(tf.shape(y_true)[0], dtype="int64")
+        input_length = tf.cast(tf.shape(y_pred)[1], dtype="int64")
+        label_length = tf.cast(tf.shape(y_true)[1], dtype="int64")
+
+        input_length = input_length * tf.ones(shape=(batch_len, 1), dtype="int64")
+        label_length = label_length * tf.ones(shape=(batch_len, 1), dtype="int64")
+        loss = self.loss_fn(y_true, y_pred, input_length, label_length)
+        self.add_loss(loss)
+
+        # At test time, just return the computed predictions.
+        return y_pred
+
+
+# Load the model and register the custom layer
+loaded_model = keras.models.load_model('handwriting_recognizer.h5', custom_objects={'CTCLayer': CTCLayer})
+
+# If you want to use the prediction model
+prediction_model = keras.models.Model(
+    inputs=loaded_model.input[0],  # input_img is the first input
+    outputs=loaded_model.get_layer(name="dense2").output
+)
 
 
 app = Flask(__name__)
@@ -25,8 +58,19 @@ def prediction():
         
 
         file.save("image.jpg")
-       
-        return "Image received and processed successfully"
+        
+        myimg=['image.jpg']
+        mylabel=['32452354']
+
+        myimg = prepare_dataset(myimg, mylabel)
+        
+        for batch in myimg:
+            batch_images = batch["image"]
+            preds = prediction_model.predict(batch_images)
+            pred_texts = decode_batch_predictions(preds)
+            
+ 
+        return pred_texts
     else:
         return "Only POST requests are allowed for this endpoint", 405
     
