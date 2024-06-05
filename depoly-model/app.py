@@ -27,8 +27,6 @@ class CTCLayer(keras.layers.Layer):
         # At test time, just return the computed predictions.
         return y_pred
 
-
-
 loaded_model = keras.models.load_model('handwriting_recognizer.h5', custom_objects={'CTCLayer': CTCLayer})
 
 
