@@ -6,6 +6,7 @@ from tensorflow import keras
 
 from image_utils  import prepare_dataset
 from image_utils  import decode_batch_predictions
+from predictText  import process_image
 
 
 class CTCLayer(keras.layers.Layer):
@@ -73,6 +74,31 @@ def prediction():
         return pred_texts
     else:
         return "Only POST requests are allowed for this endpoint", 405
-    
+
+
+@app.route("/textpredict", methods=["POST"])
+def prediction():
+    if request.method == "POST":
+        if "file" not in request.files:
+            return "No file part in the request", 400
+        
+        file = request.files["file"]
+        
+        if os.path.exists("image.jpg"):
+            os.remove("image.jpg")
+        
+
+        file.save("image.jpg")
+        
+        
+        image_path = 'image.jpg'
+
+        predicted_sentence = process_image(image_path, prediction_model, prepare_dataset, decode_batch_predictions)
+
+        return predicted_sentence
+    else:
+        return "Only POST requests are allowed for this endpoint", 405
+
+ 
 if __name__ == "__main__":
     app.run(debug=True)
