@@ -27,12 +27,12 @@ class CTCLayer(keras.layers.Layer):
         return y_pred
 
 
-# Load the model and register the custom layer
+
 loaded_model = keras.models.load_model('handwriting_recognizer.h5', custom_objects={'CTCLayer': CTCLayer})
 
-# If you want to use the prediction model
+
 prediction_model = keras.models.Model(
-    inputs=loaded_model.input[0],  # input_img is the first input
+    inputs=loaded_model.input[0],  
     outputs=loaded_model.get_layer(name="dense2").output
 )
 
