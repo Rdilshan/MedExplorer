@@ -106,3 +106,8 @@ def prepare_dataset(image_paths, labels):
     )
     return dataset.batch(batch_size).cache().prefetch(AUTOTUNE)
 
+
+
+
+# add here sentense 
+

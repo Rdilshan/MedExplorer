@@ -77,7 +77,7 @@ def prediction():
 
 
 @app.route("/textpredict", methods=["POST"])
-def prediction():
+def textpredict():
     if request.method == "POST":
         if "file" not in request.files:
             return "No file part in the request", 400
