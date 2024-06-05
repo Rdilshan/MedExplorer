@@ -1,7 +1,7 @@
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
-const LastPage = () => {
+const Wrong = () => {
 	return (
 		<View style={styles.viewStyle}>
 			<View style={styles.animation}>
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default LastPage;
+export default Wrong;

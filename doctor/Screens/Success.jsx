@@ -8,7 +8,7 @@ export default function Success() {
             <View style={styles.viewStyle}>
                 <LottieView
                     style={styles.animation}
-                    source={require('./assets/Animation - 1717499982860.json')}
+                    source={require('../assets/Animation - 1717499982860.json')}
                     autoPlay
                     loop
                 />
