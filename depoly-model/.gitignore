@@ -1,5 +1,5 @@
 # ignore ALL .log files
 *.log
 
-./venv/
-./__pycache__
+venv/
+__pycache__
