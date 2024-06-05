@@ -1,4 +1,5 @@
 from flask import Flask, request
+import os
 
 
 app = Flask(__name__)
@@ -16,6 +17,11 @@ def prediction():
             return "No file part in the request", 400
         
         file = request.files["file"]
+        
+        if os.path.exists("image.jpg"):
+            os.remove("image.jpg")
+        
+
         file.save("image.jpg")
        
         return "Image received and processed successfully"
