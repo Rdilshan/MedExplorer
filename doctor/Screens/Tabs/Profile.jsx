@@ -15,7 +15,7 @@ export default function Profile() {
     <View>
       <View style={styles.container}>
         <Image
-          source={require("../../assets/doctor.jpg")}
+          source={require("../../assets/icon.png")}
           style={{ width: 70, height: 70, marginTop: 30, borderRadius: 40 }}
         />
         <Text style={{ color: "white", fontSize: 20 }}>Jon Smile</Text>
