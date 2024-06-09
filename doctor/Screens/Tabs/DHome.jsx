@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function HeaderComponent() {
   return (
@@ -13,7 +14,18 @@ export default function HeaderComponent() {
           />
           <Ionicons name="notifications" size={30} color="white" />
         </View>
-        <Text style={styles.greeting}>Hello, Doctor</Text>
+        <View style={styles.row1}>
+          <Text style={styles.greeting}>Hello, Doctor</Text>
+          <MaterialIcons name="waving-hand" size={30} color="#FFD43B" style={styles.waveIcon} />
+        </View>
+        <View style={styles.searchContainer}>
+          <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search doctors here"
+            placeholderTextColor="#aaa"
+          />
+        </View>
       </View>
     </View>
   );
@@ -28,7 +40,7 @@ const styles = StyleSheet.create({
   },
   top: {
     backgroundColor: "#0165FC",
-    paddingVertical: 65,
+    paddingVertical: 40, // Decreased padding
     paddingHorizontal: 20,
     borderBottomLeftRadius: 18,
     borderBottomRightRadius: 18,
@@ -58,7 +70,38 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 19,
     color: 'white',
-    marginTop: 16, // Space between the row and the greeting text
-    marginRight:150
+    marginTop: 26, // Space between the row and the greeting text
+    marginRight: 10,
+  },
+  row1: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 20, // Add some space between the row and the search bar
+  },
+  waveIcon: {
+    marginLeft: 10,
+    marginTop: 30,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 40,
+    width: '90%',
+    backgroundColor: '#0165FC',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginTop: 10, 
+    borderColor: '#FFFFFF', // Set border color to white
+    borderWidth: 1, // Set border width
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    color: 'white', // Optional: Make the input text white
   },
 });
+
