@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TextInput } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ export default function HeaderComponent() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.top}>
         <View style={styles.row}>
           <Image
@@ -126,7 +126,10 @@ export default function HeaderComponent() {
           }
         }}
       />
-    </View>
+      <View>
+      
+      </View>
+    </ScrollView>
   );
 }
 
