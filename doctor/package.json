@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.0",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
@@ -17,10 +18,11 @@
     "lottie-react-native": "^6.7.2",
     "react": "18.2.0",
     "react-native": "0.74.1",
+    "react-native-image-picker": "^7.1.2",
     "react-native-onboarding-swiper": "^1.2.0",
+    "react-native-picker-select": "^9.1.3",
     "react-native-svg": "^15.3.0",
-    "react-native-view-shot": "^3.8.0",
-    "@expo/vector-icons": "^14.0.0"
+    "react-native-view-shot": "^3.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
