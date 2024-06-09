@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TextInput, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -14,6 +14,12 @@ export default function HeaderComponent() {
 
   const changeYear = (num) => {
     setSelectedYear(selectedYear + num);
+  };
+
+  const changeMonth = (monthChange) => {
+    const currentDate = new Date(selectedYear, new Date().getMonth(), 1);
+    currentDate.setMonth(currentDate.getMonth() + monthChange);
+    setSelectedYear(currentDate.getFullYear());
   };
 
   return (
@@ -126,9 +132,26 @@ export default function HeaderComponent() {
           }
         }}
       />
-      <View>
-      
-      </View>
+     
+      <View style={styles.buttonRow}>
+  <TouchableOpacity onPress={() => {/* Handle button 1 press */}} style={[styles.navButton1, styles.button]}>
+   <Ionicons name="ios-tooth" size={24} color="white" />
+    {/* Button 1 content */}
+  </TouchableOpacity>
+  <TouchableOpacity onPress={() => {/* Handle button 2 press */}} style={[styles.navButton2, styles.button]}>
+  <Ionicons name="ios-settings" size={24} color="white" />
+    {/* Button 2 content */}
+  </TouchableOpacity>
+  <TouchableOpacity onPress={() => {/* Handle button 3 press */}} style={[styles.navButton3, styles.button]}>
+  <Ionicons name="ios-settings" size={24} color="white" />
+    {/* Button 3 content */}
+  </TouchableOpacity>
+  <TouchableOpacity onPress={() => {/* Handle button 4 press */}} style={[styles.navButton4, styles.button]}>
+  <Ionicons name="ios-chatbox" size={24} color="white" />
+    {/* Button 4 content */}
+  </TouchableOpacity>
+</View>
+
     </ScrollView>
   );
 }
@@ -223,5 +246,61 @@ const styles = StyleSheet.create({
     marginBottom: 20, // Add bottom margin here
     width: '100%', // Make sure the calendar takes the full width
     alignItems: 'center', // Center the calendar horizontally
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  navButton1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#765afc',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+  },
+   navButton2: {
+     alignItems: 'center',
+     justifyContent: 'center',
+     backgroundColor: '#57c09f',
+     paddingVertical: 10,
+     paddingHorizontal: 15,
+     borderRadius: 8,
+     flexDirection: 'row',
+   },
+    navButton3: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#ffcf68',
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      borderRadius: 8,
+      flexDirection: 'row',
+    },
+     navButton4: {
+       alignItems: 'center',
+       justifyContent: 'center',
+       backgroundColor: '#ff484c',
+       paddingVertical: 10,
+       paddingHorizontal: 15,
+       borderRadius: 8,
+       flexDirection: 'row',
+     },
+  navButtonText: {
+    color: 'white',
+    fontSize: 12,
+    marginLeft: 5,
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80, // Adjust height as needed
+    marginHorizontal: 5, // Add margin between buttons
   }
+
 });
