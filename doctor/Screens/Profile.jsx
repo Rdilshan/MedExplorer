@@ -83,16 +83,6 @@ export default function Profile() {
               </View>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              // handle link
-            }}>
-            <Text style={styles.formFooter}>
-              Don't have an account?{' '}
-              <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
