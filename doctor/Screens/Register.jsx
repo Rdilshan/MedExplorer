@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
-    width:350
+    width:350,
+    marginLeft:20
   },
   header: {
     marginVertical: 36,
