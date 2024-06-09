@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -8,55 +7,92 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default function NewPasswordone() {
+export default function Profile() {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-
-  const navigation=useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
-        <TouchableOpacity style={styles.headerAction} onPress={()=>{}}>
-                    <FeatherIcon name="arrow-left" size={24} color="#000000"/>
-                </TouchableOpacity>
-          <Text style={styles.title}>New Password</Text>
+          <Text style={styles.title}>Complete Your Profile</Text>
 
-          <Text style={styles.subtitle}>Your new password must be different with previously used password</Text>
+          <Text style={styles.subtitle}>Don't worry only you can see your personal data.No one else able to see it</Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>SIMC ID</Text>
+            <Text style={styles.inputLabel}>Phone Number</Text>
+            <View style={{
+                        width: "100%",
+                        height: 48,
+                        
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingLeft: 22
+                    }}>
+                        <TextInput
+                            placeholder='+94'
+                            
+                            keyboardType='numeric'
+                            style={{
+                                width: "12%",
+                                borderRightWidth: 1,
+                                
+                                height: "100%"
+                            }}
+                        />
 
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
-              placeholder="Enter SIMC ID"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.email} />
+                        <TextInput
+                            placeholder='Enter your phone number'
+                            
+                            keyboardType='numeric'
+                            style={{
+                                width: "80%"
+                            }}
+                        />
+                    </View>
           </View>
 
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Password</Text>
 
+            <TextInput
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={password => setForm({ ...form, password })}
+              placeholder="********"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              secureTextEntry={true}
+              value={form.password} />
+          </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('EnterCode')
+                // handle onPress
               }}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Next Progress</Text>
+                <Text style={styles.btnText}>Sign in</Text>
               </View>
             </TouchableOpacity>
           </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              // handle link
+            }}>
+            <Text style={styles.formFooter}>
+              Don't have an account?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -74,15 +110,6 @@ const styles = StyleSheet.create({
   header: {
     marginVertical: 36,
   },
-  headerAction: {
-    width: 40,
-    height: 60,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-    marginBottom: 5
-},
   title: {
     fontSize: 32,
     fontWeight: 'bold',

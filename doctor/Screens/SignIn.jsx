@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -13,6 +14,7 @@ export default function SignIN() {
     email: '',
     password: '',
   });
+  const navigation=useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
@@ -52,7 +54,8 @@ export default function SignIN() {
               value={form.password} />
           </View>
 
-          <Text style={styles.formLink}>Forgot password?</Text>
+          <TouchableOpacity onPress={()=>navigation.navigate('NewPasswordone')}><Text style={styles.formLink}>Forgot password?</Text></TouchableOpacity>
+          
 
 
           <View style={styles.formAction}>
@@ -68,7 +71,7 @@ export default function SignIN() {
 
           <TouchableOpacity
             onPress={() => {
-              // handle link
+              navigation.navigate("Register")
             }}>
             <Text style={styles.formFooter}>
               Don't have an account?{' '}

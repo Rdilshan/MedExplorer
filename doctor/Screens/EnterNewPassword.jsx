@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-export default function SignIN() {
+export default function EnterNewPassword() {
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -17,9 +17,9 @@ export default function SignIN() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Sign In</Text>
+          <Text style={styles.title}>New Password</Text>
 
-          <Text style={styles.subtitle}>Hi ! welcome back, You’ve been missed</Text>
+          <Text style={styles.subtitle}>Your new password must be different with previously used passsword</Text>
         </View>
 
         <View style={styles.form}>
