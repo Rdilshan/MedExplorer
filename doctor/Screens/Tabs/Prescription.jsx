@@ -9,7 +9,7 @@ export default function Prescription({ navigation }) {
   return (
     <View>
       <View style={styles.top}>
-        <Image source={require('../../assets/doctor.jpg')} style={{ 
+        <Image source={require('../../assets/icon.png')} style={{ 
           width:50,
           height:50,
           borderRadius:30

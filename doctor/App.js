@@ -12,6 +12,7 @@ import SignIn from './Screens/SignIn.jsx';
 import NewPasswordone from './Screens/NewPasswordDone.jsx';
 import EnterNewPassword from './Screens/EnterNewPassword';
 import Profile from './Screens/profile.jsx';
+import Dashboard from './Screens/Dashboard';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+			<Stack.Navigator initialRouteName="Dashboard" screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="Home" component={Home} />
 				<Stack.Screen name="Onboarding" component={Onboardings} />
 				<Stack.Screen name="Board" component={Board} />
@@ -33,6 +34,7 @@ export default function App() {
 				<Stack.Screen name="EnterNewPassword" component={EnterNewPassword}/>
 				<Stack.Screen name="Profile" component={Profile}/>
 
+				<Stack.Screen name="Dashboard" component={Dashboard} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
