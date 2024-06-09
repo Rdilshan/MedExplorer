@@ -13,6 +13,8 @@ import NewPasswordone from './Screens/NewPasswordDone';
 import EnterNewPassword from './Screens/EnterNewPassword';
 import Profile from './Screens/Profile';
 import Dashboard from './Screens/Dashboard';
+import Pnumber from './Screens/Pnumber'
+import Patient from './Screens/Patient'
 
 
 const Stack = createNativeStackNavigator();
@@ -33,7 +35,8 @@ export default function App() {
 				<Stack.Screen name="NewPasswordone" component={NewPasswordone}/>
 				<Stack.Screen name="EnterNewPassword" component={EnterNewPassword}/>
 				<Stack.Screen name="Profile" component={Profile}/>
-
+				<Stack.Screen name="Pnumber" component={Pnumber}/>
+				<Stack.Screen name="Patient" component={Patient}/>
 				<Stack.Screen name="Dashboard" component={Dashboard} />
 			</Stack.Navigator>
 		</NavigationContainer>
