@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -16,7 +17,9 @@ export default function Example() {
     SimcId:'',
     password: '',
   });
+  const navigation=useNavigation();
   return (
+    
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
@@ -103,7 +106,7 @@ export default function Example() {
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
-                // handle onPress
+                navigation.navigate('Profile')
               }}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>

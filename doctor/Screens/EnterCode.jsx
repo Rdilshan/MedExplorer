@@ -1,78 +1,78 @@
-import { SafeAreaView , StyleSheet, Text, View , TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
 
 export default function EnterCode() {
-    const[code, setcode] = useState('123')
+    const [code, setCode] = useState('');
 
-  return (
-    <SafeAreaView style={{flex:1, backgroundColor: '#f4wff3'}}>
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity style={styles.headerAction} onPress={()=>{}}>
-                    <FeatherIcon name="arrow-left" size={24} color="#000000"/>
-                </TouchableOpacity>
-                <Text style={styles.title}>New Password</Text>
-                <Text style={styles.subtitle}>Your new password must be different with previously used password </Text>
-                <Text></Text>
-            </View>
-        </View>
-        <View style={styles.form}>
-            <View style={styles.formInput}>
-                <TextInput 
-                autoCapitalize='none'
-                autoCorrect={false}
-                autoFocus
-                caretHidden
-                keyboardType='number-pad'
-                returnKeyType='done'
-                onChangeText={value => setcode(value.slice(0, 4))}
-                style={styles.formInputControl}
-                value={code}/>
-                <View style={styles.formInputOverflow}>
-                    {Array.from({length: 4}).map((_, index) => {
-                        return (
-                         <Text key={index} style={styles.formInputChar}>
-                            {code[index] || '-'}
-                             </Text>   
-                        )
-                    })}
-                </View>
-                <View style={styles.formAction}>
-                    <TouchableOpacity style={styles.btn} onPress={()=>{}}>
-                        <Text style={styles.btnText}>Next Progress</Text>
+    const navigation = useNavigation();
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#f4fff3' }}>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.headerAction} onPress={()=>{}}>
+                        <FeatherIcon name="arrow-left" size={24} color="#000000" />
                     </TouchableOpacity>
-
+                    <Text style={styles.title}>New Password</Text>
+                    <Text style={styles.subtitle}>Your new password must be different from the previously used password.</Text>
                 </View>
-                <TouchableOpacity onPress={()=>{}} >
-                   <Text style={styles.formFooter}>
-                   Didn't get the email <Text style={styles.formLink}>Resend code</Text></Text> 
-                </TouchableOpacity>
             </View>
-        </View>
-    </SafeAreaView>
-  )
+            <View style={styles.form}>
+                <View>
+                    <TextInput
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        autoFocus
+                        caretHidden
+                        keyboardType='number-pad'
+                        returnKeyType='done'
+                        onChangeText={value => setCode(value.slice(0, 4))}
+                        style={styles.formInputControl}
+                        value={code}
+                    />
+                    <View style={styles.formInputOverflow}>
+                        {Array.from({ length: 4 }).map((_, index) => {
+                            return (
+                                <Text key={index} style={styles.formInputChar}>
+                                    {code[index] || '-'}
+                                </Text>
+                            );
+                        })}
+                    </View>
+                    <View style={styles.formAction}>
+                        <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate('EnterNewPassword') }}>
+                            <Text style={styles.btnText}>Next Progress</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity onPress={() => { }}>
+                        <Text style={styles.formFooter}>
+                            Didn't get the email? <Text style={styles.formLink}>Resend code</Text>
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </SafeAreaView>
+    );
 }
-
 
 const styles = StyleSheet.create({
     container: {
         paddingVertical: 50,
         flex: 1,
-        
     },
     title: {
-        alignSelf:'center',
+        alignSelf: 'center',
         fontSize: 24,
         fontWeight: 'bold',
         color: '#181818',
         marginBottom: 20,
-        
     },
     subtitle: {
         fontSize: 15,
         lineHeight: 20,
-        color:'#889797',
+        color: '#889797',
         fontWeight: '500',
     },
     header: {
@@ -92,11 +92,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 15,
     },
-    formInput: {
-        position: 'relative',
-        backgroundColor: '#fff',
-        borderRadius: 12
-    },
     formInputOverflow: {
         position: 'absolute',
         zIndex: 1,
@@ -111,9 +106,9 @@ const styles = StyleSheet.create({
     },
     formInputControl: {
         zIndex: 2,
-        height:60,
+        height: 60,
         color: 'transparent',
-        paddingHorizontal:10
+        paddingHorizontal: 10
     },
     formInputChar: {
         flex: 1,
@@ -122,7 +117,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '600'
     },
-    formINputCharEmpty: {
+    formInputCharEmpty: {
         color: '#bbb9bc',
         fontWeight: '400'
     },
@@ -137,7 +132,7 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         color: '#9fa5af',
         textAlign: 'center',
-        fontWeight:'400'
+        fontWeight: '400'
     },
     formLink: {
         textAlign: 'right',
@@ -147,7 +142,6 @@ const styles = StyleSheet.create({
         textDecorationColor: '#0165FC',
         textDecorationStyle: 'solid'
     },
-
     btn: {
         flexDirection: 'row',
         backgroundColor: '#0165FC',
@@ -157,7 +151,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingVertical: 16,
         paddingHorizontal: 24,
-        borderWidth:1
+        borderWidth: 1
     },
     btnText: {
         fontSize: 17,
@@ -165,6 +159,4 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold'
     }
-
-
-})
+});
