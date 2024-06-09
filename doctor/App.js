@@ -7,11 +7,11 @@ import Preview from './Screens/Preview';
 import Wrong from './Screens/Wrong';
 import Success from './Screens/Success';
 import EnterCode from './Screens/EnterCode';
-import Register from './Screens/Register.jsx';
-import SignIn from './Screens/SignIn.jsx';
-import NewPasswordone from './Screens/NewPasswordDone.jsx';
+import Register from './Screens/Register';
+import SignIn from './Screens/SignIn';
+import NewPasswordone from './Screens/NewPasswordDone';
 import EnterNewPassword from './Screens/EnterNewPassword';
-import Profile from './Screens/profile.jsx';
+import Profile from './Screens/Profile';
 import Dashboard from './Screens/Dashboard';
 
 
