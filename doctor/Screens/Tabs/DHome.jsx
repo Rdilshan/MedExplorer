@@ -1,9 +1,21 @@
 import { View, Text, StyleSheet, Image, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
+import { Calendar } from 'react-native-calendars';
 
 export default function HeaderComponent() {
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const onDayPress = (day) => {
+    setSelectedDate(day.dateString);
+  };
+
+  const changeYear = (num) => {
+    setSelectedYear(selectedYear + num);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -27,6 +39,94 @@ export default function HeaderComponent() {
           />
         </View>
       </View>
+      <View style={styles.gdtext}>
+        <Text style={styles.goodMorning}>Good morning,</Text>
+        <Text style={styles.keep}>Keep it going!</Text>
+      </View>
+     <Calendar style={{marginTop:20}}
+  current={`${selectedYear}-01-01`}
+  minDate={'2022-01-01'}
+  maxDate={'2030-12-31'}
+  onDayPress={onDayPress}
+  monthFormat={'yyyy MM'}
+  hideExtraDays={true}
+  showWeekNumbers={true}
+  onPressArrowLeft={subtractMonth => changeYear(-1)}
+  onPressArrowRight={addMonth => changeYear(1)}
+  theme={{
+    calendarBackground: '#f8f8f8',
+    textSectionTitleColor: '#b6c1cd',
+    selectedDayBackgroundColor: '#0165FC',
+    selectedDayTextColor: '#ffffff',
+    todayTextColor: '#0165FC',
+    dayTextColor: '#2d4150',
+    textDisabledColor: '#d9e1e8',
+    monthTextColor: '#ffffff',
+    textMonthFontWeight: 'bold',
+    textDayHeaderFontWeight: 'bold',
+    textDayFontSize: 16,
+    textMonthFontSize: 20,
+    textDayHeaderFontSize: 16,
+    
+    'stylesheet.calendar.header': {
+      header: {
+        backgroundColor: '#0165FC',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 10,
+        paddingRight: 10,
+        alignItems: 'center',
+      },
+      monthText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+      },
+      dayHeader: {
+        marginTop: 2,
+        marginBottom: 7,
+        width: 32,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#ffffff',
+      },
+    },
+    'stylesheet.calendar.day.basic': {
+      text: {
+        marginTop: 2,
+        fontSize: 16,
+        color: '#2d4150',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+      selected: {
+        backgroundColor: '#0165FC',
+        borderRadius: 16,
+      },
+      selectedText: {
+        color: '#ffffff',
+      },
+      today: {
+        backgroundColor: '#0165FC',
+        borderRadius: 16,
+      },
+      todayText: {
+        color: '#ffffff',
+      },
+      weekendText: {
+        color: '#0165FC',
+      },
+    },
+  }}
+  markedDates={{
+    [selectedDate]: {
+      selected: true,
+      selectedColor: '#0165FC'
+    }
+  }}
+/>
+
     </View>
   );
 }
@@ -40,7 +140,7 @@ const styles = StyleSheet.create({
   },
   top: {
     backgroundColor: "#0165FC",
-    paddingVertical: 40, // Decreased padding
+    paddingVertical: 35, // Decreased padding
     paddingHorizontal: 20,
     borderBottomLeftRadius: 18,
     borderBottomRightRadius: 18,
@@ -61,6 +161,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: '100%',
     paddingHorizontal: 20,
+    marginTop: 30,
   },
   icon: {
     width: 50,
@@ -87,7 +188,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 40,
+    height: 46,
     width: '90%',
     backgroundColor: '#0165FC',
     borderRadius: 20,
@@ -103,5 +204,22 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'white', // Optional: Make the input text white
   },
+  gdtext: {
+    marginTop: 35,
+    marginRight:140
+  },
+  goodMorning: {
+    fontSize: 15,
+    
+  },
+  keep: {
+    fontSize:20,
+    marginTop: 3,
+  },
+  calendarContainer: {
+ marginTop: 40,
+   marginBottom: 20, // Add bottom margin here
+   width: '100%', // Make sure the calendar takes the full width
+   alignItems: 'center', // Center the calendar horizontally
+  }
 });
-
