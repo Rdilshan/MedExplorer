@@ -20,7 +20,8 @@ export default function Home({navigation}) {
         <TouchableOpacity style={styles.bottom_btn}  onPress={() => navigation.navigate('Onboarding')}>
           <Text style={styles.btn_dec}>Let’s Get Started</Text>
         </TouchableOpacity >
-        <Text>Already have an account ? <Text style={{ color:'#0165FC' }}>Sign In</Text></Text>
+        
+        <Text>Already have an account ?<TouchableOpacity onPress={()=>navigation.navigate('SignIn')}><Text style={{ color:'#0165FC' }}>Sign In</Text></TouchableOpacity> </Text>
       </View>
     </View>
   );
