@@ -9,7 +9,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@expo/vector-icons": "^14.0.2",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -17,9 +16,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@fortawesome/react-native-fontawesome": "^0.3.2",
-=======
-    "@expo/vector-icons": "^14.0.0",
->>>>>>> main
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
@@ -29,12 +25,9 @@
     "lottie-react-native": "^6.7.2",
     "react": "18.2.0",
     "react-native": "0.74.1",
-<<<<<<< HEAD
     "react-native-calendars": "^1.1305.0",
     "react-native-ionicons": "^4.6.5",
-=======
     "react-native-image-picker": "^7.1.2",
->>>>>>> main
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-picker-select": "^9.1.3",
     "react-native-svg": "^15.3.0",
