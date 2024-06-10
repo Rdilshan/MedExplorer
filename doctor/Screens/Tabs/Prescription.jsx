@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   
-    fontFamily:'Roboto-Bold'
+   
   },
   body:{
    paddingHorizontal:40,
