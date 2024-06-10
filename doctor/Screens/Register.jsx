@@ -8,45 +8,48 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Example() {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
-    nicNumber:'',
-    SimcId:'',
+    nicNumber: '',
+    SimcId: '',
     password: '',
   });
-  const navigation=useNavigation();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const navigation = useNavigation();
+
   return (
-    
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
-
-          <Text style={styles.subtitle}>Fill your information below or regsiter with your scocial account</Text>
+          <Text style={styles.subtitle}>
+            Fill your information below or register with your social account
+          </Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Full Name</Text>
-
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              keyboardType="email-address"
               onChangeText={fullName => setForm({ ...form, fullName })}
               placeholder="Full Name"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.fullName} />
+              value={form.fullName}
+            />
           </View>
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Email address</Text>
-
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
@@ -56,58 +59,70 @@ export default function Example() {
               placeholder="Email Address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email} />
+              value={form.email}
+            />
           </View>
 
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Nic Number</Text>
-
+            <Text style={styles.inputLabel}>NIC Number</Text>
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              keyboardType="email-address"
               onChangeText={nicNumber => setForm({ ...form, nicNumber })}
-              placeholder="Nic Number"
+              placeholder="NIC Number"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.nicNumber} />
+              value={form.nicNumber}
+            />
           </View>
 
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Simc ID</Text>
-
+            <Text style={styles.inputLabel}>SIMC ID</Text>
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              keyboardType="email-address"
               onChangeText={SimcId => setForm({ ...form, SimcId })}
-              placeholder="Simc ID"
+              placeholder="SIMC ID"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.SimcId} />
+              value={form.SimcId}
+            />
           </View>
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
-
-            <TextInput
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={password => setForm({ ...form, password })}
-              placeholder="Password"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              secureTextEntry={true}
-              value={form.password} />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={password => setForm({ ...form, password })}
+                placeholder="Password"
+                placeholderTextColor="#6b7280"
+                style={[styles.inputControl, styles.passwordInput]}
+                secureTextEntry={!passwordVisible}
+                value={form.password}
+              />
+              <TouchableOpacity
+                onPress={() => setPasswordVisible(!passwordVisible)}
+                style={styles.icon}
+              >
+                <Ionicons
+                  name={passwordVisible ? "eye-off" : "eye"}
+                  size={24}
+                  color="#6b7280"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Profile')
-              }}>
+                navigation.navigate('Profile');
+              }}
+            >
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>
@@ -115,7 +130,6 @@ export default function Example() {
           </View>
         </View>
       </View>
-      
     </SafeAreaView>
   );
 }
@@ -126,7 +140,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
-    width:350
+    width: 350,
+    marginLeft: 20,
   },
   header: {
     marginVertical: 36,
@@ -144,7 +159,6 @@ const styles = StyleSheet.create({
     color: '#929292',
     textAlign: 'center',
   },
-  /** Form */
   form: {
     marginBottom: 24,
   },
@@ -157,7 +171,6 @@ const styles = StyleSheet.create({
     color: '#222',
     textAlign: 'center',
   },
-  /** Input */
   input: {
     marginBottom: 16,
   },
@@ -176,7 +189,19 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#222',
   },
-  /** Button */
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f9',
+    borderRadius: 12,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 44,
+  },
+  icon: {
+    padding: 10,
+  },
   btn: {
     flexDirection: 'row',
     alignItems: 'center',
