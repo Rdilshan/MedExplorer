@@ -72,6 +72,7 @@ export default function SignIN() {
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
+                navigation.navigate('Dashboard')
                 // handle onPress
               }}>
               <View style={styles.btn}>

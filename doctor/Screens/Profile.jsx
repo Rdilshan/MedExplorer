@@ -11,6 +11,7 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Profile() {
   const [form, setForm] = useState({
@@ -29,6 +30,8 @@ export default function Profile() {
       }
     });
   };
+
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -83,7 +86,7 @@ export default function Profile() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => { /* handle onPress */ }}>
+            <TouchableOpacity onPress={() => { /* handle onPress */ navigation.navigate('Dashboard')}}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>
