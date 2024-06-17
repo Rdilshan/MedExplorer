@@ -35,7 +35,8 @@
     "react-native-picker-select": "^9.1.3",
     "react-native-svg": "^15.3.0",
     "react-native-vector-icons": "^10.1.0",
-    "react-native-view-shot": "^3.8.0"
+    "react-native-view-shot": "^3.8.0",
+    "expo-image-picker": "~15.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
