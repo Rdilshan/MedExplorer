@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,9 +9,10 @@ import {
   Image,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { launchImageLibrary } from 'react-native-image-picker';
+
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Profile() {
   const [form, setForm] = useState({
@@ -21,17 +22,34 @@ export default function Profile() {
     phoneNumber: '',
   });
 
+  const [hasPermission, setPermission] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
 
-  const handleImagePicker = () => {
-    launchImageLibrary({}, (response) => {
-      if (response.assets) {
-        setProfileImage(response.assets[0].uri);
-      }
-    });
-  };
-
   const navigation = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setPermission(galleryStatus.status === 'granted');
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    if (hasPermission === false) {
+      return <Text>No access to internal storage</Text>;
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -43,7 +61,7 @@ export default function Profile() {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={handleImagePicker} style={styles.imagePicker}>
+        <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
           {profileImage ? (
             <Image source={{ uri: profileImage }} style={styles.profileImage} />
           ) : (
@@ -86,7 +104,7 @@ export default function Profile() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => { /* handle onPress */ navigation.navigate('Dashboard')}}>
+            <TouchableOpacity onPress={() => navigation.navigate('Dashboard', { profileImage })}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>
@@ -97,7 +115,6 @@ export default function Profile() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     padding: 24,
