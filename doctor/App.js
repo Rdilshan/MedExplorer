@@ -15,9 +15,47 @@ import Profile from './Screens/Profile';
 import Dashboard from './Screens/Dashboard';
 import Pnumber from './Screens/Pnumber'
 import Patient from './Screens/Patient'
-
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
+
+const toastConfig = {
+	success: (props) => (
+	  <BaseToast
+		{...props}
+		style={{ borderLeftColor: 'green' }}
+		contentContainerStyle={{ paddingHorizontal: 20 }}
+		text1Style={{
+		  fontSize: 17,
+		  fontWeight: 'bold'
+		}}
+		text2Style={{
+			fontSize: 15
+		  }}
+	  />
+	),
+	
+	error: (props) => (
+	  <ErrorToast
+	  
+		{...props}
+		text1Style={{
+		  fontSize: 17
+		}}
+		text2Style={{
+		  fontSize: 15
+		}}
+	  />
+	),
+	
+	tomatoToast: ({ text1, props }) => (
+	  <View style={{ height: 60, width: '100%', backgroundColor: 'red' }}>
+		<Text>{text1}</Text>
+		<Text>{props.uuid}</Text>
+	  </View>
+	)
+  };
+  
 
 export default function App() {
 	return (
@@ -39,6 +77,7 @@ export default function App() {
 				<Stack.Screen name="Patient" component={Patient}/>
 				<Stack.Screen name="Dashboard" component={Dashboard} />
 			</Stack.Navigator>
+			<Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
 		</NavigationContainer>
 	);
 }
