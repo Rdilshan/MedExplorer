@@ -7,6 +7,10 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
@@ -57,6 +61,10 @@ export default function Example() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+        <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
@@ -65,7 +73,11 @@ export default function Example() {
           </Text>
         </View>
 
-        <View style={styles.form}>
+        <ScrollView style={styles.form}
+       pagingEnabled
+       showsHorizontalScrollIndicator={false}
+       showsVerticalScrollIndicator={false}
+        >
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Full Name</Text>
             <TextInput
@@ -155,24 +167,21 @@ export default function Example() {
               disabled={isLoading}
             >
               <View style={styles.btn}>
-                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Register</Text>}
               </View>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
+        </ScrollView>
+      </View >
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 350,
-    marginLeft: 20,
+    marginVertical:5,
+    marginHorizontal:20
   },
   header: {
     marginVertical: 36,
