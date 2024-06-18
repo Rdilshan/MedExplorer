@@ -23,7 +23,7 @@ export default function Profile() {
   });
 
   const [hasPermission, setPermission] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
 
   const navigation = useNavigation();
 
@@ -46,7 +46,7 @@ export default function Profile() {
     });
 
     console.log(result);
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setProfileImage(result.assets[0].uri);
     }
   };
@@ -57,7 +57,7 @@ export default function Profile() {
         <View style={styles.header}>
           <Text style={styles.title}>Complete Your Profile</Text>
           <Text style={styles.subtitle}>
-            Don't worry only you can see your personal data. No one else can see it.
+            Don't worry, only you can see your personal data. No one else can see it.
           </Text>
         </View>
 
@@ -67,6 +67,7 @@ export default function Profile() {
           ) : (
             <Ionicons name="camera" size={48} color="#6b7280" />
           )}
+          <Ionicons name="create-outline" size={24} color="#fff" style={styles.editIcon} />
         </TouchableOpacity>
 
         <View style={styles.form}>
@@ -115,13 +116,11 @@ export default function Profile() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 380,
+    marginVertical: 20,
+    marginHorizontal: 20,
   },
   header: {
     marginVertical: 36,
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   imagePicker: {
     alignSelf: 'center',
     marginVertical: 16,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#6b7280',
     borderRadius: 50,
     width: 100,
@@ -212,6 +211,14 @@ const styles = StyleSheet.create({
   profileImage: {
     width: '100%',
     height: '100%',
+    borderRadius: 50,
+  },
+  editIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#007aff',
+    padding: 6,
     borderRadius: 50,
   },
   btn: {
@@ -230,12 +237,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     color: '#fff',
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'right',
   },
 });
 
