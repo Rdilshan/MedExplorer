@@ -9,16 +9,70 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 export default function SignIN() {
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
   const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    const userData = {
+      email,
+      password,
+    };
+  
+    try {
+      const response = await axios.post(
+        "http://192.168.8.144:3000/doctor/login",
+        userData
+      );
+    
+      if (response.status === 200) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login successful!',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+        setTimeout(() => {
+          navigation.navigate("Dashboard");
+        }, 2000);
+      } else if (response.status === 400) {
+        console.log("400 error:", response.data);
+        Toast.show({
+          type: 'error',
+          text1: 'Login failed.',
+          text2: 'Invalid email or password.',
+          visibilityTime: 2000,
+        });
+      } else if (response.status === 403) {
+        Toast.show({
+          type: 'error',
+          text1: 'Login failed.',
+          text2: 'Account is not verified. Please contact support.',
+          visibilityTime: 2000,
+        });
+      } else {
+        console.error("Unexpected response status:", response.status);
+        Toast.show({
+          type: 'error',
+          text1: 'Login failed.',
+          text2: 'An unexpected error occurred. Please try again later.',
+          visibilityTime: 3000,
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login failed.',
+        text2: 'Account is not verified or server error.',
+        visibilityTime: 3000,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -36,11 +90,11 @@ export default function SignIN() {
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={setEmail}
               placeholder="Email address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email}
+              value={email}
             />
           </View>
 
@@ -50,12 +104,12 @@ export default function SignIN() {
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
+                onChangeText={setPassword}
                 placeholder="********"
                 placeholderTextColor="#6b7280"
                 style={[styles.inputControl, styles.passwordInput]}
                 secureTextEntry={!passwordVisible}
-                value={form.password}
+                value={password}
               />
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
@@ -71,10 +125,7 @@ export default function SignIN() {
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Dashboard')
-                // handle onPress
-              }}>
+              onPress={handleLogin}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>

@@ -9,19 +9,51 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 export default function Example() {
-  const [form, setForm] = useState({
-    fullName: '',
-    email: '',
-    nicNumber: '',
-    SimcId: '',
-    password: '',
-  });
-
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [NIC, setNIC] = useState('');
+  const [SIMC, setSIMC] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  
+  const handleRegister = () => {
+    const userData = {
+      name,
+      email,
+      NIC,
+      SIMC,
+      password
+    };
+  
+    axios.post("http://192.168.8.144:3000/doctor/create", userData)
+    .then(res => {
+      Toast.show({
+        type: 'success',
+        text1: 'Registration successful!',
+        text2: 'Please wait for SIMC verification.',
+        visibilityTime:10000
+      });
+      setTimeout(() => {
+        navigation.navigate("Profile"); 
+      }, 10000);
+    })
+    .catch(error => {
+      Toast.show({
+        type: 'error',
+        text1: 'Error registering.',
+        text2: 'Please try again.',
+        visibilityTime:10000
+      });
+    });
+  };
+  
+  
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -40,11 +72,11 @@ export default function Example() {
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={fullName => setForm({ ...form, fullName })}
+              onChangeText={setName}
               placeholder="Full Name"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.fullName}
+              value={name}
             />
           </View>
 
@@ -55,11 +87,11 @@ export default function Example() {
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={setEmail}
               placeholder="Email Address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email}
+              value={email}
             />
           </View>
 
@@ -69,11 +101,11 @@ export default function Example() {
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={nicNumber => setForm({ ...form, nicNumber })}
+              onChangeText={setNIC}
               placeholder="NIC Number"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.nicNumber}
+              value={NIC}
             />
           </View>
 
@@ -83,11 +115,11 @@ export default function Example() {
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={SimcId => setForm({ ...form, SimcId })}
+              onChangeText={setSIMC}
               placeholder="SIMC ID"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.SimcId}
+              value={SIMC}
             />
           </View>
 
@@ -97,12 +129,12 @@ export default function Example() {
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
+                onChangeText={setPassword}
                 placeholder="Password"
                 placeholderTextColor="#6b7280"
                 style={[styles.inputControl, styles.passwordInput]}
                 secureTextEntry={!passwordVisible}
-                value={form.password}
+                value={password}
               />
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
@@ -119,12 +151,11 @@ export default function Example() {
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Profile');
-              }}
+              onPress={handleRegister}
+              disabled={isLoading}
             >
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
             </TouchableOpacity>
           </View>
