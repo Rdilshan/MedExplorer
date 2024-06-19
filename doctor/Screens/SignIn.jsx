@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -14,7 +14,11 @@ import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
+
 export default function SignIN() {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -46,7 +50,7 @@ export default function SignIN() {
         });
 
         console.log('Login successful!');
-        
+
         setTimeout(() => {
           navigation.navigate("Dashboard");
         }, 2000);
@@ -92,6 +96,25 @@ export default function SignIN() {
 
     }
   };
+
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+    
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          navigation.replace('Dashboard');
+        }else{
+          console.log("User must login..")
+        }
+      } catch (error) {
+        console.error('AsyncStorage error:', error);
+      }
+    };
+
+    checkToken();
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
