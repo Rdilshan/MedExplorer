@@ -1,12 +1,39 @@
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
+import api from '../api/doctorapi';
+
 
 export default function HeaderComponent() {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/doctor/profile');
+        console.log(response.data)
+      } catch (error) {
+
+        console.error('Profile fetch error:', error);
+
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          console.log('Token expired or unauthorized. Logging out...');
+          await AsyncStorage.removeItem('token');
+          navigation.navigate('SignIn');
+        }
+
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+
 
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
@@ -132,25 +159,25 @@ export default function HeaderComponent() {
           }
         }}
       />
-     
+
       <View style={styles.buttonRow}>
-  <TouchableOpacity onPress={() => {/* Handle button 1 press */}} style={[styles.navButton1, styles.button]}>
-   <Ionicons name="ios-tooth" size={24} color="white" />
-    {/* Button 1 content */}
-  </TouchableOpacity>
-  <TouchableOpacity onPress={() => {/* Handle button 2 press */}} style={[styles.navButton2, styles.button]}>
-  <Ionicons name="ios-settings" size={24} color="white" />
-    {/* Button 2 content */}
-  </TouchableOpacity>
-  <TouchableOpacity onPress={() => {/* Handle button 3 press */}} style={[styles.navButton3, styles.button]}>
-  <Ionicons name="ios-settings" size={24} color="white" />
-    {/* Button 3 content */}
-  </TouchableOpacity>
-  <TouchableOpacity onPress={() => {/* Handle button 4 press */}} style={[styles.navButton4, styles.button]}>
-  <Ionicons name="ios-chatbox" size={24} color="white" />
-    {/* Button 4 content */}
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity onPress={() => {/* Handle button 1 press */ }} style={[styles.navButton1, styles.button]}>
+          <Ionicons name="ios-tooth" size={24} color="white" />
+          {/* Button 1 content */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {/* Handle button 2 press */ }} style={[styles.navButton2, styles.button]}>
+          <Ionicons name="ios-settings" size={24} color="white" />
+          {/* Button 2 content */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {/* Handle button 3 press */ }} style={[styles.navButton3, styles.button]}>
+          <Ionicons name="ios-settings" size={24} color="white" />
+          {/* Button 3 content */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {/* Handle button 4 press */ }} style={[styles.navButton4, styles.button]}>
+          <Ionicons name="ios-chatbox" size={24} color="white" />
+          {/* Button 4 content */}
+        </TouchableOpacity>
+      </View>
 
     </ScrollView>
   );
@@ -218,7 +245,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0165FC',
     borderRadius: 20,
     paddingHorizontal: 15,
-    marginTop: 10, 
+    marginTop: 10,
     borderColor: '#FFFFFF', // Set border color to white
     borderWidth: 1, // Set border width
   },
@@ -231,14 +258,14 @@ const styles = StyleSheet.create({
   },
   gdtext: {
     marginTop: 35,
-    marginRight:140
+    marginRight: 140
   },
   goodMorning: {
     fontSize: 15,
-    
+
   },
   keep: {
-    fontSize:20,
+    fontSize: 20,
     marginTop: 3,
   },
   calendarContainer: {
@@ -263,33 +290,33 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
   },
-   navButton2: {
-     alignItems: 'center',
-     justifyContent: 'center',
-     backgroundColor: '#57c09f',
-     paddingVertical: 10,
-     paddingHorizontal: 15,
-     borderRadius: 8,
-     flexDirection: 'row',
-   },
-    navButton3: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ffcf68',
-      paddingVertical: 10,
-      paddingHorizontal: 15,
-      borderRadius: 8,
-      flexDirection: 'row',
-    },
-     navButton4: {
-       alignItems: 'center',
-       justifyContent: 'center',
-       backgroundColor: '#ff484c',
-       paddingVertical: 10,
-       paddingHorizontal: 15,
-       borderRadius: 8,
-       flexDirection: 'row',
-     },
+  navButton2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#57c09f',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+  },
+  navButton3: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffcf68',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+  },
+  navButton4: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ff484c',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+  },
   navButtonText: {
     color: 'white',
     fontSize: 12,

@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignIN() {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ export default function SignIN() {
 
 
   const handleLogin = async () => {
-    console.log("login...")
+
     setIsLoading(true);
     const userData = {
       email,
@@ -36,18 +37,22 @@ export default function SignIN() {
       );
 
       if (response.status === 200) {
+        await AsyncStorage.setItem('token', response.data.token);
         Toast.show({
           type: 'success',
           text1: 'Login successful!',
           text2: 'Move to work.',
           visibilityTime: 2000,
         });
+
+        console.log('Login successful!');
+        
         setTimeout(() => {
           navigation.navigate("Dashboard");
         }, 2000);
         setIsLoading(false);
-
       } 
+
     } catch (error) {
       if (error.response) {
 
