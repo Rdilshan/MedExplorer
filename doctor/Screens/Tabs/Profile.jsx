@@ -1,12 +1,10 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-
-
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 
@@ -15,11 +13,13 @@ export default function Profile() {
     <View>
       <View style={styles.container}>
         <Image
-          source={require("../../assets/icon.png")}
-          style={{ width: 70, height: 70, marginTop: 30, borderRadius: 40 }}
+          source={require("../../assets/doctor.jpg")}
+          style={{ width: 70, height: 70, borderRadius: 40,marginTop:30}}
         />
-        <Text style={{ color: "white", fontSize: 20 }}>Jon Smile</Text>
+        <View style={{ marginTop:30}}>
+        <Text style={{ color: "white", fontSize: 20 ,fontWeight:'bold' }}>Profile Setting</Text>
         <Text style={{ color: "white", fontSize: 10 }}>@joinsmile</Text>
+        </View>
       </View>
 
       <View style={styles.set}>
@@ -144,6 +144,23 @@ export default function Profile() {
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </View>
+
+      <View style={styles.setitem}>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+     <MaterialCommunityIcons name="logout" size={30} color="black" />
+          <Text style={{ fontSize: 16 }}>Logout</Text>
+        </View>
+        
+        <MaterialIcons name="navigate-next" size={30} color="black" />
+      </View>
+     
     </View>
   );
 }
@@ -151,9 +168,12 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection:"row",
     alignItems: "center",
+    paddingTop:5,
+    gap:40,
     paddingHorizontal: 30,
-    paddingVertical: 30,
+    paddingVertical: 25,
     backgroundColor:'#0165FC',
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20,
@@ -161,15 +181,17 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   set: {
-    backgroundColor: "#0165FC",
+   marginHorizontal:10,
     height: 40,
     paddingLeft: 20,
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
+    borderBottomColor:"gray",
+    borderBottomWidth: 1,
   },
   sethead: {
-    color: "white",
+    color: "black",
     fontStyle: "italic",
   },
   setitem: {
