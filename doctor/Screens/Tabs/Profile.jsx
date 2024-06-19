@@ -43,7 +43,7 @@ export default function Profile({navigation}) {
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -63,7 +63,7 @@ export default function Profile({navigation}) {
         <Text style={styles.sethead}>Security</Text>
       </View>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -79,7 +79,7 @@ export default function Profile({navigation}) {
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -95,7 +95,7 @@ export default function Profile({navigation}) {
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -115,7 +115,7 @@ export default function Profile({navigation}) {
         <Text style={styles.sethead}>Theme</Text>
       </View>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -131,7 +131,7 @@ export default function Profile({navigation}) {
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
