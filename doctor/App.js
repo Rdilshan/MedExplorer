@@ -73,7 +73,7 @@ export default function App() {
 				<Stack.Screen name="SignIn" component={SignIn}/>
 				<Stack.Screen name="NewPasswordone" component={NewPasswordone}/>
 				<Stack.Screen name="EnterNewPassword" component={EnterNewPassword}/>
-				<Stack.Screen name="Profile" component={Profile}/>
+				<Stack.Screen name="ProfileUpdate" component={Profile}/>
 				<Stack.Screen name="Pnumber" component={Pnumber}/>
 				<Stack.Screen name="Patient" component={Patient}/>
 				<Stack.Screen name="Dashboard" component={Dashboard} />

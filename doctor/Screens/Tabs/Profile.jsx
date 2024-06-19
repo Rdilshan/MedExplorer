@@ -27,7 +27,7 @@ export default function Profile({navigation}) {
       <View style={styles.set}>
         <Text style={styles.sethead}>Account</Text>
       </View>
-      <TouchableOpacity style={styles.setitem}   onPress={()=>navigation.navigate('Profile')}>
+      <TouchableOpacity style={styles.setitem}   onPress={()=>navigation.navigate('ProfileUpdate')}>
         <View
           style={{
             display: "flex",
