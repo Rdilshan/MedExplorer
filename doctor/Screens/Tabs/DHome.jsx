@@ -1,15 +1,18 @@
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import api from '../api/doctorapi';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function HeaderComponent() {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  
+  const navigation = useNavigation();
 
 
   useEffect(() => {
@@ -19,12 +22,11 @@ export default function HeaderComponent() {
         console.log(response.data)
       } catch (error) {
 
-        console.error('Profile fetch error:', error);
-
-        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-          console.log('Token expired or unauthorized. Logging out...');
+        if (error.response.data.error === 'Invalid authorization') {
+          
           await AsyncStorage.removeItem('token');
-          navigation.navigate('SignIn');
+          navigation.navigate("SignIn");
+
         }
 
       }
