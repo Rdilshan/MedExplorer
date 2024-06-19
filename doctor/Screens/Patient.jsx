@@ -1,29 +1,24 @@
 import { View, Text, StyleSheet, TextInput , TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
-
+import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
 export default function Patient() {
-  const [patientName, setPatientName] = useState('sumanapala');
+  const [patientName, setPatientName] = useState('');
   const [gender, setGender] = useState(null);
   const [age, setAge] = useState(null);
-
-  const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-  ];
-
-  const ageOptions = Array.from({ length: 100 }, (v, k) => k + 1).map(age => ({
-    label: age.toString(),
-    value: age.toString(),
-  }));
+  const navigation = useNavigation();
+ 
 
   return (
     <View style={styles.container}>
       <Text
         style={{
-          textAlign: 'center',
-          fontSize: 25,
-          fontWeight: 'bold',
+          fontSize: 32,
+         fontWeight: 'bold',
+         color: '#1d1d1d',
+         marginBottom: 6,
+         textAlign: 'center',
         }}
       >
         Patient details
@@ -31,10 +26,10 @@ export default function Patient() {
 
       <Text
         style={{
+          fontSize: 15,
+          fontWeight: '500',
+          color: '#929292',
           textAlign: 'center',
-          marginTop: 8,
-          color: '#868686',
-          fontSize: 14,
         }}
       >
         Check the details are correct
@@ -44,36 +39,38 @@ export default function Patient() {
         <View>
           <Text style={styles.label}>Patient Name</Text>
           <TextInput
-            style={styles.input}
+          style={styles.inputControl}
             value={patientName}
             onChangeText={setPatientName}
             placeholder="Enter patient name"
           />
         </View>
         <View>
-          <Text style={styles.label}>Select Gender</Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={genderOptions}
-            labelField="label"
-            valueField="value"
-            placeholder="Select gender"
-            value={gender}
-            onChange={item => setGender(item.value)}
-          />
-        </View>
-        <View>
-          <Text style={styles.label}>Select Age</Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={ageOptions}
-            labelField="label"
-            valueField="value"
-            placeholder="Select age"
+          <Text style={styles.label}>Patient Age</Text>
+          <TextInput
+          style={styles.inputControl}
             value={age}
-            onChange={item => setAge(item.value)}
+            onChangeText={setAge}
+            placeholder="Enter patient age"
+            keyboardType="phone-pad"
           />
         </View>
+       
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Gender</Text>
+            <RNPickerSelect
+              onValueChange={(gender) => setGender({ ...form, gender })}
+              items={[
+                { label: 'Male', value: 'male' },
+                { label: 'Female', value: 'female' },
+                { label: 'Other', value: 'other' },
+              ]}
+              placeholder={{ label: 'Select your gender', value: null}}
+              style={pickerSelectStyles}
+              value={setGender}
+            />
+          </View>
+
       </View>
 
       <TouchableOpacity style={{ 
@@ -84,7 +81,7 @@ export default function Patient() {
         borderRadius:8,
         alignItems:'center',
        
-       }}>
+       }} onPress={() => navigation.navigate('Board')}>
         <Text style={{ 
             color:'white',
             fontSize:18
@@ -100,16 +97,12 @@ const styles = StyleSheet.create({
     paddingVertical: 70,
   },
   label: {
-    fontSize: 16,
-    marginVertical: 10,
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginVertical:15
   },
-  input: {
-    height: 55,
-    borderColor: '#A9A9A9',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 10,
-  },
+
   dropdown: {
     height: 55,
     borderColor: '#A9A9A9',
@@ -117,4 +110,48 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 8,
   },
+  inputControl: {
+    height: 44,
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    borderWidth:1,
+    borderColor:"gray"
+  },
+  input: {
+    marginBottom: 16,
+  },
+  inputLabel: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginVertical:15
+  },
 });
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 44,
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+   
+  },
+  inputAndroid: {
+    height: 44,
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    
+  },
+});
+
