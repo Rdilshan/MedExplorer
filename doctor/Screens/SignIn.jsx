@@ -26,7 +26,7 @@ export default function SignIN() {
   
     try {
       const response = await axios.post(
-        "http://192.168.8.144:3000/doctor/login",
+        "https://med-explorer-backend.vercel.app/doctor/login",
         userData
       );
     
@@ -149,11 +149,8 @@ export default function SignIN() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 380,
+    marginVertical:5,
+    marginHorizontal:20
   },
   header: {
     marginVertical: 36,

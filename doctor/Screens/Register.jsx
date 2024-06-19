@@ -35,7 +35,7 @@ export default function Example() {
       password
     };
   
-    axios.post("http://192.168.8.144:3000/doctor/create", userData)
+    axios.post("https://med-explorer-backend.vercel.app/doctor/create", userData)
     .then(res => {
       Toast.show({
         type: 'success',
