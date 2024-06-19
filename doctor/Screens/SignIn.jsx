@@ -7,8 +7,9 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 
@@ -17,19 +18,23 @@ export default function SignIN() {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleLogin = async () => {
+    console.log("login...")
+    setIsLoading(true);
     const userData = {
       email,
       password,
     };
-  
+
     try {
       const response = await axios.post(
         "https://med-explorer-backend.vercel.app/doctor/login",
         userData
       );
-    
+
       if (response.status === 200) {
         Toast.show({
           type: 'success',
@@ -40,37 +45,46 @@ export default function SignIN() {
         setTimeout(() => {
           navigation.navigate("Dashboard");
         }, 2000);
-      } else if (response.status === 400) {
-        console.log("400 error:", response.data);
-        Toast.show({
-          type: 'error',
-          text1: 'Login failed.',
-          text2: 'Invalid email or password.',
-          visibilityTime: 2000,
-        });
-      } else if (response.status === 403) {
-        Toast.show({
-          type: 'error',
-          text1: 'Login failed.',
-          text2: 'Account is not verified. Please contact support.',
-          visibilityTime: 2000,
-        });
-      } else {
-        console.error("Unexpected response status:", response.status);
-        Toast.show({
-          type: 'error',
-          text1: 'Login failed.',
-          text2: 'An unexpected error occurred. Please try again later.',
-          visibilityTime: 3000,
-        });
-      }
+        setIsLoading(false);
+
+      } 
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Login failed.',
-        text2: 'Account is not verified or server error.',
-        visibilityTime: 3000,
-      });
+      if (error.response) {
+
+        if (error.response.status === 400) {
+          console.log("400 error:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'Invalid email or password.',
+            visibilityTime: 2000,
+          });
+          setIsLoading(false);
+  
+        } else if (error.response.status === 403) {
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'Account is not verified. Please contact support.',
+            visibilityTime: 2000,
+          });
+          setIsLoading(false);
+  
+        } else {
+          console.error("Unexpected error. status:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'An unexpected error occurred. Please try again later.',
+            visibilityTime: 3000,
+          });
+          setIsLoading(false);
+  
+        }
+      } 
+     
+      setIsLoading(false);
+
     }
   };
 
@@ -124,10 +138,9 @@ export default function SignIN() {
           </TouchableOpacity>
 
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={handleLogin}>
+            <TouchableOpacity onPress={handleLogin} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
             </TouchableOpacity>
           </View>
@@ -149,8 +162,8 @@ export default function SignIN() {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical:5,
-    marginHorizontal:20
+    marginVertical: 5,
+    marginHorizontal: 20
   },
   header: {
     marginVertical: 36,
