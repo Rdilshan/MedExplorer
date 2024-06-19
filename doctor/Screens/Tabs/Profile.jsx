@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -8,7 +8,9 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 
-export default function Profile() {
+
+export default function Profile({navigation}) {
+
   return (
     <View>
       <View style={styles.container}>
@@ -25,7 +27,7 @@ export default function Profile() {
       <View style={styles.set}>
         <Text style={styles.sethead}>Account</Text>
       </View>
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}   onPress={()=>navigation.navigate('Profile')}>
         <View
           style={{
             display: "flex",
@@ -39,9 +41,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -55,13 +57,13 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.set}>
         <Text style={styles.sethead}>Security</Text>
       </View>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -75,9 +77,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -91,9 +93,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -107,13 +109,13 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.set}>
         <Text style={styles.sethead}>Theme</Text>
       </View>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -127,9 +129,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}>
         <View
           style={{
             display: "flex",
@@ -143,9 +145,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('SignIn')}>
         <View
           style={{
             display: "flex",
@@ -159,7 +161,7 @@ export default function Profile() {
         </View>
         
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
      
     </View>
   );
