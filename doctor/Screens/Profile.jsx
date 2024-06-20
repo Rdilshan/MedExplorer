@@ -7,23 +7,28 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import api from './api/doctorapi';
+
+
 
 export default function Profile() {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
     gender: '',
     phoneNumber: '',
   });
 
   const [hasPermission, setPermission] = useState(null);
   const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
 
@@ -50,6 +55,47 @@ export default function Profile() {
       setProfileImage(result.assets[0].uri);
     }
   };
+
+
+
+  const onSubmit = async () => {
+    setIsLoading(true);
+    console.log("clicking ....");
+
+    try {
+      const formData = new FormData();
+      formData.append('image', {
+        uri: profileImage,
+        type: 'image/jpeg',
+        name: 'photo.jpg',
+      });
+
+      const uploadResponse = await axiosWithRetry(
+        'https://med-explorer-backend.vercel.app/doctor/uploadimg',
+        {
+          data: formData,
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+
+      console.log(uploadResponse.data.fileUrl);
+      console.log(form.gender);
+      console.log(form.phoneNumber);
+
+
+    } catch (error) {
+      if (error.response && error.response.status === 504) {
+        console.log('Gateway Timeout', error);
+        Alert.alert('Error', 'The server took too long to respond. Please try again later.');
+      } else {
+        console.log('Image upload failed', error);
+        Alert.alert('Error', 'Failed to upload image.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -105,12 +151,14 @@ export default function Profile() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => navigation.navigate('Dashboard', { profileImage })}>
+            <TouchableOpacity onPress={onSubmit} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
             </TouchableOpacity>
           </View>
+
+
         </View>
       </View>
     </SafeAreaView>
