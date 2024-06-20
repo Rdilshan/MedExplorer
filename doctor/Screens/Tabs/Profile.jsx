@@ -5,6 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -147,7 +148,12 @@ export default function Profile({navigation}) {
         <MaterialIcons name="navigate-next" size={30} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('SignIn')}>
+      <TouchableOpacity style={styles.setitem} onPress={async ()=>{
+        
+        await AsyncStorage.removeItem('token');
+        navigation.navigate("SignIn");
+
+        }}>
         <View
           style={{
             display: "flex",
