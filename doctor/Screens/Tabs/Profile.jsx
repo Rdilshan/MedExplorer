@@ -6,22 +6,49 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import axios from 'axios'; 
+import { useEffect,useState } from "react";
 
 
 export default function Profile({navigation}) {
 
+  const [user, setUser] = useState({
+    email: '',
+    profileImage: null,
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.get('https://med-explorer-backend.vercel.app/doctor/profile', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const { email, profileImage } = response.data.user;
+          console.log(response.data.user);
+          setUser({ email, profileImage });
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <View>
       <View style={styles.container}>
-        <Image
-          source={require("../../assets/doctor.jpg")}
-          style={{ width: 70, height: 70, borderRadius: 40,marginTop:30}}
+      <Image
+          source={user.profileImage ? { uri: user.profileImage } : require("../../assets/doctor.jpg")}
+          style={{ width: 70, height: 70, borderRadius: 40, marginTop: 30 }}
         />
-        <View style={{ marginTop:30}}>
-        <Text style={{ color: "white", fontSize: 20 ,fontWeight:'bold' }}>Profile Setting</Text>
-        <Text style={{ color: "white", fontSize: 10 }}>@joinsmile</Text>
+        <View style={{ marginTop: 30 }}>
+          <Text style={{ color: "white", fontSize: 20, fontWeight: 'bold' }}>Profile Setting</Text>
+          <Text style={{ color: "white", fontSize: 10 }}>{user.email}</Text>
         </View>
       </View>
 
