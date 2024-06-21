@@ -9,52 +9,89 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function SignIN() {
+export default function SignIn() {
   const [form, setForm] = useState({
+    fullName: '',
     email: '',
+    nicNumber:'',
+    SimcId:'',
     password: '',
   });
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Sign In</Text>
-
-          <Text style={styles.subtitle}>Hi ! welcome back, You’ve been missed</Text>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>Fill your information below or register with your social account</Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Email address</Text>
+            <Text style={styles.inputLabel}>Full Name</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={fullName => setForm({ ...form, fullName })}
+              placeholder="Full Name"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.fullName} />
+          </View>
 
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Email address</Text>
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
               onChangeText={email => setForm({ ...form, email })}
-              placeholder="Email address"
+              placeholder="Email Address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               value={form.email} />
           </View>
 
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Password</Text>
+            <Text style={styles.inputLabel}>Nic Number</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={nicNumber => setForm({ ...form, nicNumber })}
+              placeholder="Nic Number"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.nicNumber} />
+          </View>
 
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Simc ID</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={SimcId => setForm({ ...form, SimcId })}
+              placeholder="Simc ID"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.SimcId} />
+          </View>
+
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Password</Text>
             <TextInput
               autoCorrect={false}
               clearButtonMode="while-editing"
               onChangeText={password => setForm({ ...form, password })}
-              placeholder="********"
+              placeholder="Password"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               secureTextEntry={true}
               value={form.password} />
           </View>
-
-          <Text style={styles.formLink}>Forgot password?</Text>
-
 
           <View style={styles.formAction}>
             <TouchableOpacity
@@ -67,17 +104,7 @@ export default function SignIN() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              // handle link
-            }}>
-            <Text style={styles.formFooter}>
-              Don't have an account?{' '}
-              <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.socialLogin}>
+          <View style={styles.socialLogin}>
             <TouchableOpacity onPress={() => { /* handle Facebook login */ }}>
               <View style={styles.socialBtn}>
                 <Icon name="facebook" size={30} color="#3b5998" />
@@ -96,6 +123,7 @@ export default function SignIN() {
               </View>
             </TouchableOpacity>
           </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -103,11 +131,11 @@ export default function SignIN() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    padding: 10,
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
-    width:380
+    width: 350
   },
   header: {
     marginVertical: 36,
@@ -125,7 +153,6 @@ const styles = StyleSheet.create({
     color: '#929292',
     textAlign: 'center',
   },
-  /** Form */
   form: {
     marginBottom: 24,
   },
@@ -138,7 +165,6 @@ const styles = StyleSheet.create({
     color: '#222',
     textAlign: 'center',
   },
-  /** Input */
   input: {
     marginBottom: 16,
   },
@@ -157,7 +183,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#222',
   },
-  /** Button */
   btn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -174,12 +199,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     color: '#fff',
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'right',
   },
   socialLogin: {
     flexDirection: 'row',
