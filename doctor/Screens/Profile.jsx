@@ -57,6 +57,9 @@ export default function Profile() {
   };
 
 
+  const generateRandomName = () => {
+    return 'photo_' + Math.random().toString(36).substr(2, 9) + '.jpg';
+  };
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -67,13 +70,13 @@ export default function Profile() {
       formData.append('image', {
         uri: profileImage,
         type: 'image/jpeg',
-        name: 'photo.jpg',
+        name: generateRandomName(),   
       });
 
-      const uploadResponse = await axiosWithRetry(
+      const uploadResponse = await axios.post(
         'https://med-explorer-backend.vercel.app/doctor/uploadimg',
+        formData,
         {
-          data: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
@@ -81,7 +84,6 @@ export default function Profile() {
       console.log(uploadResponse.data.fileUrl);
       console.log(form.gender);
       console.log(form.phoneNumber);
-
 
     } catch (error) {
       if (error.response && error.response.status === 504) {
