@@ -78,26 +78,57 @@ export default function Profile() {
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 60000, // Increase timeout to 60 seconds
         }
       );
-
-      console.log(uploadResponse.data.fileUrl);
-      console.log(form.gender);
-      console.log(form.phoneNumber);
+      return uploadResponse.data.fileUrl;
 
     } catch (error) {
+      console.error('Error during image upload:', error);
       if (error.response && error.response.status === 504) {
-        console.log('Gateway Timeout', error);
         Alert.alert('Error', 'The server took too long to respond. Please try again later.');
       } else {
-        console.log('Image upload failed', error);
         Alert.alert('Error', 'Failed to upload image.');
       }
-    } finally {
-      setIsLoading(false);
+      throw error;
+    } 
+    
+    
+  };
+
+  const formdatasave = async (firstResponseData) => {
+    try {
+      console.log("form save running ...");
+      const response = await api.post('/doctor/editprofile', {
+        img: firstResponseData,
+        telephone: form.phoneNumber,
+        gender: form.gender,
+      }, {
+        timeout: 60000, // Increase timeout to 60 seconds
+      });
+      console.log('Form data save response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error during form data save:', error);
+      if (error.response && error.response.status === 504) {
+        Alert.alert('Error', 'The server took too long to respond. Please try again later.');
+      } else {
+        Alert.alert('Error', 'Failed to save form data.');
+      }
+      throw error;
     }
   };
 
+  const handleSequentialCalls = async () => {
+    try {
+      const firstResponse = await onSubmit();
+      const secondResponse = await formdatasave(firstResponse);
+      console.log('Second response data:', secondResponse);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error in sequential calls:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -153,7 +184,7 @@ export default function Profile() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={onSubmit} disabled={isLoading}>
+            <TouchableOpacity onPress={handleSequentialCalls} disabled={isLoading}>
               <View style={styles.btn}>
                 {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
