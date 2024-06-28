@@ -24,44 +24,47 @@ export default function Prescription({ navigation }) {
           <View style={styles.card}>
             <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
            
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <FontAwesome6 name="hospital-user" size={20} color="black" />
            
             </View>
            
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize:16, }}> M.M somasiri</Text>
+               
               </View>
             </View>
+            <Text> 1hr</Text>
             
           </View>
           
 
           <View style={styles.card}>
             <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
            
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize:16, }}> K.G. Munasingha</Text>
+              
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
 
           <View style={styles.card}>
             <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
            
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16,  }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize:16,  }}> R.K Damsara</Text>
+              
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
         </View>
 
@@ -70,28 +73,30 @@ export default function Prescription({ navigation }) {
 
           <View style={styles.card}>
             <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
            
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize:16, }}> G.H. Munasingha</Text>
+               
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
 
           <View style={styles.card}>
             <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
            
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16,  }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize:16,  }}> K.K Nimal</Text>
+                
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
 
          
@@ -140,7 +145,7 @@ const styles = StyleSheet.create({
    
   },
   body:{
-   paddingHorizontal:40,
+   paddingHorizontal:30,
    paddingVertical:20
 
   },
@@ -148,10 +153,11 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     alignItems:'center',
-    gap:10,
+    justifyContent:"space-between",
     marginTop:10,
     borderBottomWidth:1,
-    paddingBottom:3,
+    borderBottomColor:"blue",
+    paddingBottom:4,
     borderBottomColor:'#868686'
     
   },
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     alignItems:'center',
-    gap:65
+    // gap:65
    
   }
 });

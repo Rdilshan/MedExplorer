@@ -20,6 +20,7 @@ import api from './api/doctorapi';
 
 
 
+
 export default function Profile() {
   const [form, setForm] = useState({
     gender: '',
@@ -107,7 +108,10 @@ export default function Profile() {
         timeout: 60000, // Increase timeout to 60 seconds
       });
       console.log('Form data save response:', response.data);
+      Alert.alert('Successfull', 'Profile updated succefully!');
+     
       return response.data;
+    
     } catch (error) {
       console.error('Error during form data save:', error);
       if (error.response && error.response.status === 504) {
