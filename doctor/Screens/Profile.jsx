@@ -13,15 +13,17 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import api from './api/doctorapi';
-
+import useDoctorData from "./store/useDoctorData";
 
 
 
 export default function Profile() {
+
+
   const [form, setForm] = useState({
     gender: '',
     phoneNumber: '',
@@ -31,9 +33,19 @@ export default function Profile() {
   const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const doctorData = useDoctorData();
+  useEffect(() => {
+    if (doctorData) {
+      setProfileImage(doctorData.ProfileIMG);
+      setForm({
+        gender: doctorData.Gender,
+        phoneNumber: doctorData.PhoneNumber,
+      });
+    }
+  }, [doctorData]);
 
   useEffect(() => {
+
     (async () => {
       const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setPermission(galleryStatus.status === 'granted');
@@ -190,7 +202,7 @@ export default function Profile() {
           <View style={styles.formAction}>
             <TouchableOpacity onPress={handleSequentialCalls} disabled={isLoading}>
               <View style={styles.btn}>
-                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Update</Text>}
               </View>
             </TouchableOpacity>
           </View>

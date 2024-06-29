@@ -164,6 +164,8 @@ export default function Profile({navigation}) {
       <TouchableOpacity style={styles.setitem} onPress={async ()=>{
         
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('doctorData');
+
         navigation.navigate("SignIn");
 
         }}>
