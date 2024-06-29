@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -41,6 +41,9 @@ export default function SignIN() {
       );
 
       if (response.status === 200) {
+
+        const doctorData = response.data.doctor;
+        await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
         await AsyncStorage.setItem('token', response.data.token);
         Toast.show({
           type: 'success',
@@ -52,10 +55,15 @@ export default function SignIN() {
         console.log('Login successful!');
 
         setTimeout(() => {
-          navigation.navigate("Dashboard");
+          if (!doctorData.ProfileIMG) {
+            navigation.navigate("ProfileUpdate"); 
+          } else {
+            navigation.navigate("Dashboard");
+          }
+
         }, 2000);
         setIsLoading(false);
-      } 
+      }
 
     } catch (error) {
       if (error.response) {
@@ -69,7 +77,7 @@ export default function SignIN() {
             visibilityTime: 2000,
           });
           setIsLoading(false);
-  
+
         } else if (error.response.status === 403) {
           Toast.show({
             type: 'error',
@@ -78,7 +86,7 @@ export default function SignIN() {
             visibilityTime: 2000,
           });
           setIsLoading(false);
-  
+
         } else {
           console.error("Unexpected error. status:", error.response.data);
           Toast.show({
@@ -88,10 +96,10 @@ export default function SignIN() {
             visibilityTime: 3000,
           });
           setIsLoading(false);
-  
+
         }
-      } 
-     
+      }
+
       setIsLoading(false);
 
     }
@@ -101,11 +109,11 @@ export default function SignIN() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-    
+
         const token = await AsyncStorage.getItem('token');
         if (token) {
           navigation.replace('Dashboard');
-        }else{
+        } else {
           console.log("User must login..")
         }
       } catch (error) {

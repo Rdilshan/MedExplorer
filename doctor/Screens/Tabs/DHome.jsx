@@ -9,17 +9,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+
 export default function HeaderComponent() {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const navigation = useNavigation();
+
+  const [profilimg,setprofileimg] = useState("https://storage.googleapis.com/medexplorer-10c83.appspot.com/photo_pp867y7mh.jpg?GoogleAccessId=firebase-adminsdk-s1sao%40medexplorer-10c83.iam.gserviceaccount.com&Expires=1741478400&Signature=OVCz7haRCuJqHL6YLQxV0ZR3%2BOPCzleeaMIHwHqHMh6pVz0RqV9ESwkQZezCxO2CAdD4SZVGodJgR83I8Ra9pjEBQMHzAnHj6ukuV%2BhJ8VbxrMuUQg1MGxS%2FlnWuo7YHvxohguhVmnHrZsX2FVOoabp5I5fa4c%2Fzmy5w4tIySjEm3m1X5m2w0olvnJln9g91Jr3DGdOpe22W1NLQlbm%2FerCfAyZsn8aDDkGfME2%2Bkb5H%2BmUdZKWBgJ%2BQjpGXlyoQ5pAfreC0HGiybKf5%2FamFQ6nkQjJ2VtQ3mTacOzdzMsxc1jY91VE3qVgVKPTEAgJfTdSFoZaxkJkX0ThyGuwTHw%3D%3D")
+  const [name,setname] = useState("loading..")
 
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await api.get('/doctor/profile');
-        console.log(response.data)
+
+        // console.log(response.data)
+
+        setprofileimg(response.data.doctor.ProfileIMG)
+        setname(response.data.doctor.name)
+        const doctorData = response.data.doctor;
+        await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
+
       } catch (error) {
 
         if (error.response.data.error === 'Invalid authorization') {
@@ -56,13 +67,13 @@ export default function HeaderComponent() {
       <View style={styles.top}>
         <View style={styles.row}>
           <Image
-            source={require('../../assets/icon.png')}
+            source={{ uri: profilimg }} 
             style={styles.icon}
           />
           <Ionicons name="notifications" size={30} color="white" />
         </View>
         <View style={styles.row1}>
-          <Text style={styles.greeting}>Hello, Doctor</Text>
+          <Text style={styles.greeting}>Hello, {name} </Text>
           <MaterialIcons name="waving-hand" size={30} color="#FFD43B" style={styles.waveIcon} />
         </View>
         <View style={styles.searchContainer}>
