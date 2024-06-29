@@ -7,7 +7,7 @@ import useDoctorData from "../store/useDoctorData";
 
 export default function Prescription({ navigation }) {
 
-  useEffect
+
   const doctorData = useDoctorData();
   console.log(doctorData)
 
