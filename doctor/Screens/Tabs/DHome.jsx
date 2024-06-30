@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
