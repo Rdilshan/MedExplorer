@@ -24,7 +24,7 @@ export default function Prescription({ navigation }) {
       <View>
         <View style={styles.body}>
           <View style={styles.container}>
-            <Text style={[styles.text,{}]}>Today</Text>
+         <Text style={[styles.text,{}]}>Today</Text>
           <Text style={[styles.text, { marginLeft: 135,color:"#0165FC" }]}>Mark as all read</Text>
           </View>
           
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   container:{
       flexDirection: 'row', // This ensures the texts are arranged in a column
-       
+        marginRight:11,
         padding: 18,
   },
   
