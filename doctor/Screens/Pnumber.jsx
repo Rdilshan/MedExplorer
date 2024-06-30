@@ -1,5 +1,4 @@
 
-
 import { View, Text , StyleSheet ,TextInput } from 'react-native'
 import React , {useState}  from 'react'
 import { Ionicons } from '@expo/vector-icons';
@@ -7,12 +6,12 @@ import { TouchableOpacity } from 'react-native';
 
 
 export default function Pnumber({navigation}) {
-    const [mobileNumber, setMobileNumber] = useState('');
+    const [nicNumber, setnicNumber] = useState('');
    
   return (
 
     <View style={styles.container}>
-        <Ionicons name="arrow-back-circle-outline" size={40} color="#6495ED" 
+        <Ionicons name="arrow-back-circle-outline" size={40} color="gray" 
         onPress={()=>navigation.navigate('Dashboard')}
         />
         <View style={styles.bodyhead}>
@@ -22,26 +21,27 @@ export default function Pnumber({navigation}) {
          color: '#1d1d1d',
          marginBottom: 6,
          textAlign: 'center',
+         marginTop:20
          }}>Prescription</Text>
         <Text style={{ 
            fontSize: 15,
            fontWeight: '500',
            color: '#929292',
            textAlign: 'center',
-         }}>Before writing the prescription enter the patient mobile number</Text>
+         }}>Before writing the prescription enter the patient NIC number</Text>
        
         
       </View>
 
       <View style={{ marginTop:40 }}>
-      <Text style={styles.label}>Mobile number of patient</Text>
+      <Text style={styles.label}>NIC number of patient</Text>
       <TextInput
        
-        value={mobileNumber}
-        onChangeText={setMobileNumber}
+        value={nicNumber}
+        onChangeText={setnicNumber}
         placeholderTextColor="#6b7280"
-        placeholder="Enter mobile number"
-        keyboardType="phone-pad"
+        placeholder="Enter NIC number"
+      
         style={styles.inputControl}
       />
     </View>
@@ -61,12 +61,13 @@ const styles = StyleSheet.create({
     container:{
         display:'flex',
         paddingVertical:50,
-        paddingHorizontal:30
+        paddingHorizontal:20
     },
     bodyhead:{
         display:'flex',
         alignItems:'center',
-        gap:30
+        gap:30,
+     
     },
     label: {
       fontSize: 17,
