@@ -1,15 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6 } from "@expo/vector-icons";
 import useDoctorData from "../store/useDoctorData";
 
 export default function Prescription({ navigation }) {
-
-
   const doctorData = useDoctorData();
-  console.log(doctorData)
+  console.log(doctorData);
 
   if (!doctorData) {
     return <Text>Loading...</Text>;
@@ -17,108 +15,158 @@ export default function Prescription({ navigation }) {
   return (
     <View>
       <View style={styles.top}>
-        <Image source={{ uri: doctorData.ProfileIMG }} style={{
-          width: 50,
-          height: 50,
-          borderRadius: 30
-        }} />
+        <Image
+          source={{ uri: doctorData.ProfileIMG }}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 30,
+            borderWidth: 2,
+            padding: 4,
+            borderRadius: 50,
+            borderColor: "white",
+          }}
+        />
         <Text style={styles.tabHead}>Prescription</Text>
-        <Ionicons name="notifications" size={30} color="white" />
+        <Ionicons
+          name="notifications"
+          size={30}
+          color="white"
+          style={{
+            borderWidth: 2,
+            padding: 4,
+            borderRadius: 50,
+            borderColor: "white",
+          }}
+        />
       </View>
       <View>
         <View style={styles.body}>
-          <Text>Today</Text>
+          <Text style={{ fontWeight: "bold" }}>Today</Text>
 
           <View style={styles.card}>
-            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
-
-              <FontAwesome6 name="hospital-user" size={20} color="black" />
-
+            <View
+              style={{
+                backgroundColor: "#7DFFB9",
+                padding: 8,
+                borderRadius: 30,
+              }}
+            >
+              <Image
+                source={{
+                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                }} 
+                style={{ width: 40, height: 40, borderRadius: 20 }} 
+              />
             </View>
 
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, }}> M.M somasiri</Text>
-
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  {" "}
+                  G.K Talanida
+                </Text>
               </View>
             </View>
-            <Text> 1hr</Text>
-
+            <Text style={{ fontWeight:500 }}> 1hr</Text>
           </View>
-
-
           <View style={styles.card}>
-            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
-              <FontAwesome6 name="hospital-user" size={20} color="black" />
+            <View
+              style={{
+                backgroundColor: "#7DFFB9",
+                padding: 8,
+                borderRadius: 30,
+              }}
+            >
+              <Image
+                source={{
+                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                }} 
+                style={{ width: 40, height: 40, borderRadius: 20 }} 
+              />
             </View>
 
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, }}> K.G. Munasingha</Text>
-
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  {" "}
+                  M.M somasiri
+                </Text>
               </View>
             </View>
-            <Text> 1hr</Text>
+            <Text style={{ fontWeight:500 }}> 1hr</Text>
           </View>
-
           <View style={styles.card}>
-            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
-              <FontAwesome6 name="hospital-user" size={20} color="black" />
+            <View
+              style={{
+                backgroundColor: "#7DFFB9",
+                padding: 8,
+                borderRadius: 30,
+              }}
+            >
+              <Image
+                source={{
+                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                }} 
+                style={{ width: 40, height: 40, borderRadius: 20 }} 
+              />
             </View>
 
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, }}> R.K Damsara</Text>
-
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  {" "}
+                  G.K Talanida
+                </Text>
               </View>
             </View>
-            <Text> 1hr</Text>
+            <Text style={{ fontWeight:500 }}> 1hr</Text>
           </View>
+          <View style={styles.card}>
+            <View
+              style={{
+                backgroundColor: "#7DFFB9",
+                padding: 8,
+                borderRadius: 30,
+              }}
+            >
+              <Image
+                source={{
+                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                }} 
+                style={{ width: 40, height: 40, borderRadius: 20 }} 
+              />
+            </View>
+
+            <View>
+              <View style={styles.mzg}>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  {" "}
+                  G.K Talanida
+                </Text>
+              </View>
+            </View>
+            <Text style={{ fontWeight:500 }}> 1hr</Text>
+          </View>
+
+
+         
         </View>
 
-        <View style={styles.body}>
-          <Text>Today</Text>
-
-          <View style={styles.card}>
-            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
-              <FontAwesome6 name="hospital-user" size={20} color="black" />
-            </View>
-
-            <View>
-              <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, }}> G.H. Munasingha</Text>
-
-              </View>
-            </View>
-            <Text> 1hr</Text>
-          </View>
-
-          <View style={styles.card}>
-            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
-              <FontAwesome6 name="hospital-user" size={20} color="black" />
-            </View>
-
-            <View>
-              <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, }}> K.K Nimal</Text>
-
-              </View>
-            </View>
-            <Text> 1hr</Text>
-          </View>
-
-
-        </View>
-
-        <TouchableOpacity style={{
-          backgroundColor: '#0165FC',
-          padding: 15,
-          marginHorizontal: 25,
-          marginBottom: 15,
-          borderRadius: 8
-
-        }} onPress={() => navigation.navigate('Pnumber')}>
-          <Text style={{ textAlign: 'center', color: 'white' }}>Write here</Text>
+       
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#0165FC",
+            padding: 15,
+            marginHorizontal: 25,
+            marginBottom: 15,
+            borderRadius: 8,
+          }}
+          onPress={() => navigation.navigate("Pnumber")}
+        >
+          <Text style={{ textAlign: "center", color: "white" }}>
+            Write here
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -136,44 +184,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomLeftRadius: 18,
     borderBottomRightRadius: 18,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
 
     elevation: 80,
-
-
   },
   tabHead: {
     textAlign: "center",
     color: "white",
     fontSize: 20,
-
-
+    fontWeight: "bold",
   },
   body: {
-    paddingHorizontal: 30,
-    paddingVertical: 20
-
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   card: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     marginTop: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     borderBottomColor: "blue",
-    paddingBottom: 4,
-    borderBottomColor: '#868686'
-
+    padding: 4,
+    borderBottomColor: "#bfbfbf",
+    backgroundColor:'white'
   },
   mzg: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     // gap:65
-
-  }
+  },
 });
