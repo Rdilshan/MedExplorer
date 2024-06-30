@@ -13,7 +13,7 @@ import { CheckBox } from "react-native-elements";
 
 export default function Patient() {
   const [patientName, setPatientName] = useState("");
-  const [gender, setGender] = useState(null);
+
   const [age, setAge] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const navigation = useNavigation();
@@ -101,21 +101,7 @@ export default function Patient() {
           />
         </View>
 
-        <View style={styles.input}>
-          <Text style={styles.inputLabel}>Gender</Text>
-          <RNPickerSelect
-         
-         onValueChange={(value) => setGender(value)}
-            items={[
-              { label: "Male", value: "male" },
-              { label: "Female", value: "female" },
-              { label: "Other", value: "other" },
-            ]}
-            placeholder={{ label: "Select your gender", value: null }}
-            style={pickerSelectStyles}
-            value={setGender}
-          />
-        </View>
+        
       </View>
 
       <TouchableOpacity
@@ -200,25 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    height: 44,
-    backgroundColor: "#f1f5f9",
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#222",
-   
-  },
-  inputAndroid: {
-    height: 44,
-    backgroundColor: "#f1f5f9",
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#222",
-   
-  },
-});
+
