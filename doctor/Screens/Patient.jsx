@@ -10,6 +10,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import RNPickerSelect from "react-native-picker-select";
 import { useNavigation } from "@react-navigation/native";
 import { CheckBox } from "react-native-elements";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Patient() {
   const [patientName, setPatientName] = useState("");
@@ -46,12 +47,16 @@ export default function Patient() {
 
   return (
     <View style={styles.container}>
+       <Ionicons name="arrow-back-circle-outline" size={40} color="gray" 
+        onPress={()=>navigation.navigate('Pnumber') } style={{ marginLeft:15 }}
+        />
       <Text
         style={{
           fontSize: 32,
           fontWeight: "bold",
           color: "#1d1d1d",
           marginBottom: 6,
+          marginTop:8,
           textAlign: "center",
         }}
       >
