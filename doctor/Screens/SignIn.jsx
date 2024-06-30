@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,18 +7,122 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 export default function SignIN() {
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const handleLogin = async () => {
+
+    setIsLoading(true);
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://med-explorer-backend.vercel.app/doctor/login",
+        userData
+      );
+
+      if (response.status === 200) {
+
+        const doctorData = response.data.doctor;
+        await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
+        await AsyncStorage.setItem('token', response.data.token);
+        Toast.show({
+          type: 'success',
+          text1: 'Login successful!',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+
+        console.log('Login successful!');
+
+        setTimeout(() => {
+          if (!doctorData.ProfileIMG) {
+            navigation.navigate("ProfileUpdate"); 
+          } else {
+            navigation.navigate("Dashboard");
+          }
+
+        }, 2000);
+        setIsLoading(false);
+      }
+
+    } catch (error) {
+      if (error.response) {
+
+        if (error.response.status === 400) {
+          console.log("400 error:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'Invalid email or password.',
+            visibilityTime: 2000,
+          });
+          setIsLoading(false);
+
+        } else if (error.response.status === 403) {
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'Account is not verified. Please contact support.',
+            visibilityTime: 2000,
+          });
+          setIsLoading(false);
+
+        } else {
+          console.error("Unexpected error. status:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'An unexpected error occurred. Please try again later.',
+            visibilityTime: 3000,
+          });
+          setIsLoading(false);
+
+        }
+      }
+
+      setIsLoading(false);
+
+    }
+  };
+
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          navigation.replace('Dashboard');
+        } else {
+          console.log("User must login..")
+        }
+      } catch (error) {
+        console.error('AsyncStorage error:', error);
+      }
+    };
+
+    checkToken();
+  }, [navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -36,11 +140,11 @@ export default function SignIN() {
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={setEmail}
               placeholder="Email address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email}
+              value={email}
             />
           </View>
 
@@ -50,12 +154,12 @@ export default function SignIN() {
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
+                onChangeText={setPassword}
                 placeholder="********"
                 placeholderTextColor="#6b7280"
                 style={[styles.inputControl, styles.passwordInput]}
                 secureTextEntry={!passwordVisible}
-                value={form.password}
+                value={password}
               />
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
@@ -70,13 +174,9 @@ export default function SignIN() {
           </TouchableOpacity>
 
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Dashboard')
-                // handle onPress
-              }}>
+            <TouchableOpacity onPress={handleLogin} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
             </TouchableOpacity>
           </View>
@@ -98,11 +198,8 @@ export default function SignIN() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 380,
+    marginVertical: 5,
+    marginHorizontal: 20
   },
   header: {
     marginVertical: 36,

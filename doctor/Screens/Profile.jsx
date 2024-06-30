@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,31 +7,144 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { launchImageLibrary } from 'react-native-image-picker';
+
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import api from './api/doctorapi';
+import useDoctorData from "./store/useDoctorData";
+
+
 
 export default function Profile() {
+
+
   const [form, setForm] = useState({
-    email: '',
-    password: '',
     gender: '',
     phoneNumber: '',
   });
 
-  const [profileImage, setProfileImage] = useState(null);
+  const [hasPermission, setPermission] = useState(null);
+  const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleImagePicker = () => {
-    launchImageLibrary({}, (response) => {
-      if (response.assets) {
-        setProfileImage(response.assets[0].uri);
-      }
+  const doctorData = useDoctorData();
+  useEffect(() => {
+    if (doctorData) {
+      setProfileImage(doctorData.ProfileIMG);
+      setForm({
+        gender: doctorData.Gender,
+        phoneNumber: doctorData.PhoneNumber,
+      });
+    }
+  }, [doctorData]);
+
+  useEffect(() => {
+
+    (async () => {
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setPermission(galleryStatus.status === 'granted');
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    if (hasPermission === false) {
+      return <Text>No access to internal storage</Text>;
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    console.log(result);
+    if (!result.cancelled) {
+      setProfileImage(result.assets[0].uri);
+    }
   };
 
-  const navigation = useNavigation();
+
+  const generateRandomName = () => {
+    return 'photo_' + Math.random().toString(36).substr(2, 9) + '.jpg';
+  };
+
+  const onSubmit = async () => {
+    setIsLoading(true);
+    console.log("clicking ....");
+
+    try {
+      const formData = new FormData();
+      formData.append('image', {
+        uri: profileImage,
+        type: 'image/jpeg',
+        name: generateRandomName(),   
+      });
+
+      const uploadResponse = await axios.post(
+        'https://med-explorer-backend.vercel.app/doctor/uploadimg',
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 60000, // Increase timeout to 60 seconds
+        }
+      );
+      return uploadResponse.data.fileUrl;
+
+    } catch (error) {
+      console.error('Error during image upload:', error);
+      if (error.response && error.response.status === 504) {
+        Alert.alert('Error', 'The server took too long to respond. Please try again later.');
+      } else {
+        Alert.alert('Error', 'Failed to upload image.');
+      }
+      throw error;
+    } 
+    
+    
+  };
+
+  const formdatasave = async (firstResponseData) => {
+    try {
+      console.log("form save running ...");
+      const response = await api.post('/doctor/editprofile', {
+        img: firstResponseData,
+        telephone: form.phoneNumber,
+        gender: form.gender,
+      }, {
+        timeout: 60000, // Increase timeout to 60 seconds
+      });
+      console.log('Form data save response:', response.data);
+      Alert.alert('Successfull', 'Profile updated succefully!');
+     
+      return response.data;
+    
+    } catch (error) {
+      console.error('Error during form data save:', error);
+      if (error.response && error.response.status === 504) {
+        Alert.alert('Error', 'The server took too long to respond. Please try again later.');
+      } else {
+        Alert.alert('Error', 'Failed to save form data.');
+      }
+      throw error;
+    }
+  };
+
+  const handleSequentialCalls = async () => {
+    try {
+      const firstResponse = await onSubmit();
+      const secondResponse = await formdatasave(firstResponse);
+      console.log('Second response data:', secondResponse);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error in sequential calls:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -39,16 +152,17 @@ export default function Profile() {
         <View style={styles.header}>
           <Text style={styles.title}>Complete Your Profile</Text>
           <Text style={styles.subtitle}>
-            Don't worry only you can see your personal data. No one else can see it.
+            Don't worry, only you can see your personal data. No one else can see it.
           </Text>
         </View>
 
-        <TouchableOpacity onPress={handleImagePicker} style={styles.imagePicker}>
+        <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
           {profileImage ? (
             <Image source={{ uri: profileImage }} style={styles.profileImage} />
           ) : (
             <Ionicons name="camera" size={48} color="#6b7280" />
           )}
+          <Ionicons name="create-outline" size={24} color="#fff" style={styles.editIcon} />
         </TouchableOpacity>
 
         <View style={styles.form}>
@@ -86,12 +200,14 @@ export default function Profile() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => { /* handle onPress */ navigation.navigate('Dashboard')}}>
+            <TouchableOpacity onPress={handleSequentialCalls} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Update</Text>}
               </View>
             </TouchableOpacity>
           </View>
+
+
         </View>
       </View>
     </SafeAreaView>
@@ -100,11 +216,8 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 380,
+    marginVertical: 20,
+    marginHorizontal: 20,
   },
   header: {
     marginVertical: 36,
@@ -184,7 +297,7 @@ const styles = StyleSheet.create({
   imagePicker: {
     alignSelf: 'center',
     marginVertical: 16,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#6b7280',
     borderRadius: 50,
     width: 100,
@@ -195,6 +308,14 @@ const styles = StyleSheet.create({
   profileImage: {
     width: '100%',
     height: '100%',
+    borderRadius: 50,
+  },
+  editIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#007aff',
+    padding: 6,
     borderRadius: 50,
   },
   btn: {
@@ -213,12 +334,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     color: '#fff',
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'right',
   },
 });
 

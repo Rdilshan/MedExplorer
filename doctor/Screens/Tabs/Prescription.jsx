@@ -1,19 +1,27 @@
-import { View, Text, StyleSheet, TouchableOpacity ,Image } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useEffect } from 'react';
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome6 } from '@expo/vector-icons';
-
+import useDoctorData from "../store/useDoctorData";
 
 export default function Prescription({ navigation }) {
+
+
+  const doctorData = useDoctorData();
+  console.log(doctorData)
+
+  if (!doctorData) {
+    return <Text>Loading...</Text>;
+  }
   return (
     <View>
       <View style={styles.top}>
-        <Image source={require('../../assets/icon.png')} style={{ 
-          width:50,
-          height:50,
-          borderRadius:30
-         }}/>
+        <Image source={{ uri: doctorData.ProfileIMG }} style={{
+          width: 50,
+          height: 50,
+          borderRadius: 30
+        }} />
         <Text style={styles.tabHead}>Prescription</Text>
         <Ionicons name="notifications" size={30} color="white" />
       </View>
@@ -22,46 +30,49 @@ export default function Prescription({ navigation }) {
           <Text>Today</Text>
 
           <View style={styles.card}>
-            <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-           
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
-           
-            </View>
-           
-            <View>
-              <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
-              </View>
-            </View>
-            
-          </View>
-          
+            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
 
-          <View style={styles.card}>
-            <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+              <FontAwesome6 name="hospital-user" size={20} color="black" />
+
             </View>
-           
+
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize: 16, }}> M.M somasiri</Text>
+
               </View>
             </View>
+            <Text> 1hr</Text>
+
           </View>
 
+
           <View style={styles.card}>
-            <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
+              <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
-           
+
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16,  }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize: 16, }}> K.G. Munasingha</Text>
+
               </View>
             </View>
+            <Text> 1hr</Text>
+          </View>
+
+          <View style={styles.card}>
+            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
+              <FontAwesome6 name="hospital-user" size={20} color="black" />
+            </View>
+
+            <View>
+              <View style={styles.mzg}>
+                <Text style={{ fontSize: 16, }}> R.K Damsara</Text>
+
+              </View>
+            </View>
+            <Text> 1hr</Text>
           </View>
         </View>
 
@@ -69,43 +80,45 @@ export default function Prescription({ navigation }) {
           <Text>Today</Text>
 
           <View style={styles.card}>
-            <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
+              <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
-           
+
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16, }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize: 16, }}> G.H. Munasingha</Text>
+
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
 
           <View style={styles.card}>
-            <View style={{ backgroundColor:'#7DFFB9', padding:15, borderRadius:30 }}>
-            <FontAwesome6 name="hospital-user" size={24} color="#00873D" />
+            <View style={{ backgroundColor: '#7DFFB9', padding: 15, borderRadius: 30 }}>
+              <FontAwesome6 name="hospital-user" size={20} color="black" />
             </View>
-           
+
             <View>
               <View style={styles.mzg}>
-                <Text style={{ fontSize:16,  }}> Dr. Munasingha</Text>
-                <Text> 1hr</Text>
+                <Text style={{ fontSize: 16, }}> K.K Nimal</Text>
+
               </View>
             </View>
+            <Text> 1hr</Text>
           </View>
 
-         
+
         </View>
 
-        <TouchableOpacity style={{ 
-          backgroundColor:'#0165FC',
-           padding:15,
-           marginHorizontal:25,
-           marginBottom:15,
-           borderRadius:8
-       
-          }}  onPress={() => navigation.navigate('Pnumber')}>
-          <Text style={{ textAlign:'center',color:'white' }}>Write here</Text>
+        <TouchableOpacity style={{
+          backgroundColor: '#0165FC',
+          padding: 15,
+          marginHorizontal: 25,
+          marginBottom: 15,
+          borderRadius: 8
+
+        }} onPress={() => navigation.navigate('Pnumber')}>
+          <Text style={{ textAlign: 'center', color: 'white' }}>Write here</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -127,39 +140,40 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-   
+
     elevation: 80,
-    
-  
+
+
   },
   tabHead: {
     textAlign: "center",
     color: "white",
     fontSize: 20,
-  
-   
-  },
-  body:{
-   paddingHorizontal:40,
-   paddingVertical:20
+
 
   },
-  card:{
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center',
-    gap:10,
-    marginTop:10,
-    borderBottomWidth:1,
-    paddingBottom:3,
-    borderBottomColor:'#868686'
-    
+  body: {
+    paddingHorizontal: 30,
+    paddingVertical: 20
+
   },
-  mzg:{
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center',
-    gap:65
-   
+  card: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "blue",
+    paddingBottom: 4,
+    borderBottomColor: '#868686'
+
+  },
+  mzg: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // gap:65
+
   }
 });

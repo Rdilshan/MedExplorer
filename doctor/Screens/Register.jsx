@@ -7,141 +7,187 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 export default function Example() {
-  const [form, setForm] = useState({
-    fullName: '',
-    email: '',
-    nicNumber: '',
-    SimcId: '',
-    password: '',
-  });
-
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [NIC, setNIC] = useState('');
+  const [SIMC, setSIMC] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+
+  const handleRegister = () => {
+    setIsLoading(true);
+    const userData = {
+      name,
+      email,
+      NIC,
+      SIMC,
+      password
+    };
+
+    axios.post("https://med-explorer-backend.vercel.app/doctor/create", userData)
+      .then(res => {
+        if (res.status === 201) {
+          Toast.show({
+            type: 'success',
+            text1: 'Registration successful!',
+            text2: 'Please wait for SIMC verification.',
+            visibilityTime: 10000
+          });
+          setIsLoading(false);
+          setTimeout(() => {
+            navigation.navigate("SignIn");
+          }, 1000);
+
+        }
+      })
+      .catch(error => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error registering.',
+          text2: 'Please try again.',
+          visibilityTime: 10000
+        });
+        setIsLoading(false);
+      });
+  };
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>
-            Fill your information below or register with your social account
-          </Text>
-        </View>
-
-        <View style={styles.form}>
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Full Name</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={fullName => setForm({ ...form, fullName })}
-              placeholder="Full Name"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.fullName}
-            />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Create Account</Text>
+            <Text style={styles.subtitle}>
+              Fill your information below or register with your social account
+            </Text>
           </View>
 
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Email address</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
-              placeholder="Email Address"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.email}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>NIC Number</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={nicNumber => setForm({ ...form, nicNumber })}
-              placeholder="NIC Number"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.nicNumber}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>SIMC ID</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={SimcId => setForm({ ...form, SimcId })}
-              placeholder="SIMC ID"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.SimcId}
-            />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <View style={styles.passwordContainer}>
+          <ScrollView style={styles.form}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Full Name</Text>
               <TextInput
+                autoCapitalize="none"
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
-                placeholder="Password"
+                onChangeText={setName}
+                placeholder="Full Name"
                 placeholderTextColor="#6b7280"
-                style={[styles.inputControl, styles.passwordInput]}
-                secureTextEntry={!passwordVisible}
-                value={form.password}
+                style={styles.inputControl}
+                value={name}
               />
-              <TouchableOpacity
-                onPress={() => setPasswordVisible(!passwordVisible)}
-                style={styles.icon}
-              >
-                <Ionicons
-                  name={passwordVisible ? "eye-off" : "eye"}
-                  size={24}
-                  color="#6b7280"
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Email address</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                keyboardType="email-address"
+                onChangeText={setEmail}
+                placeholder="Email Address"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={email}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>NIC Number</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={setNIC}
+                placeholder="NIC Number"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={NIC}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>SIMC ID</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={setSIMC}
+                placeholder="SIMC ID"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={SIMC}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  autoCorrect={false}
+                  clearButtonMode="while-editing"
+                  onChangeText={setPassword}
+                  placeholder="Password"
+                  placeholderTextColor="#6b7280"
+                  style={[styles.inputControl, styles.passwordInput]}
+                  secureTextEntry={!passwordVisible}
+                  value={password}
                 />
+                <TouchableOpacity
+                  onPress={() => setPasswordVisible(!passwordVisible)}
+                  style={styles.icon}
+                >
+                  <Ionicons
+                    name={passwordVisible ? "eye-off" : "eye"}
+                    size={24}
+                    color="#6b7280"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.formAction}>
+              <TouchableOpacity
+                onPress={handleRegister}
+                disabled={isLoading}
+              >
+                <View style={styles.btn}>
+                  {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Register</Text>}
+                </View>
               </TouchableOpacity>
             </View>
-          </View>
-
-          <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Profile');
-              }}
-            >
-              <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+          </ScrollView>
+        </View >
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 350,
-    marginLeft: 20,
+    marginVertical: 5,
+    marginHorizontal: 20
   },
   header: {
     marginVertical: 36,

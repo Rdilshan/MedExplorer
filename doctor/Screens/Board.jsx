@@ -119,13 +119,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius:8, 
+   
+    
+   
   },
   clearButtonText: {
     color: 'white',
     fontSize: 16,
+    fontWeight:'bold'
   },
   captureButtonText: {
     color: 'white',
     fontSize: 16,
+    fontWeight:'bold'
   },
 });

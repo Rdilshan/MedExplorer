@@ -1,31 +1,47 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'; 
+import { useEffect,useState } from "react";
+import useDoctorData from "../store/useDoctorData";
 
 
 
+export default function Profile({navigation}) {
 
 
 
-export default function Profile() {
+  const doctorData = useDoctorData();
+  console.log(doctorData)
+
+  if (!doctorData) {
+    return <Text>Loading...</Text>;
+  }
+
+  
+
   return (
     <View>
       <View style={styles.container}>
-        <Image
-          source={require("../../assets/icon.png")}
-          style={{ width: 70, height: 70, marginTop: 30, borderRadius: 40 }}
+      <Image
+          source={doctorData.ProfileIMG ? { uri: doctorData.ProfileIMG } : require("../../assets/doctor.jpg")}
+          style={{ width: 70, height: 70, borderRadius: 40, marginTop: 30 }}
         />
-        <Text style={{ color: "white", fontSize: 20 }}>Jon Smile</Text>
-        <Text style={{ color: "white", fontSize: 10 }}>@joinsmile</Text>
+        <View style={{ marginTop: 30 }}>
+          <Text style={{ color: "white", fontSize: 20, fontWeight: 'bold' }}>Profile Setting</Text>
+          <Text style={{ color: "white", fontSize: 10 }}>{doctorData.email}</Text>
+        </View>
       </View>
 
       <View style={styles.set}>
         <Text style={styles.sethead}>Account</Text>
       </View>
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem}   onPress={()=>navigation.navigate('ProfileUpdate')}>
         <View
           style={{
             display: "flex",
@@ -39,9 +55,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -55,13 +71,13 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.set}>
         <Text style={styles.sethead}>Security</Text>
       </View>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -75,9 +91,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -91,9 +107,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -107,13 +123,13 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.set}>
         <Text style={styles.sethead}>Theme</Text>
       </View>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -127,9 +143,9 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.setitem}>
+      <TouchableOpacity style={styles.setitem} onPress={()=>navigation.navigate('Future')}>
         <View
           style={{
             display: "flex",
@@ -143,7 +159,31 @@ export default function Profile() {
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
-      </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.setitem} onPress={async ()=>{
+        
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('doctorData');
+
+        navigation.navigate("SignIn");
+
+        }}>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 10,
+          }}
+        >
+     <MaterialCommunityIcons name="logout" size={30} color="black" />
+          <Text style={{ fontSize: 16 }}>Logout</Text>
+        </View>
+        
+        <MaterialIcons name="navigate-next" size={30} color="black" />
+      </TouchableOpacity>
+     
     </View>
   );
 }
@@ -151,9 +191,12 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection:"row",
     alignItems: "center",
+    paddingTop:5,
+    gap:40,
     paddingHorizontal: 30,
-    paddingVertical: 30,
+    paddingVertical: 25,
     backgroundColor:'#0165FC',
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20,
@@ -161,15 +204,17 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   set: {
-    backgroundColor: "#0165FC",
+   marginHorizontal:10,
     height: 40,
     paddingLeft: 20,
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
+    borderBottomColor:"gray",
+    borderBottomWidth: 1,
   },
   sethead: {
-    color: "white",
+    color: "black",
     fontStyle: "italic",
   },
   setitem: {

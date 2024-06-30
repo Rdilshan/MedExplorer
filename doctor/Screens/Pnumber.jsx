@@ -1,5 +1,4 @@
 
-
 import { View, Text , StyleSheet ,TextInput } from 'react-native'
 import React , {useState}  from 'react'
 import { Ionicons } from '@expo/vector-icons';
@@ -7,37 +6,43 @@ import { TouchableOpacity } from 'react-native';
 
 
 export default function Pnumber({navigation}) {
-    const [mobileNumber, setMobileNumber] = useState('');
+    const [nicNumber, setnicNumber] = useState('');
    
   return (
 
     <View style={styles.container}>
-        <Ionicons name="arrow-back-circle-outline" size={40} color="#3A3A3A" 
+        <Ionicons name="arrow-back-circle-outline" size={40} color="gray" 
         onPress={()=>navigation.navigate('Dashboard')}
         />
         <View style={styles.bodyhead}>
         <Text style={{ 
-            fontSize:25,
-            textAlign:'center',
-            fontWeight:'bold'
+         fontSize: 32,
+         fontWeight: 'bold',
+         color: '#1d1d1d',
+         marginBottom: 6,
+         textAlign: 'center',
+         marginTop:20
          }}>Prescription</Text>
         <Text style={{ 
-            textAlign:'center',
-            fontSize:14,
-            color:'#868686'
-         }}>Before writing the prescription enter the patient mobile number</Text>
+           fontSize: 15,
+           fontWeight: '500',
+           color: '#929292',
+           textAlign: 'center',
+         }}>Before writing the prescription enter the patient NIC number</Text>
        
         
       </View>
 
       <View style={{ marginTop:40 }}>
-      <Text style={styles.label}>Mobile number of patient</Text>
+      <Text style={styles.label}>NIC number of patient</Text>
       <TextInput
-        style={styles.input}
-        value={mobileNumber}
-        onChangeText={setMobileNumber}
-        placeholder="Enter mobile number"
-        keyboardType="phone-pad"
+       
+        value={nicNumber}
+        onChangeText={setnicNumber}
+        placeholderTextColor="#6b7280"
+        placeholder="Enter NIC number"
+      
+        style={styles.inputControl}
       />
     </View>
 
@@ -56,23 +61,29 @@ const styles = StyleSheet.create({
     container:{
         display:'flex',
         paddingVertical:50,
-        paddingHorizontal:30
+        paddingHorizontal:20
     },
     bodyhead:{
         display:'flex',
         alignItems:'center',
-        gap:30
+        gap:30,
+     
     },
     label: {
-        fontSize: 16,
-        marginBottom: 10,
+      fontSize: 17,
+      fontWeight: '600',
+      color: '#222',
+      marginBottom: 8,
       },
       input: {
-        height: 55,
-        borderColor: '#A9A9A9',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingLeft: 10,
+        
+        height: 44,
+        backgroundColor: '#f1f5f9',
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#222',
       },
       nextBtn:{
         backgroundColor:'#0165FC',
@@ -81,7 +92,18 @@ const styles = StyleSheet.create({
         marginTop:50,
         alignItems:'center',
         borderRadius:8
-      }
+      },
+      inputControl: {
+        height: 44,
+        backgroundColor: '#f1f5f9',
+        paddingHorizontal: 20,
+        borderRadius: 12,
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#222',
+        borderWidth:1,
+        borderColor:"gray"
+      },
    
 
 })
