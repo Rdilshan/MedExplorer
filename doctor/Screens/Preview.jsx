@@ -7,13 +7,14 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-
+import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get("window");
 
 export default function Preview({ route }) {
+  const navigation = useNavigation();
   const { imageUri } = route.params;
   const handleSendPress = () => {
-    console.log("Send button pressed");
+    navigation.navigate('Confirme', { imageUri });
   };
 
   return (
