@@ -71,7 +71,13 @@ export default function HeaderComponent() {
             source={{ uri: profilimg }} 
             style={styles.icon}
           />
-          <Ionicons name="notifications" size={30} color="white" />
+          <Ionicons name="notifications" size={30} color="white" style={{ 
+         borderWidth: 2, 
+         padding: 4, 
+         borderRadius: 50,
+         borderColor:"white" 
+        
+           }} />
         </View>
         <View style={styles.row1}>
           <Text style={styles.greeting}>Hello, {name} </Text>
@@ -127,20 +133,7 @@ export default function HeaderComponent() {
        />
 
       </View>
-      <View style={styles.buttonRow}>
-        <TouchableOpacity onPress={() => {/* Handle button 1 press */}} style={[styles.navButton1, styles.button]}>
-          <Ionicons name="ios-tooth" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 2 press */}} style={[styles.navButton2, styles.button]}>
-          <Ionicons name="ios-settings" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 3 press */}} style={[styles.navButton3, styles.button]}>
-          <Ionicons name="ios-settings" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 4 press */}} style={[styles.navButton4, styles.button]}>
-          <Ionicons name="ios-chatbox" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
+     
     </ScrollView>
   );
 }
@@ -181,6 +174,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    borderWidth: 2, 
+    padding: 4, 
+    borderRadius: 50,
+    borderColor:"white" 
   },
   greeting: {
     fontSize: 19,
