@@ -22,9 +22,15 @@ export default function Preview({ route }) {
       <Text style={styles.previewText}>This is the Preview of Prescription</Text>
       <Image source={{ uri: imageUri }} style={styles.previewImage} />
       <View style={{ display:"flex" , flexDirection:"row",gap:20}}>
-      <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
-        <Text style={styles.sendButtonText}>Complete</Text>
+        <View style={{ display:"flex", flexDirection:"row",gap:20 }}>
+      <TouchableOpacity style={styles.sendButton} onPress={()=> navigation.navigate('Pread')}>
+        <Text style={styles.convertButtonText}>Conver to Read</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
+        <Text style={styles.sendButtonText}>Done</Text>
+      </TouchableOpacity>
+      </View>
      
       </View>
     </View>
@@ -52,7 +58,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-    backgroundColor: "green",
+    backgroundColor: "#33b249",
+    padding: 10,
+    marginVertical: 4,
+    borderRadius: 3,
+  },
+  convertButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    backgroundColor: "#ED0800",
     padding: 10,
     marginVertical: 4,
     borderRadius: 3,
