@@ -65,11 +65,27 @@ export default function Patient() {
 
   const handleCheckboxPress = () => {
     setIsOwner(!isOwner);
-    if(!isOwner){
+    if (!isOwner) {
       console.log(data)
       setPatientName(data.name)
-    }else{
+    } else {
       setPatientName("")
+    }
+  };
+
+  const handlePress = () => {
+    console.log("Button pressed");
+    if (patientName !== '' && age !== null) {
+      navigation.navigate("Board", { age: age }, {
+        name: patientName,
+      })
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Age and Name is required!',
+        visibilityTime: 2000,
+      });
     }
   };
 
@@ -146,7 +162,7 @@ export default function Patient() {
           borderRadius: 8,
           alignItems: "center",
         }}
-        onPress={() => navigation.navigate("Board")}
+        onPress={handlePress}
       >
         <Text
           style={{
