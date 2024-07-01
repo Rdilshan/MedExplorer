@@ -8,15 +8,55 @@ import {
   TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+// import axios from 'axios';
 
 export default function SignIn() {
-  const [form, setForm] = useState({
-    fullName: '',
-    email: '',
-    nicNumber:'',
-    SimcId:'',
-    password: '',
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [NIC, setNIC] = useState('');
+  const [password, setPassword] = useState('');
+  // const [passwordVisible, setPasswordVisible] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const navigation = useNavigation();
+  const handleRegister = () => {
+    // setIsLoading(true);
+    // const userData = {
+    //   name,
+    //   email,
+    //   NIC,
+    //   password
+    // };
+
+    // axios.post("https://med-explorer-backend.vercel.app/patient/create", userData)
+    //   .then(res => {
+    //     if (res.status === 201) {
+          // Toast.show({
+          //   type: 'success',
+          //   text1: 'Registration successful!',
+          //   text2: 'Please wait for SIMC verification.',
+          //   visibilityTime: 10000
+          // });
+          // setIsLoading(false);
+          // setTimeout(() => {
+          //   navigation.navigate("SignIn");
+      //     // }, 1000);
+      //     console.log("registedred");
+      //   }
+      // })
+      // .catch(error => {
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'Error registering.',
+        //   text2: 'Please try again.',
+        //   visibilityTime: 10000
+        // });
+        // setIsLoading(false);
+        // console.log(error);
+      // });
+  };
+
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -33,11 +73,11 @@ export default function SignIn() {
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={fullName => setForm({ ...form, fullName })}
+              onChangeText={setName}
               placeholder="Full Name"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.fullName} />
+              value={name} />
           </View>
 
           <View style={styles.input}>
@@ -47,11 +87,11 @@ export default function SignIn() {
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={setEmail}
               placeholder="Email Address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email} />
+              value={email} />
           </View>
 
           <View style={styles.input}>
@@ -60,13 +100,13 @@ export default function SignIn() {
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={nicNumber => setForm({ ...form, nicNumber })}
+              onChangeText={setNIC}
               placeholder="Nic Number"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.nicNumber} />
+              value={NIC} />
           </View>
-
+{/* 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Simc ID</Text>
             <TextInput
@@ -78,26 +118,24 @@ export default function SignIn() {
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               value={form.SimcId} />
-          </View>
+          </View> */}
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
             <TextInput
               autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={password => setForm({ ...form, password })}
+              onChangeText={setPassword}
               placeholder="Password"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               secureTextEntry={true}
-              value={form.password} />
+              value={password} />
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+              onPress={handleRegister}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>
