@@ -24,12 +24,12 @@ export default function HeaderComponent() {
       try {
         const response = await api.get('/doctor/profile');
 
-        // console.log(response.data)
+        console.log(response.data)
 
         setprofileimg(response.data.doctor.ProfileIMG)
         setname(response.data.doctor.name)
-        const doctorData = response.data.doctor;
-        await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
+        // const doctorData = response.data.doctor;
+        // await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
 
       } catch (error) {
 
