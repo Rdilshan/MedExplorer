@@ -13,6 +13,8 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from './api/doctorapi';
+
 
 
 
@@ -105,24 +107,26 @@ export default function SignIN() {
     }
   };
 
+  const fetchUserData = async () => {
+    try {
+      const response = await api.get('/doctor/profile');
 
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
+      console.log(response.data)
+      navigation.navigate("Dashboard");
 
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-          navigation.replace('Dashboard');
-        } else {
-          console.log("User must login..")
-        }
-      } catch (error) {
-        console.error('AsyncStorage error:', error);
+    } catch (error) {
+
+      if (error.response.data.error === 'Invalid authorization') {
+        
+        await AsyncStorage.removeItem('token');
+        navigation.navigate("SignIn");
+
       }
-    };
 
-    checkToken();
-  }, [navigation]);
+    }
+  };
+
+  fetchUserData();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
