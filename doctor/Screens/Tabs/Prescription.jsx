@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useState } from "react";
 import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -9,6 +10,8 @@ import { useRoute } from "@react-navigation/native";
 export default function Prescription({ navigation }) {
   const route = useRoute();
   const { patientName } = route.params || {};
+  // const { patientNames: initialPatientNames = [] } = route.params || {}; 
+  // const [patientNames, setPatientNames] = useState(initialPatientNames);
   const doctorData = useDoctorData();
   console.log(doctorData);
 
@@ -78,112 +81,38 @@ export default function Prescription({ navigation }) {
             </Text>
           )}
 
-{/* 
-          <View style={styles.card}>
-            <View
-              style={{
-                backgroundColor: "#7DFFB9",
-                padding: 8,
-                borderRadius: 30,
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                }} 
-                style={{ width: 40, height: 40, borderRadius: 20 }} 
-              />
-            </View>
 
-            <View>
-              <View style={styles.mzg}>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  {" "}
-                  {patientName}
-                </Text>
-              </View>
-            </View>
-            <Text style={{ fontWeight:500 }}> 1hr</Text>
-          </View>
-          <View style={styles.card}>
-            <View
-              style={{
-                backgroundColor: "#7DFFB9",
-                padding: 8,
-                borderRadius: 30,
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                }} 
-                style={{ width: 40, height: 40, borderRadius: 20 }} 
-              />
-            </View>
+{/* {patientNames.length > 0 ? (
+            patientNames.map((patientName, index) => (
+              <View key={index} style={styles.card}>
+                <View
+                  style={{
+                    backgroundColor: "#7DFFB9",
+                    padding: 8,
+                    borderRadius: 30,
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                    }}
+                    style={{ width: 40, height: 40, borderRadius: 20 }}
+                  />
+                </View>
 
-            <View>
-              <View style={styles.mzg}>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  {" "}
-                  M.M somasiri
-                </Text>
+                <View>
+                  <View style={styles.mzg}>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                      {patientName}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={{ fontWeight: 500 }}> 1hr</Text>
               </View>
-            </View>
-            <Text style={{ fontWeight:500 }}> 1hr</Text>
-          </View>
-          <View style={styles.card}>
-            <View
-              style={{
-                backgroundColor: "#7DFFB9",
-                padding: 8,
-                borderRadius: 30,
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                }} 
-                style={{ width: 40, height: 40, borderRadius: 20 }} 
-              />
-            </View>
-
-            <View>
-              <View style={styles.mzg}>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  {" "}
-                  G.K Talanida
-                </Text>
-              </View>
-            </View>
-            <Text style={{ fontWeight:500 }}> 1hr</Text>
-          </View>
-          <View style={styles.card}>
-            <View
-              style={{
-                backgroundColor: "#7DFFB9",
-                padding: 8,
-                borderRadius: 30,
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                }} 
-                style={{ width: 40, height: 40, borderRadius: 20 }} 
-              />
-            </View>
-
-            <View>
-              <View style={styles.mzg}>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  {" "}
-                  G.K Talanida
-                </Text>
-              </View>
-            </View>
-            <Text style={{ fontWeight:500 }}> 1hr</Text>
-          </View>
- */}
+            ))
+          ) : (
+            <Text style={styles.placeholderText}>No patient information available</Text>
+          )} */}
 
          
         </View>
