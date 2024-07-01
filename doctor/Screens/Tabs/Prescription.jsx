@@ -4,8 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import useDoctorData from "../store/useDoctorData";
+import { useRoute } from "@react-navigation/native";
 
 export default function Prescription({ navigation }) {
+  const route = useRoute();
+  const { patientName } = route.params || {};
   const doctorData = useDoctorData();
   console.log(doctorData);
 
@@ -43,7 +46,39 @@ export default function Prescription({ navigation }) {
       <View>
         <View style={styles.body}>
           <Text style={{ fontWeight: "bold" }}>Today</Text>
+          {patientName ? (
+            <View style={styles.card}>
+              <View
+                style={{
+                  backgroundColor: "#7DFFB9",
+                  padding: 8,
+                  borderRadius: 30,
+                }}
+              >
+                <Image
+                  source={{
+                    uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                  }}
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                />
+              </View>
 
+              <View>
+                <View style={styles.mzg}>
+                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    {patientName}
+                  </Text>
+                </View>
+              </View>
+              <Text style={{ fontWeight: 500 }}> 1hr</Text>
+            </View>
+          ) : (
+            <Text style={styles.placeholderText}>
+              No patient information available
+            </Text>
+          )}
+
+{/* 
           <View style={styles.card}>
             <View
               style={{
@@ -64,7 +99,7 @@ export default function Prescription({ navigation }) {
               <View style={styles.mzg}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                   {" "}
-                  G.K Talanida
+                  {patientName}
                 </Text>
               </View>
             </View>
@@ -148,7 +183,7 @@ export default function Prescription({ navigation }) {
             </View>
             <Text style={{ fontWeight:500 }}> 1hr</Text>
           </View>
-
+ */}
 
          
         </View>
