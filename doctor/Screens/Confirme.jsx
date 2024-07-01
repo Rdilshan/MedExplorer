@@ -26,6 +26,15 @@ export default function Confirme() {
     setenterage(age);
   }, [name, age]);
 
+  const handleSend = () => {
+    if (!patientName || !enterage || !patientPhoneNumber) {
+      navigation.navigate("Wrong");
+      return;
+    }
+
+    navigation.navigate("Success" ,{ patientName });
+  };
+
   return (
     <View style={styles.container}>
       <Text
@@ -107,7 +116,7 @@ export default function Confirme() {
           borderRadius: 8,
           alignItems: "center",
         }}
-        onPress={() => navigation.navigate("Board")}
+        onPress={handleSend}
       >
         <Text
           style={{
