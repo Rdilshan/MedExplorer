@@ -13,8 +13,17 @@ const { width, height } = Dimensions.get("window");
 export default function Preview({ route }) {
   const navigation = useNavigation();
   const { imageUri } = route.params;
+  const { age } = route.params;
+  const { name } = route.params;
+
+
   const handleSendPress = () => {
-    navigation.navigate('Confirme', { imageUri });
+    navigation.navigate('Confirme', {
+      imageUri: imageUri,
+      age: age,
+      name: name,
+    });
+    
   };
 
   return (

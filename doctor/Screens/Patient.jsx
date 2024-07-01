@@ -76,9 +76,14 @@ export default function Patient() {
   const handlePress = () => {
     console.log("Button pressed");
     if (patientName !== '' && age !== null) {
-      navigation.navigate("Board", { age: age }, {
+
+      navigation.navigate("Board", {
+        age: age, 
         name: patientName,
-      })
+      });
+      // navigation.navigate("Board", { age: age }, {
+      //   name: patientName,
+      // })
     } else {
       Toast.show({
         type: 'error',
