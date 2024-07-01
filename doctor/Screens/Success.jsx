@@ -1,8 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
-
+import { useNavigation, useRoute } from "@react-navigation/native";
 export default function Success() {
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { patientName } = route.params;
     return (
         <View style={styles.container}>
             <View style={styles.viewStyle}>
@@ -16,7 +19,8 @@ export default function Success() {
                 <Text style={styles.textStyle1}>
                     {'Before sending the prescription, here are \n all the details we attached'}
                 </Text>
-                <TouchableOpacity style={styles.buttonStyle} onPress={() => console.log('Button pressed')}>
+                <TouchableOpacity style={styles.buttonStyle} 
+               onPress={() => navigation.navigate('Dashboard', { screen: 'Prescription', params: { patientName } })}>
                     <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
             </View>
