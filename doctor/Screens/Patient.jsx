@@ -5,83 +5,111 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import RNPickerSelect from "react-native-picker-select";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { CheckBox } from "react-native-elements";
 import { Ionicons } from '@expo/vector-icons';
+import api from './api/doctorapi';
+import Toast from 'react-native-toast-message';
+
+
 
 export default function Patient() {
   const [patientName, setPatientName] = useState("");
-
   const [age, setAge] = useState(null);
+  const [data, setdata] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const navigation = useNavigation();
 
+  const route = useRoute();
+  const { nic } = route.params;
+  console.log(nic)
 
 
-  // const fetchOwnerDetails = async () => {
-  //   try {
-  //     const response = await fetch('http://your-api-endpoint/owner-details');
-  //     const data = await response.json();
-  //     const { name, age, gender } = data;
-  //     setPatientName(name);
-  //     setAge(age);
-  //     setGender(gender);
-  //   } catch (error) {
-  //     console.error('Failed to fetch owner details:', error);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   if (isOwner) {
-  //     fetchOwnerDetails();
-  //   } else {
-  //     setPatientName('');
-  //     setAge('');
-  //     setGender(null);
-  //   }
-  // }, [isOwner]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get(`/patient/get/${nic}`);
+        console.log(response.data);
+        setdata(response.data)
+      } catch (error) {
 
+        if (error.response.status === 404) {
+          Toast.show({
+            type: 'error',
+            text1: 'Validation Error',
+            text2: 'NIC number is Wrong!',
+            visibilityTime: 1500,
+          });
+
+          setTimeout(() => {
+            navigation.navigate("Pnumber");
+          }, 1600);
+
+        }
+        if (error.response && error.response.data.error === 'Invalid authorization') {
+          await AsyncStorage.removeItem('token');
+          navigation.navigate("SignIn");
+        } else {
+          console.error(error); // Handle other potential errors
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [nic, navigation]);
+
+
+  const handleCheckboxPress = () => {
+    setIsOwner(!isOwner);
+    if(!isOwner){
+      console.log(data)
+      setPatientName(data.name)
+    }else{
+      setPatientName("")
+    }
+  };
 
   return (
     <View style={styles.container}>
-       <Ionicons name="arrow-back-circle-outline" size={40} color="gray" 
-        onPress={()=>navigation.navigate('Pnumber') } style={{ marginLeft:15 }}
-        />
+      <Ionicons name="arrow-back-circle-outline" size={40} color="gray"
+        onPress={() => navigation.navigate('Pnumber')} style={{ marginLeft: 15 }}
+      />
       <Text
         style={{
           fontSize: 32,
           fontWeight: "bold",
           color: "#1d1d1d",
           marginBottom: 6,
-          marginTop:8,
+          marginTop: 8,
           textAlign: "center",
         }}
       >
         Patient details
       </Text>
 
-     
+
 
       <View style={{ paddingHorizontal: 20, paddingVertical: 30 }}>
-     
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: "500",
-          color: "#929292",
-          textAlign: "center",
-        }}
-      >
-        If the person is the owner of the NIC check the details are correct or not.
-      </Text>
+
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "500",
+            color: "#929292",
+            textAlign: "center",
+          }}
+        >
+          If the person is the owner of the NIC check the details are correct or not.
+        </Text>
         <View style={styles.checkboxContainer}>
-        <CheckBox
+          <CheckBox
             title="Is this the owner?"
             checked={isOwner}
-            onPress={() => setIsOwner(!isOwner)}
+            onPress={handleCheckboxPress}
             containerStyle={styles.checkbox}
             textStyle={styles.checkboxText}
           />
@@ -106,7 +134,7 @@ export default function Patient() {
           />
         </View>
 
-        
+
       </View>
 
       <TouchableOpacity
@@ -146,14 +174,14 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     marginVertical: 15,
-    
+
   },
   checkbox: {
     backgroundColor: 'transparent',
     borderWidth: 0,
     padding: 0,
     margin: 0,
-  
+
   },
   checkboxText: {
     fontSize: 17,
@@ -181,7 +209,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  
+
   },
   inputLabel: {
     fontSize: 17,
