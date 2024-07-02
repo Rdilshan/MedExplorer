@@ -9,6 +9,11 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+import api from './api/doctorapi';
+
+
 
 export default function Confirme() {
 
@@ -19,21 +24,61 @@ export default function Confirme() {
   const navigation = useNavigation();
 
   const route = useRoute();
-  const { imageUri, age, name } = route.params;
+  const { imageUri, age, name,patientid } = route.params;
+
 
   useEffect(() => {
     setPatientName(name);
     setenterage(age);
   }, [name, age]);
 
-  const handleSend = () => {
-    if (!patientName || !enterage || !patientPhoneNumber) {
-      navigation.navigate("Wrong");
-      return;
-    }
+  const handleSend = async () => {
+    if (patientPhoneNumber !== '') {
+      try {
+        console.log("Form save running ...");
+        const response = await api.post('/prescription/create', {
+          name: patientName,
+          PhoneNumber: patientPhoneNumber,
+          image: imageUri,
+          age: enterage,
+          patientid: patientid
+        });
+        console.log('Form data save response:', response.data);
+  
+        // Show success message if needed
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: 'Prescription created successfully!',
+          visibilityTime: 2000,
+        });
 
-    navigation.navigate("Success" ,{ patientName });
+        navigation.navigate("Success" ,{ patientName });
+        
+      } catch (error) {
+        console.error('Error saving form data:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Failed to save prescription. Please try again.',
+          visibilityTime: 2000,
+        });
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Mobile number is required!',
+        visibilityTime: 2000,
+      });
+    }
   };
+
+      // if (!patientName || !enterage || !patientPhoneNumber) {
+    //   navigation.navigate("Wrong");
+    //   return;
+    // }
+    // 
 
   return (
     <View style={styles.container}>

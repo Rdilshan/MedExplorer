@@ -80,6 +80,7 @@ export default function Patient() {
       navigation.navigate("Board", {
         age: age, 
         name: patientName,
+        patientid:data._id
       });
       // navigation.navigate("Board", { age: age }, {
       //   name: patientName,

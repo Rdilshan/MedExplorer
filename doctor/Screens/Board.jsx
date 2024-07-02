@@ -10,7 +10,8 @@ const { height, width } = Dimensions.get('window');
 export default function Board() {
 
   const route = useRoute();
-  const { age, name } = route.params;
+  const { age, name,patientid } = route.params;
+
 
 
   const [path, setPath] = useState([]);
@@ -52,6 +53,7 @@ export default function Board() {
           imageUri: uri,
           age: age,
           name: name,
+          patientid:patientid
         });
         
       } catch (error) {

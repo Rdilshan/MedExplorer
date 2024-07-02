@@ -17,6 +17,8 @@ export default function Preview({ route }) {
   const { imageUri } = route.params;
   const { age } = route.params;
   const { name } = route.params;
+  const { patientid } = route.params;
+
   const [uploadimg,setuploadimg] = useState("")
 
 
@@ -58,6 +60,8 @@ export default function Preview({ route }) {
       imageUri: uploadimg,
       age: age,
       name: name,
+      patientid: patientid
+
     });
 
   };
