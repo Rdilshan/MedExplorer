@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect } from 'react';
+
 import {
   View,
   Text,
@@ -7,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get("window");
 
@@ -17,30 +19,62 @@ export default function Preview({ route }) {
   const { name } = route.params;
 
 
+  const generateRandomName = () => {
+    return 'photo_' + Math.random().toString(36).substr(2, 9) + '.jpg';
+  };
+
+  useEffect(() => {
+    console.log("uploading....")
+    const uploadImage = async () => {
+      const formData = new FormData();
+      formData.append('image', {
+        uri: imageUri,
+        type: 'image/jpeg',
+        name: generateRandomName(),
+      });
+
+      try {
+        const uploadResponse = await axios.post(
+          'https://med-explorer-backend.vercel.app/doctor/uploadimg',
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 60000, // Increase timeout to 60 seconds
+          }
+        );
+        console.log('Image uploaded successfully:', uploadResponse.data);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    };
+
+    uploadImage();
+  }, [imageUri]);
+
   const handleSendPress = () => {
     navigation.navigate('Confirme', {
       imageUri: imageUri,
       age: age,
       name: name,
     });
-    
+
   };
 
   return (
     <View style={styles.previewContainer}>
       <Text style={styles.previewText}>This is the Preview of Prescription</Text>
       <Image source={{ uri: imageUri }} style={styles.previewImage} />
-      <View style={{ display:"flex" , flexDirection:"row",gap:20}}>
-        <View style={{ display:"flex", flexDirection:"row",gap:20 }}>
-      <TouchableOpacity style={styles.sendButton} onPress={()=> navigation.navigate('Pread')}>
-        <Text style={styles.convertButtonText}>Conver to Read</Text>
-      </TouchableOpacity>
+      <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
+        <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
+          <TouchableOpacity style={styles.sendButton} onPress={() => navigation.navigate('Pread')}>
+            <Text style={styles.convertButtonText}>Conver to Read</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
-        <Text style={styles.sendButtonText}>Done</Text>
-      </TouchableOpacity>
-      </View>
-     
+          <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
+            <Text style={styles.sendButtonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     </View>
   );
