@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 
 import {
   View,
@@ -17,6 +17,7 @@ export default function Preview({ route }) {
   const { imageUri } = route.params;
   const { age } = route.params;
   const { name } = route.params;
+  const [uploadimg,setuploadimg] = useState("")
 
 
   const generateRandomName = () => {
@@ -43,6 +44,7 @@ export default function Preview({ route }) {
           }
         );
         console.log('Image uploaded successfully:', uploadResponse.data);
+        setuploadimg(uploadResponse.data.fileUrl);
       } catch (error) {
         console.error('Error uploading image:', error);
       }
@@ -53,7 +55,7 @@ export default function Preview({ route }) {
 
   const handleSendPress = () => {
     navigation.navigate('Confirme', {
-      imageUri: imageUri,
+      imageUri: uploadimg,
       age: age,
       name: name,
     });
