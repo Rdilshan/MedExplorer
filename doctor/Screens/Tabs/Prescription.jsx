@@ -1,23 +1,47 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useState } from "react";
-import { useEffect } from "react";
+import { useCallback   } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome6 } from "@expo/vector-icons";
 import useDoctorData from "../store/useDoctorData";
 import { useRoute } from "@react-navigation/native";
+import api from '../api/doctorapi';
+import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
+
+
 
 export default function Prescription({ navigation }) {
   const route = useRoute();
-  const { patientName } = route.params || {};
-  // const { patientNames: initialPatientNames = [] } = route.params || {}; 
-  // const [patientNames, setPatientNames] = useState(initialPatientNames);
   const doctorData = useDoctorData();
-  console.log(doctorData);
+  const [prescriptions, setPrescriptions] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/prescription/getdoctor');
+        setPrescriptions(response.data);
+      } catch (error) {
+        if (error.response.data.error === 'Invalid authorization') {
+          await AsyncStorage.removeItem('token');
+          navigation.navigate("SignIn");
+        }
+      }
+
+    };
+
+    fetchUserData();
+  }, [navigation]))
+
 
   if (!doctorData) {
     return <Text>Loading...</Text>;
   }
+
+  
+
+
   return (
     <View>
       <View style={styles.top}>
@@ -49,42 +73,9 @@ export default function Prescription({ navigation }) {
       <View>
         <View style={styles.body}>
           <Text style={{ fontWeight: "bold" }}>Today</Text>
-          {patientName ? (
-            <View style={styles.card}>
-              <View
-                style={{
-                  backgroundColor: "#7DFFB9",
-                  padding: 8,
-                  borderRadius: 30,
-                }}
-              >
-                <Image
-                  source={{
-                    uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                  }}
-                  style={{ width: 40, height: 40, borderRadius: 20 }}
-                />
-              </View>
-
-              <View>
-                <View style={styles.mzg}>
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                    {patientName}
-                  </Text>
-                </View>
-              </View>
-              <Text style={{ fontWeight: 500 }}> 1hr</Text>
-            </View>
-          ) : (
-            <Text style={styles.placeholderText}>
-              No patient information available
-            </Text>
-          )}
-
-
-{/* {patientNames.length > 0 ? (
-            patientNames.map((patientName, index) => (
-              <View key={index} style={styles.card}>
+          {prescriptions.length ? (
+            prescriptions.map(item => (
+              <View style={styles.card}>
                 <View
                   style={{
                     backgroundColor: "#7DFFB9",
@@ -103,21 +94,24 @@ export default function Prescription({ navigation }) {
                 <View>
                   <View style={styles.mzg}>
                     <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                      {patientName}
+                      {item.name}
                     </Text>
                   </View>
                 </View>
-                <Text style={{ fontWeight: 500 }}> 1hr</Text>
+                
+                <Text style={{ fontWeight: 500 }}> {moment(item.date).fromNow()}</Text>
               </View>
             ))
-          ) : (
-            <Text style={styles.placeholderText}>No patient information available</Text>
-          )} */}
 
-         
+          ) : (
+            <Text style={styles.placeholderText}>
+              No patient information available
+            </Text>
+          )}
+
         </View>
 
-       
+
         <TouchableOpacity
           style={{
             backgroundColor: "#0165FC",
@@ -175,7 +169,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "blue",
     padding: 4,
     borderBottomColor: "#bfbfbf",
-    backgroundColor:'white'
+    backgroundColor: 'white'
   },
   mzg: {
     display: "flex",
