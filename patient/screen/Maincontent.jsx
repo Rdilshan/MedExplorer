@@ -41,9 +41,21 @@ function MainContainer() {
           tabBarStyle: { padding: 10, height: 70 },
         })}
       >
-        <Tab.Screen name={homeName} component={Home} />
-        <Tab.Screen name={perceptionName} component={Perception} />
-        <Tab.Screen name={profileName} component={Profile} />
+        <Tab.Screen 
+          name={homeName} 
+          component={Home} 
+          options={{ headerShown: false }} 
+        />
+        <Tab.Screen 
+          name={perceptionName} 
+          component={Perception} 
+          options={{ headerShown: false }} 
+        />
+        <Tab.Screen 
+          name={profileName} 
+          component={Profile} 
+          options={{ headerShown: false }} 
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
