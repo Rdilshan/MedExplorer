@@ -5,6 +5,7 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
+    Modal,
     Image
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ export default function Previouscription() {
     const [patientName, setPatientName] = useState("");
     const [patientPhoneNumber, setPatientPhoneNumber] = useState("");
     const navigation = useNavigation();
+    const [showFullImage, setShowFullImage] = useState(false);
 
     const route = useRoute();
     const { imageUri, age, name, telephone } = route.params;
@@ -30,6 +32,14 @@ export default function Previouscription() {
         navigation.navigate('Dashboard')
     };
 
+
+    const handleImageClick = () => {
+        setShowFullImage(true);
+    };
+
+    const handleCloseFullImage = () => {
+        setShowFullImage(false);
+    };
 
     return (
         <View style={styles.container}>
@@ -79,26 +89,32 @@ export default function Previouscription() {
                         onChangeText={setPatientPhoneNumber}
                         placeholder="Enter patient phone number"
                         keyboardType="phone-pad"
-
-
                     />
                 </View>
 
                 <View>
                     <Text style={styles.label}>Patient Age</Text>
-                    <Text style={[styles.inputControl, { fontSize: 15,paddingTop:12}]}>
+                    <Text style={[styles.inputControl, { fontSize: 15, paddingTop: 12 }]}>
                         {age}
                     </Text>
 
 
                 </View>
 
-                <View>
-                    <Image source={{ uri: imageUri }} style={styles.previewImage} />
-                </View>
-
+                <TouchableOpacity onPress={handleImageClick}>
+                    <Image source={{ uri: imageUri }} style={styles.previewImagec} />
+                </TouchableOpacity>
 
             </View>
+
+            <Modal visible={showFullImage} transparent={true}>
+                <View style={styles.modalContainer}>
+                    <TouchableOpacity style={styles.closeButton} onPress={handleCloseFullImage}>
+                        <Text style={styles.closeText}>Close</Text>
+                    </TouchableOpacity>
+                    <Image source={{ uri: imageUri }} style={styles.fullImage} />
+                </View>
+            </Modal>
 
             <TouchableOpacity
                 style={{
@@ -189,5 +205,32 @@ const styles = StyleSheet.create({
         borderColor: "gray",
         borderRadius: 8,
         marginVertical: 4
+    },
+    //  new css 
+
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fullImage: {
+        width: '80%',
+        height: '80%',
+        resizeMode: 'contain',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 20,
+        right: 20,
+    },
+    closeIcon: {
+        width: 20,
+        height: 20,
+        tintColor: 'white',
+    },
+    closeText: {
+        color: 'white',
+        fontSize: 16,
     },
 });
