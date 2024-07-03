@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useCallback } from "react";
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { Calendar } from 'react-native-calendars';
 import api from '../api/doctorapi';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -19,34 +20,52 @@ export default function HeaderComponent() {
   const [name,setname] = useState("loading..")
 
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await api.get('/doctor/profile');
+
+  //       console.log(response.data)
+
+  //       setprofileimg(response.data.doctor.ProfileIMG)
+  //       setname(response.data.doctor.name)
+
+  //     } catch (error) {
+
+  //       if (error.response.data.error === 'Invalid authorization') {
+          
+  //         await AsyncStorage.removeItem('token');
+  //         navigation.navigate("SignIn");
+
+  //       }
+
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
+
+  useFocusEffect(
+    useCallback(() => {
+
     const fetchUserData = async () => {
       try {
         const response = await api.get('/doctor/profile');
-
-        console.log(response.data)
-
-        setprofileimg(response.data.doctor.ProfileIMG)
-        setname(response.data.doctor.name)
-        // const doctorData = response.data.doctor;
-        // await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
-
+              console.log(response.data)
+              setprofileimg(response.data.doctor.ProfileIMG)
+              setname(response.data.doctor.name)
       } catch (error) {
-
         if (error.response.data.error === 'Invalid authorization') {
-          
           await AsyncStorage.removeItem('token');
           navigation.navigate("SignIn");
-
         }
-
       }
+
     };
 
     fetchUserData();
-  }, []);
-
-
+  }, [navigation]))
 
 
   const onDayPress = (day) => {

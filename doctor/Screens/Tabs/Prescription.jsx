@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useState } from "react";
-import { useCallback   } from "react";
+import { useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useDoctorData from "../store/useDoctorData";
 import { useRoute } from "@react-navigation/native";
@@ -18,28 +18,26 @@ export default function Prescription({ navigation }) {
   useFocusEffect(
     useCallback(() => {
 
-    const fetchUserData = async () => {
-      try {
-        const response = await api.get('/prescription/getdoctor');
-        setPrescriptions(response.data);
-      } catch (error) {
-        if (error.response.data.error === 'Invalid authorization') {
-          await AsyncStorage.removeItem('token');
-          navigation.navigate("SignIn");
+      const fetchUserData = async () => {
+        try {
+          const response = await api.get('/prescription/getdoctor');
+          setPrescriptions(response.data);
+        } catch (error) {
+          if (error.response.data.error === 'Invalid authorization') {
+            await AsyncStorage.removeItem('token');
+            navigation.navigate("SignIn");
+          }
         }
-      }
 
-    };
+      };
 
-    fetchUserData();
-  }, [navigation]))
+      fetchUserData();
+    }, [navigation]))
 
 
   if (!doctorData) {
     return <Text>Loading...</Text>;
   }
-
-  
 
 
   return (
@@ -75,32 +73,43 @@ export default function Prescription({ navigation }) {
           <Text style={{ fontWeight: "bold" }}>Today</Text>
           {prescriptions.length ? (
             prescriptions.map(item => (
-              <View style={styles.card}>
-                <View
-                  style={{
-                    backgroundColor: "#7DFFB9",
-                    padding: 8,
-                    borderRadius: 30,
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
-                    }}
-                    style={{ width: 40, height: 40, borderRadius: 20 }}
-                  />
-                </View>
+              <TouchableOpacity key={item.id} onPress={() => 
 
-                <View>
-                  <View style={styles.mzg}>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                      {item.name}
-                    </Text>
+                navigation.navigate('Previouscription', {
+                  imageUri: item.image,
+                  age: item.age,
+                  name: item.name,
+                  telephone:item.PhoneNumber
+                })
+              }>
+                <View style={styles.card} >
+                  <View
+                    style={{
+                      backgroundColor: "#7DFFB9",
+                      padding: 8,
+                      borderRadius: 30,
+                    }}
+                  >
+                    <Image
+                      source={{
+                        uri: "https://w7.pngwing.com/pngs/113/707/png-transparent-patient-cartoon-drawing-surgery-time-character-cartoon-character-child-face-thumbnail.png",
+                      }}
+                      style={{ width: 40, height: 40, borderRadius: 20 }}
+                    />
                   </View>
+
+                  <View>
+                    <View style={styles.mzg}>
+                      <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                        {item.name}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <Text style={{ fontWeight: 500 }}> {moment(item.date).fromNow()}</Text>
                 </View>
-                
-                <Text style={{ fontWeight: 500 }}> {moment(item.date).fromNow()}</Text>
-              </View>
+              </TouchableOpacity>
+
             ))
 
           ) : (

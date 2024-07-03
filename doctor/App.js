@@ -19,6 +19,7 @@ import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import Future from './Screens/Future';
 import Confirme from './Screens/Confirme';
 import Pread from './Screens/Pread';
+import Previouscription from './Screens/Previouscription';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,8 @@ export default function App() {
 				<Stack.Screen name="Future" component={Future} />
 				<Stack.Screen name="Confirme" component={Confirme} />
 				<Stack.Screen name="Pread" component={Pread} />
+				<Stack.Screen name="Previouscription" component={Previouscription} />
+
 			</Stack.Navigator>
 			<Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
 		</NavigationContainer>
