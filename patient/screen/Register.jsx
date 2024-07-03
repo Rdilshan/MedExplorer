@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function SignIn() {
+export default function Register() {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
