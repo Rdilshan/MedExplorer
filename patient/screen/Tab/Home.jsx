@@ -38,25 +38,25 @@ export default function Home({ navigation }) {
                 </View>
             </View>
             <View style={styles.cardOne}>
-      <View style={styles.cardOneHead}>
-        <Image
-          source={require('../image/image.jpg')}
-          style={styles.cardOneImage}
-        />
-        <View>
-          <Text style={styles.cardOneName}>Dr . Munasigha</Text>
-          <Text style={styles.cardOneSpecialty}>Cardiologistic</Text>
-        </View>
-      </View>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>View Perception</Text>
-        </View>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Contact</Text>
-        </View>
-      </View>
-    </View>
+                <View style={styles.cardOneHead}>
+                    <Image
+                        source={require('../image/image.jpg')}
+                        style={styles.cardOneImage}
+                    />
+                    <View>
+                        <Text style={styles.cardOneName}>Dr . Munasigha</Text>
+                        <Text style={styles.cardOneSpecialty}>Cardiologistic</Text>
+                    </View>
+                </View>
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>View Perception</Text>
+                    </View>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Contact</Text>
+                    </View>
+                </View>
+            </View>
 
             <View style={styles.recommendedContainer}>
                 <View style={styles.recommendedTextContainer}>
@@ -182,42 +182,42 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 1,
         marginBottom: 20,
-      },
-      cardOneHead: {
+    },
+    cardOneHead: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 20,
-      },
-      cardOneImage: {
+    },
+    cardOneImage: {
         width: 50,
         height: 50,
         borderRadius: 25, // Circular image
         marginRight: 10,
-      },
-      cardOneName: {
+    },
+    cardOneName: {
         fontSize: 18,
         fontWeight: 'bold',
-      },
-      cardOneSpecialty: {
+    },
+    cardOneSpecialty: {
         fontSize: 14,
         color: '#888',
-      },
-      buttonsContainer: {
+    },
+    buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-      },
-      button: {
+    },
+    button: {
         flex: 1,
         marginHorizontal: 5,
         padding: 10,
         backgroundColor: '#007BFF',
         borderRadius: 5,
         alignItems: 'center',
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: '#fff',
         fontWeight: 'bold',
-      },
+    },
     card: {
         height: 200,
         elevation: 2,
