@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import Mock from "../assets/mock.png";
 
-export default function LHome({navigation}) {
+export default function LHomes() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -10,26 +13,25 @@ export default function LHome({navigation}) {
       </View>
       <View style={styles.bottom}>
         <Text style={styles.bottom_head}>
-         
-          Read  and Understand <Text style={{color:'#0165FC'}}>Prescription </Text>
+          Read and Understand <Text style={{ color: '#0165FC' }}>Prescription</Text>
         </Text>
         <Text style={styles.bottom_des}>
-         is simply dummy text of the printing and typesetting industry.Lorem Ipsum has
+          is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
         </Text>
-        <TouchableOpacity style={styles.bottom_btn}  onPress={() => navigation.navigate('Onboarding')}>
+        <TouchableOpacity style={styles.bottom_btn} onPress={() => navigation.navigate('Onboardings')}>
           <Text style={styles.btn_dec}>Let’s Get Started</Text>
-        </TouchableOpacity >
-       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Text>Already have an account?</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-        <Text style={{ color: '#0165FC' }}> Sign In</Text>
-      </TouchableOpacity>
-    </View>
-        
+        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+            <Text style={{ color: '#0165FC' }}> Sign In</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
   top: {
     alignItems: "center",
   },
- bottom: {
+  bottom: {
     display: "flex",
     backgroundColor: "white",
     paddingHorizontal: 20,
@@ -52,15 +54,12 @@ const styles = StyleSheet.create({
     marginTop: -85,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    // Adding shadow properties
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.12,
     shadowRadius: 10.32,
     elevation: 10,
   },
-
-
   bottom_head: {
     textAlign: "center",
     fontSize: 25,

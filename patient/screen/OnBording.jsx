@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     marginLeft: 22,
   },
    titleContainer: {
-       flexDirection: 'row', // Ensures all children are laid out in a row
+       flexDirection: 'row', 
      },
      title: {
        // Add other styles for the title here
