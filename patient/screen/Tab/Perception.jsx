@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-svg';
+import DetailedView from './DetailedView';
 
 function Perception() {
   const [modalVisible, setModalVisible] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState('');
+  const [viewingCard, setViewingCard] = useState(null);
 
   const handleQRCodePress = (value) => {
     setQrCodeValue(value);
@@ -14,6 +16,14 @@ function Perception() {
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const handleViewPress = (index) => {
+    setViewingCard(index);
+  };
+
+  const handleMoreReadablePress = () => {
+    setViewingCard(null);
   };
 
   return (
@@ -31,30 +41,34 @@ function Perception() {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <View key={index} style={styles.cardOne}>
-            <View style={styles.cardOneHead}>
-              <Image
-                source={require('../image/image.jpg')}
-                style={styles.cardOneImage}
-              />
-              <View>
-                <Text style={styles.cardOneName}>Dr . Munasigha</Text>
-                <Text style={styles.cardOneSpecialty}>Cardiologistic</Text>
+      {viewingCard !== null ? (
+        <DetailedView onClose={handleMoreReadablePress} />
+      ) : (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <View key={index} style={styles.cardOne}>
+              <View style={styles.cardOneHead}>
+                <Image
+                  source={require('../image/image.jpg')}
+                  style={styles.cardOneImage}
+                />
+                <View>
+                  <Text style={styles.cardOneName}>Dr. Munasigha</Text>
+                  <Text style={styles.cardOneSpecialty}>Cardiologist</Text>
+                </View>
+              </View>
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for Card ${index + 1}`)}>
+                  <Text style={styles.buttonText}>QR Code</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => handleViewPress(index)}>
+                  <Text style={styles.buttonText}>View</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for Card ${index + 1}`)}>
-                <Text style={styles.buttonText}>QR Code</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>View</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -79,33 +93,33 @@ function Perception() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    flex: 1
+    flex: 1,
   },
   header: {
     backgroundColor: "#0165FC",
     height: "15%",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   headerContent: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
     marginTop: 45,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   headerTextContainer: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
   },
   headerText: {
     fontSize: 28,
     color: "#FFF",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   iconButton: {
-    padding: 10
+    padding: 10,
   },
   scrollContainer: {
     paddingVertical: 20,
