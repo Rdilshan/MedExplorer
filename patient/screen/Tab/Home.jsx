@@ -175,7 +175,8 @@ const styles = StyleSheet.create({
         marginTop:wp('3%'),
     },
     recommendedContainer: {
-        marginTop:wp('5%'),
+        marginTop:wp('3%'),
+        marginBottom:wp('2%'),
         paddingHorizontal: wp('5%'),
         width: "100%",
         alignItems: "center"
@@ -197,8 +198,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 1,
-        marginBottom: hp('2%'),
-        marginHorizontal: wp('5%')
+        marginHorizontal: wp('5%'),
+        borderWidth: 1, // Border width for the entire card
+        borderColor: '#007BFF', // Border color for the entire card
     },
     cardOneHead: {
         flexDirection: 'row',
@@ -221,13 +223,14 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around', // Adjust to space-around for equal spacing
+        marginTop: hp('2%'), // Margin from top of card
     },
     button: {
         flex: 1,
         marginHorizontal: wp('2%'),
         paddingVertical: hp('1%'),
-        backgroundColor: '#007BFF',
+        backgroundColor: '#0165FC',
         borderRadius: wp('2%'),
         alignItems: 'center',
     },
@@ -264,7 +267,7 @@ const styles = StyleSheet.create({
     cardLocation: {
         paddingHorizontal: wp('3%'),
         fontWeight: "bold",
-        color: "#b1e5d3",
+        color: "#0165FC",
         paddingTop: hp('1%'),
         fontSize: wp('3.5%')
     }
