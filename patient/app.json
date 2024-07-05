@@ -22,6 +22,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4eedffb2-9f5a-474c-8874-6daed18f65be"
+      }
+    },
+    "owner": "tharinduh"
   }
 }
