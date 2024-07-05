@@ -8,12 +8,16 @@ import {
   TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SignIN() {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
@@ -58,9 +62,7 @@ export default function SignIN() {
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+              onPress={() => navigation.navigate('MainContainer')}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Sign in</Text>
               </View>
@@ -69,7 +71,7 @@ export default function SignIN() {
 
           <TouchableOpacity
             onPress={() => {
-              // handle link
+              navigation.navigate('Register')
             }}>
             <Text style={styles.formFooter}>
               Don't have an account?{' '}
