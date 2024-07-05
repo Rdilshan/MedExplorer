@@ -54,7 +54,6 @@ def prediction():
         
         if os.path.exists("image.jpg"):
             os.remove("image.jpg")
-        
 
         file.save("image.jpg")
         
