@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Modal, Tou
 import { Icon } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-svg';
 import DetailedView from './DetailedView';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 function Perception() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -87,7 +88,7 @@ function Perception() {
         <TouchableWithoutFeedback onPress={closeModal}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <QRCode value={qrCodeValue} size={200} />
+              <QRCode value={qrCodeValue} size={wp(80)} />
               <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                 <Text style={styles.closeButtonText}>Close</Text>
               </TouchableOpacity>
@@ -101,21 +102,23 @@ function Perception() {
 
 const styles = StyleSheet.create({
   container: {
+    
     backgroundColor: "#FFF",
     flex: 1,
   },
   header: {
     backgroundColor: "#0165FC",
-    height: "15%",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    paddingHorizontal: 20,
+    height: hp(15),
+    borderBottomLeftRadius: wp(10),
+    borderBottomRightRadius: wp(10),
+    paddingHorizontal: wp(5),
+    marginTop: wp(6),
   },
   headerContent: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    marginTop: 45,
+    marginTop: hp(4),
     justifyContent: "space-between",
   },
   headerTextContainer: {
@@ -123,51 +126,52 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: 28,
+    fontSize: wp(8),
     color: "#FFF",
     fontWeight: "bold",
   },
   iconButton: {
-    padding: 10,
+    padding: wp(3),
   },
   notificationButton: {
-    borderWidth: 1,
+    borderWidth: wp(0.5),
     borderColor: '#FFF',
-    borderRadius: 20,
+    borderRadius: wp(3),
   },
   scrollContainer: {
-    paddingVertical: 20,
+    marginHorizontal: wp(5),
+    paddingVertical: hp(2),
   },
   cardOne: {
-    padding: 20,
-    borderRadius: 10,
+    padding: wp(3),
+    borderRadius: wp(3),
     backgroundColor: '#fff',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: hp(0.5) },
     shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowRadius: hp(0.5),
     elevation: 1,
-    marginBottom: 20,
-    borderWidth: 1, // Blue border
-    borderColor: '#007BFF', // Blue border color
+    marginBottom: hp(2),
+    borderWidth: wp(0.5),
+    borderColor: '#007BFF', 
   },
   cardOneHead: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: hp(2),
   },
   cardOneImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25, // Circular image
-    marginRight: 10,
+    width: wp(12),
+    height: wp(12),
+    borderRadius: wp(6), // Circular image
+    marginRight: wp(3),
   },
   cardOneName: {
-    fontSize: 18,
+    fontSize: wp(5),
     fontWeight: 'bold',
   },
   cardOneSpecialty: {
-    fontSize: 14,
+    fontSize: wp(3.5),
     color: '#888',
   },
   buttonsContainer: {
@@ -176,15 +180,16 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    marginHorizontal: 5,
-    padding: 10,
+    marginHorizontal: wp(1),
+    paddingVertical: hp(1),
     backgroundColor: '#007BFF',
-    borderRadius: 5,
+    borderRadius: wp(2),
     alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: wp(4),
   },
   modalOverlay: {
     flex: 1,
@@ -193,21 +198,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    width: 300,
-    padding: 20,
+    width: wp(80),
+    padding: wp(4),
     backgroundColor: '#FFF',
-    borderRadius: 10,
+    borderRadius: wp(3),
     alignItems: 'center',
   },
   closeButton: {
-    marginTop: 20,
-    padding: 10,
+    marginTop: hp(2),
+    paddingVertical: hp(1),
     backgroundColor: '#007BFF',
-    borderRadius: 5,
+    borderRadius: wp(2),
   },
   closeButtonText: {
     color: '#FFF',
     fontWeight: 'bold',
+    fontSize: wp(4),
   },
 });
 
