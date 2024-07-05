@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
 import { useNavigation, useRoute } from "@react-navigation/native";
-// import axios from 'axios';
+import axios from 'axios';
 export default function Success() {
     const navigation = useNavigation();
     const route = useRoute();
