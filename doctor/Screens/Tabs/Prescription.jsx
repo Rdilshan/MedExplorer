@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useState } from "react";
 import { useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -72,7 +72,7 @@ export default function Prescription({ navigation }) {
           }}
         />
       </View>
-      <View>
+      <ScrollView>
         <View style={styles.body}>
           <Text style={{ fontWeight: "bold" }}>Today</Text>
           {prescriptions.length ? (
@@ -140,7 +140,7 @@ export default function Prescription({ navigation }) {
           </Text>
         </TouchableOpacity> */}
         
-      </View>
+      </ScrollView>
       <TouchableOpacity style={styles.floatingButton} onPress={onButtonPress}>
           <Ionicons name="add-circle" size={60} color='#0165FC'/>
         </TouchableOpacity>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     height:60,
     alignItems:'center',
     justifyContent:'center',
-    right:30,
+    right:40,
     bottom:40
   }
 });
