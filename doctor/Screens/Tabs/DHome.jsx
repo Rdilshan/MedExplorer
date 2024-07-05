@@ -83,7 +83,7 @@ export default function HeaderComponent() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <View style={styles.top}>
         <View style={styles.row}>
           <Image
@@ -111,6 +111,7 @@ export default function HeaderComponent() {
           />
         </View>
       </View>
+     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
       <View style={styles.gdtext}>
         <Text style={styles.goodMorning}>Good morning,</Text>
         <Text style={styles.keep}>Keep it going!</Text>
@@ -152,8 +153,9 @@ export default function HeaderComponent() {
        />
 
       </View>
+      </ScrollView>
      
-    </ScrollView>
+    </View>
   );
 }
 
@@ -163,6 +165,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    flex: 1,
+  },
+  scrollContainer: {
+    display:'flex',
+    alignContent:'center',
+    paddingVertical: 5,
+    paddingHorizontal:20,
+    marginBottom:10,
+    width:'100%'
   },
   top: {
     backgroundColor: "#0165FC",
@@ -203,6 +214,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 26,
     marginRight: 10,
+    fontWeight:'bold'
   },
   row1: {
     flexDirection: "row",
@@ -236,27 +248,30 @@ const styles = StyleSheet.create({
   },
   gdtext: {
     marginTop: 35,
-    marginRight: 140,
+    // marginRight: 140,
+    fontWeight:"bold"
   },
   goodMorning: {
     fontSize: 15,
-    
+    fontWeight:"bold"
   },
   keep: {
     fontSize: 20,
     marginTop: 3,
+    fontWeight:"bold"
   },
   calendarContainer: {
     marginTop: 30,
     padding: 10,
-    backgroundColor: '#0165FC',
+    backgroundColor: 'white',
     borderRadius: 10,
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
   },
   calendar: {
     borderRadius: 10,
     width: '100%',
+    paddingHorizontal:20
   },
   buttonRow: {
     flexDirection: 'row',
