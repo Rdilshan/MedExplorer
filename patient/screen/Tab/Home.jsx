@@ -1,10 +1,13 @@
-import * as React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Button, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+const { width } = Dimensions.get('window');
 
 export default function Home({ navigation }) {
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
 
     const updateSearch = (text) => {
         setSearch(text);
@@ -16,20 +19,17 @@ export default function Home({ navigation }) {
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.headerTextContainer}>
-                        
-                        <View style={styles.headerIcons}>
                         <TouchableOpacity>
-                                <Image
-                                    source={require('../image/profile.jpg')}
-                                    style={styles.profileImage}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.iconButton}>
-                                <Icon name="notifications-outline" size={24} color="#FFF" />
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.headerText}>Hello, Rody</Text>
+                            <Image
+                                source={require('../image/profile.jpg')}
+                                style={styles.profileImage}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.iconButton}>
+                            <Icon name="notifications-outline" size={24} color="#FFF" />
+                        </TouchableOpacity>
                     </View>
+                    <Text style={styles.headerText}>Hello, Rody</Text>
                 </View>
                 <SearchBar
                     platform="default"
@@ -77,7 +77,7 @@ export default function Home({ navigation }) {
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                style={{ height: 400 }}
+                style={{ height: hp('30%') }}
             >
                 <TouchableOpacity
                     onPress={() => { }}
@@ -130,37 +130,40 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: "#0165FC",
-        height: "35%",
+        height: hp('35%'),
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-        paddingHorizontal: 20
+        paddingHorizontal: wp('5%')
     },
     headerContent: {
-        width: "100%",
-        marginTop: 45
+        marginTop: hp('5%')
     },
     headerTextContainer: {
-        width: "100%",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: hp('2%')
     },
     headerText: {
-        fontSize: 28,
+        fontSize: wp('6%'),
         color: "#FFF",
-        fontWeight: "bold"
-    },
-    headerIcons: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop: 10
-    },
-    iconButton: {
-        marginRight: 20
+        fontWeight: "bold",
+        textAlign: 'left'
     },
     profileImage: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
+        marginTop:wp('8%'),
+        width: wp('15%'),
+        height: wp('15%'),
+        borderRadius: wp('10%')
     },
+    iconButton: {
+        marginLeft: wp('5%'),
+        borderWidth: 1,
+        borderColor: '#FFF',
+        padding: wp('3%'),
+        borderRadius: wp('5%'),
+        marginTop:wp('10%')
+    },    
     searchBarInputContainer: {
         backgroundColor: '#FFF',
     },
@@ -168,11 +171,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderTopWidth: 0,
         borderBottomWidth: 0,
-        paddingHorizontal: 0
+        paddingHorizontal: 0,
+        marginTop:wp('3%'),
     },
     recommendedContainer: {
-        flexDirection: "row",
-        paddingHorizontal: 20,
+        marginTop:wp('5%'),
+        paddingHorizontal: wp('5%'),
         width: "100%",
         alignItems: "center"
     },
@@ -181,37 +185,38 @@ const styles = StyleSheet.create({
     },
     recommendedText: {
         fontWeight: "bold",
-        fontSize: 17,
+        fontSize: wp('4%'),
         color: "#585a61"
     },
     cardOne: {
-        padding: 20,
-        borderRadius: 10,
+        padding: wp('5%'),
+        borderRadius: wp('3%'),
         backgroundColor: '#fff',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 1,
-        marginBottom: 20,
+        marginBottom: hp('2%'),
+        marginHorizontal: wp('5%')
     },
     cardOneHead: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: hp('2%'),
     },
     cardOneImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        marginRight: 10,
+        width: wp('15%'),
+        height: wp('15%'),
+        borderRadius: wp('7.5%'),
+        marginRight: wp('3%'),
     },
     cardOneName: {
-        fontSize: 18,
+        fontSize: wp('4.5%'),
         fontWeight: 'bold',
     },
     cardOneSpecialty: {
-        fontSize: 14,
+        fontSize: wp('3.5%'),
         color: '#888',
     },
     buttonsContainer: {
@@ -220,44 +225,48 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1,
-        marginHorizontal: 5,
-        padding: 10,
+        marginHorizontal: wp('2%'),
+        paddingVertical: hp('1%'),
         backgroundColor: '#007BFF',
-        borderRadius: 5,
+        borderRadius: wp('2%'),
         alignItems: 'center',
     },
     buttonText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: wp('3.5%')
     },
     card: {
-        height: 200,
-        elevation: 2,
+        height: hp('25%'),
+        width: wp('40%'),
+        marginLeft: wp('5%'),
+        marginTop: hp('2%'),
+        marginBottom: hp('2%'),
+        borderRadius: wp('5%'),
         backgroundColor: "#FFF",
-        marginLeft: 20,
-        marginTop: 20,
-        borderRadius: 15,
-        marginBottom: 10,
-        width: 160
+        elevation: 2,
     },
     cardImage: {
-        height: 120,
-        width: 160,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15
+        height: hp('15%'),
+        width: '100%',
+        borderTopLeftRadius: wp('5%'),
+        borderTopRightRadius: wp('5%')
     },
     cardTextContainer: {
         flexDirection: "row",
-        paddingTop: 10,
-        paddingHorizontal: 10
+        paddingTop: hp('1%'),
+        paddingHorizontal: wp('3%')
     },
     cardTitle: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: wp('4%')
     },
     cardLocation: {
-        paddingHorizontal: 10,
+        paddingHorizontal: wp('3%'),
         fontWeight: "bold",
         color: "#b1e5d3",
-        paddingTop: 3
+        paddingTop: hp('1%'),
+        fontSize: wp('3.5%')
     }
 });
+
