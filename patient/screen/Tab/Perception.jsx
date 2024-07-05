@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    width: wp(80),
+    width: wp(90),
     padding: wp(4),
     backgroundColor: '#FFF',
     borderRadius: wp(3),
@@ -206,7 +206,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginTop: hp(2),
-    paddingVertical: hp(1),
+    paddingVertical: hp(2),
+    paddingHorizontal: wp(3),
     backgroundColor: '#007BFF',
     borderRadius: wp(2),
   },
