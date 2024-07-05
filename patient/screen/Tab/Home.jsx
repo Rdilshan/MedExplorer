@@ -71,7 +71,7 @@ export default function Home({ navigation }) {
             </View>
             <View style={styles.recommendedContainer}>
                 <View style={styles.recommendedTextContainer}>
-                    <Text style={styles.recommendedText}>Recommended</Text>
+                    <Text style={styles.recommendedText}>You channel doctors</Text>
                 </View>
             </View>
             <ScrollView

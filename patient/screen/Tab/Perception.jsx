@@ -26,6 +26,13 @@ function Perception() {
     setViewingCard(null);
   };
 
+  // Sample data for cards
+  const cardData = [
+    { name: 'Dr. Munasigha', specialty: 'Cardiologist' },
+    { name: 'Dr. John Doe', specialty: 'Neurologist' },
+    { name: 'Dr. Jane Smith', specialty: 'Pediatrician' },
+  ];
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -36,7 +43,7 @@ function Perception() {
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerText}>Perception</Text>
           </View>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={[styles.iconButton, styles.notificationButton]}>
             <Icon name="notifications" type="material" color="#FFF" />
           </TouchableOpacity>
         </View>
@@ -45,27 +52,29 @@ function Perception() {
         <DetailedView onClose={handleMoreReadablePress} />
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <View key={index} style={styles.cardOne}>
-              <View style={styles.cardOneHead}>
-                <Image
-                  source={require('../image/image.jpg')}
-                  style={styles.cardOneImage}
-                />
-                <View>
-                  <Text style={styles.cardOneName}>Dr. Munasigha</Text>
-                  <Text style={styles.cardOneSpecialty}>Cardiologist</Text>
+          {cardData.map((card, index) => (
+            <TouchableOpacity key={index} onPress={() => handleViewPress(index)}>
+              <View style={styles.cardOne}>
+                <View style={styles.cardOneHead}>
+                  <Image
+                    source={require('../image/image.jpg')}
+                    style={styles.cardOneImage}
+                  />
+                  <View>
+                    <Text style={styles.cardOneName}>{card.name}</Text>
+                    <Text style={styles.cardOneSpecialty}>{card.specialty}</Text>
+                  </View>
+                </View>
+                <View style={styles.buttonsContainer}>
+                  <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for ${card.name}`)}>
+                    <Text style={styles.buttonText}>QR Code</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress={() => handleViewPress(index)}>
+                    <Text style={styles.buttonText}>View</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for Card ${index + 1}`)}>
-                  <Text style={styles.buttonText}>QR Code</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => handleViewPress(index)}>
-                  <Text style={styles.buttonText}>View</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       )}
@@ -121,6 +130,11 @@ const styles = StyleSheet.create({
   iconButton: {
     padding: 10,
   },
+  notificationButton: {
+    borderWidth: 1,
+    borderColor: '#FFF',
+    borderRadius: 20,
+  },
   scrollContainer: {
     paddingVertical: 20,
   },
@@ -134,6 +148,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
     marginBottom: 20,
+    borderWidth: 1, // Blue border
+    borderColor: '#007BFF', // Blue border color
   },
   cardOneHead: {
     flexDirection: 'row',
