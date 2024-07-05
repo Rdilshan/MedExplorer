@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button, SearchBar } from 'react-native-elements';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Home({ navigation }) {
     const [search, setSearch] = React.useState('');
@@ -16,6 +16,18 @@ export default function Home({ navigation }) {
             <View style={styles.header}>
                 <View style={styles.headerContent}>
                     <View style={styles.headerTextContainer}>
+                        
+                        <View style={styles.headerIcons}>
+                        <TouchableOpacity>
+                                <Image
+                                    source={require('../image/profile.jpg')}
+                                    style={styles.profileImage}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.iconButton}>
+                                <Icon name="notifications-outline" size={24} color="#FFF" />
+                            </TouchableOpacity>
+                        </View>
                         <Text style={styles.headerText}>Hello, Rody</Text>
                     </View>
                 </View>
@@ -34,7 +46,7 @@ export default function Home({ navigation }) {
             </View>
             <View style={styles.recommendedContainer}>
                 <View style={styles.recommendedTextContainer}>
-                    <Text style={styles.recommendedText}>Last Channeled  Doctor</Text>
+                    <Text style={styles.recommendedText}>Last Channeled Doctor</Text>
                 </View>
             </View>
             <View style={styles.cardOne}>
@@ -44,8 +56,8 @@ export default function Home({ navigation }) {
                         style={styles.cardOneImage}
                     />
                     <View>
-                        <Text style={styles.cardOneName}>Dr . Munasigha</Text>
-                        <Text style={styles.cardOneSpecialty}>Cardiologistic</Text>
+                        <Text style={styles.cardOneName}>Dr. Munasigha</Text>
+                        <Text style={styles.cardOneSpecialty}>Cardiologist</Text>
                     </View>
                 </View>
                 <View style={styles.buttonsContainer}>
@@ -57,7 +69,6 @@ export default function Home({ navigation }) {
                     </View>
                 </View>
             </View>
-
             <View style={styles.recommendedContainer}>
                 <View style={styles.recommendedTextContainer}>
                     <Text style={styles.recommendedText}>Recommended</Text>
@@ -68,7 +79,6 @@ export default function Home({ navigation }) {
                 showsHorizontalScrollIndicator={false}
                 style={{ height: 400 }}
             >
-
                 <TouchableOpacity
                     onPress={() => { }}
                     style={styles.card}
@@ -78,12 +88,10 @@ export default function Home({ navigation }) {
                         style={styles.cardImage}
                     />
                     <View style={styles.cardTextContainer}>
-                        <Text style={styles.cardTitle}>Dr . munasigha</Text>
-
+                        <Text style={styles.cardTitle}>Dr. Munasigha</Text>
                     </View>
                     <Text style={styles.cardLocation}>4.5</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                     onPress={() => { }}
                     style={styles.card}
@@ -93,12 +101,10 @@ export default function Home({ navigation }) {
                         style={styles.cardImage}
                     />
                     <View style={styles.cardTextContainer}>
-                        <Text style={styles.cardTitle}>Dr . munasigha</Text>
-
+                        <Text style={styles.cardTitle}>Dr. Munasigha</Text>
                     </View>
                     <Text style={styles.cardLocation}>4.5</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                     onPress={() => { }}
                     style={styles.card}
@@ -108,7 +114,7 @@ export default function Home({ navigation }) {
                         style={styles.cardImage}
                     />
                     <View style={styles.cardTextContainer}>
-                        <Text style={styles.cardTitle}>Dr . munasigha</Text>
+                        <Text style={styles.cardTitle}>Dr. Munasigha</Text>
                     </View>
                     <Text style={styles.cardLocation}>4.5</Text>
                 </TouchableOpacity>
@@ -130,18 +136,30 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     headerContent: {
-        flexDirection: "row",
-        alignItems: "center",
         width: "100%",
         marginTop: 45
     },
     headerTextContainer: {
-        width: "50%"
+        width: "100%",
     },
     headerText: {
         fontSize: 28,
         color: "#FFF",
         fontWeight: "bold"
+    },
+    headerIcons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    iconButton: {
+        marginRight: 20
+    },
+    profileImage: {
+        width: 40,
+        height: 40,
+        borderRadius: 20
     },
     searchBarInputContainer: {
         backgroundColor: '#FFF',
@@ -166,12 +184,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: "#585a61"
     },
-    recommendedUnderline: {
-        height: 4,
-        backgroundColor: "#b1e5d3",
-        width: 115,
-        marginTop: -5
-    },
     cardOne: {
         padding: 20,
         borderRadius: 10,
@@ -191,7 +203,7 @@ const styles = StyleSheet.create({
     cardOneImage: {
         width: 50,
         height: 50,
-        borderRadius: 25, // Circular image
+        borderRadius: 25,
         marginRight: 10,
     },
     cardOneName: {
