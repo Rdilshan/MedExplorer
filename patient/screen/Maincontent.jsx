@@ -7,12 +7,12 @@ import Home from './Tab/Home';
 import Perception from './Tab/Perception';
 import Profile from './Tab/Profile';
 
-// Screen names
-const homeName = "Home";
-const perceptionName = "Perception";
-const profileName = "Profile";
-
 const Tab = createBottomTabNavigator();
+
+// Define the route names
+const homeName = 'Home';
+const perceptionName = 'Perception';
+const profileName = 'Profile';
 
 function MainContainer() {
   return (
