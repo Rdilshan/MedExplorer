@@ -102,7 +102,7 @@ export default function Previouscription() {
                 </View>
 
                 <TouchableOpacity onPress={handleImageClick}>
-                    <Image source={{ uri: imageUri }} style={styles.previewImagec} />
+                    <Image source={{ uri: imageUri }} style={styles.previewImage} />
                 </TouchableOpacity>
 
             </View>
