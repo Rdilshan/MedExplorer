@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useDoctorData from "../store/useDoctorData";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import api from '../api/doctorapi';
 import moment from 'moment';
 import { useFocusEffect } from '@react-navigation/native';
@@ -14,6 +14,10 @@ export default function Prescription({ navigation }) {
   const route = useRoute();
   const doctorData = useDoctorData();
   const [prescriptions, setPrescriptions] = useState([]);
+
+  const onButtonPress = ()=>{
+    navigation.navigate("Pnumber")
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -41,7 +45,7 @@ export default function Prescription({ navigation }) {
 
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.top}>
         <Image
           source={{ uri: doctorData.ProfileIMG }}
@@ -121,7 +125,7 @@ export default function Prescription({ navigation }) {
         </View>
 
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             backgroundColor: "#0165FC",
             padding: 15,
@@ -134,13 +138,21 @@ export default function Prescription({ navigation }) {
           <Text style={{ textAlign: "center", color: "white" }}>
             Write here
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        
       </View>
+      <TouchableOpacity style={styles.floatingButton} onPress={onButtonPress}>
+          <Ionicons name="add-circle" size={60} color='#0165FC'/>
+        </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f8f8f8'
+  },
   top: {
     backgroundColor: "#0165FC",
     paddingVertical: 50,
@@ -186,4 +198,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // gap:65
   },
+  floatingButton:{
+    position:"absolute",
+    width:60,
+    height:60,
+    alignItems:'center',
+    justifyContent:'center',
+    right:30,
+    bottom:40
+  }
 });
