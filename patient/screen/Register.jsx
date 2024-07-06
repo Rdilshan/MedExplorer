@@ -6,24 +6,33 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
-export default function SignIn() {
+const { width } = Dimensions.get('window');
+
+export default function Register() {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
-    nicNumber:'',
-    SimcId:'',
+    nicNumber: '',
     password: '',
   });
+
+  const navigation = useNavigation();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Fill your information below or register with your social account</Text>
+          <Text style={styles.subtitle}>
+            Fill your information below or register with your social account
+          </Text>
         </View>
 
         <View style={styles.form}>
@@ -37,7 +46,8 @@ export default function SignIn() {
               placeholder="Full Name"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.fullName} />
+              value={form.fullName}
+            />
           </View>
 
           <View style={styles.input}>
@@ -51,7 +61,8 @@ export default function SignIn() {
               placeholder="Email Address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email} />
+              value={form.email}
+            />
           </View>
 
           <View style={styles.input}>
@@ -64,44 +75,47 @@ export default function SignIn() {
               placeholder="Nic Number"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.nicNumber} />
-          </View>
-
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Simc ID</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={SimcId => setForm({ ...form, SimcId })}
-              placeholder="Simc ID"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.SimcId} />
+              value={form.nicNumber}
+            />
           </View>
 
           <View style={styles.input}>
             <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={password => setForm({ ...form, password })}
-              placeholder="Password"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              secureTextEntry={true}
-              value={form.password} />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={password => setForm({ ...form, password })}
+                placeholder="Password"
+                placeholderTextColor="#6b7280"
+                style={[styles.inputControl, { flex: 1 }]}
+                secureTextEntry={!showPassword}
+                value={form.password}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Icon
+                  name={showPassword ? 'eye' : 'eye-slash'}
+                  size={20}
+                  color="#6b7280"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+              onPress={() => navigation.navigate('MainContainer')}
+            >
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                <Text style={styles.btnText}>Sign Up</Text>
               </View>
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.divider}>
+            <View style={styles.line} />
+            <Text style={styles.dividerText}>or sign up with</Text>
+            <View style={styles.line} />
           </View>
 
           <View style={styles.socialLogin}>
@@ -131,14 +145,14 @@ export default function SignIn() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width: 350
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
-    marginVertical: 36,
+    marginBottom: 36,
+    alignItems: 'center',
   },
   title: {
     fontSize: 32,
@@ -154,7 +168,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   form: {
-    marginBottom: 24,
+    width: width * 0.9,
   },
   formAction: {
     marginVertical: 24,
@@ -183,11 +197,18 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#222',
   },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f9',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+  },
   btn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 18,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderWidth: 1,
@@ -199,6 +220,22 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '600',
     color: '#fff',
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#d1d5db',
+  },
+  dividerText: {
+    marginHorizontal: 8,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#6b7280',
   },
   socialLogin: {
     flexDirection: 'row',
