@@ -1,7 +1,9 @@
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
+import { useNavigation } from "@react-navigation/native";
 const Wrong = () => {
+	const navigation = useNavigation();
 	return (
 		<View style={styles.viewStyle}>
 			<View style={styles.animation}>
@@ -16,7 +18,7 @@ const Wrong = () => {
 			<Text style={styles.textStyle1}>
 				{'Before sending the prescription this is \n   all the details we attached here'}
 			</Text>
-			<TouchableOpacity style={styles.buttonStyle} onPress={() => console.log('Button pressed')}>
+			<TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate("Pnumber")}>
 				<Text style={styles.buttonText}>Go back</Text>
 			</TouchableOpacity>
 		</View>

@@ -30,7 +30,12 @@ export default function Profile({navigation}) {
       <View style={styles.container}>
       <Image
           source={doctorData.ProfileIMG ? { uri: doctorData.ProfileIMG } : require("../../assets/doctor.jpg")}
-          style={{ width: 70, height: 70, borderRadius: 40, marginTop: 30 }}
+          style={{ width: 70, height: 70, borderRadius: 40, marginTop: 30, 
+            borderWidth: 2, 
+         padding: 4, 
+         borderRadius: 50,
+         borderColor:"white" 
+          }}
         />
         <View style={{ marginTop: 30 }}>
           <Text style={{ color: "white", fontSize: 20, fontWeight: 'bold' }}>Profile Setting</Text>
@@ -51,7 +56,7 @@ export default function Profile({navigation}) {
           }}
         >
           <FontAwesome name="user-circle-o" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Account Setting</Text>
+          <Text style={{ fontSize: 16,  fontWeight:'bold' }}>Account Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -67,7 +72,7 @@ export default function Profile({navigation}) {
           }}
         >
           <AntDesign name="eye" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Privacy Setting</Text>
+          <Text style={{ fontSize: 16 ,  fontWeight:'bold' }}>Privacy Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -87,7 +92,7 @@ export default function Profile({navigation}) {
           }}
         >
           <FontAwesome5 name="lock" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Security Setting</Text>
+          <Text style={{ fontSize: 16 , fontWeight:'bold' }}>Security Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -103,7 +108,7 @@ export default function Profile({navigation}) {
           }}
         >
          <MaterialIcons name="notifications-active" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Notification Setting</Text>
+          <Text style={{ fontSize: 16 ,  fontWeight:'bold'}}>Notification Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -119,7 +124,7 @@ export default function Profile({navigation}) {
           }}
         >
         <MaterialIcons name="data-saver-off" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Data usage Setting</Text>
+          <Text style={{ fontSize: 16 , fontWeight:'bold' }}>Data usage Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -139,7 +144,7 @@ export default function Profile({navigation}) {
           }}
         >
         <FontAwesome5 name="font" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Display Setting</Text>
+          <Text style={{ fontSize: 16 , fontWeight:'bold' }}>Display Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -155,7 +160,7 @@ export default function Profile({navigation}) {
           }}
         >
        <MaterialIcons name="language" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Language Setting</Text>
+          <Text style={{ fontSize: 16 , fontWeight:'bold' }}>Language Setting</Text>
         </View>
 
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -178,7 +183,7 @@ export default function Profile({navigation}) {
           }}
         >
      <MaterialCommunityIcons name="logout" size={30} color="black" />
-          <Text style={{ fontSize: 16 }}>Logout</Text>
+          <Text style={{ fontSize: 16 , fontWeight:'bold' }}>Logout</Text>
         </View>
         
         <MaterialIcons name="navigate-next" size={30} color="black" />
@@ -216,6 +221,7 @@ const styles = StyleSheet.create({
   sethead: {
     color: "black",
     fontStyle: "italic",
+    fontWeight:'bold'
   },
   setitem: {
     display: "flex",

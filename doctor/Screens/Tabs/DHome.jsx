@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useCallback } from "react";
 import { View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { Calendar } from 'react-native-calendars';
 import api from '../api/doctorapi';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -19,34 +20,52 @@ export default function HeaderComponent() {
   const [name,setname] = useState("loading..")
 
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await api.get('/doctor/profile');
+
+  //       console.log(response.data)
+
+  //       setprofileimg(response.data.doctor.ProfileIMG)
+  //       setname(response.data.doctor.name)
+
+  //     } catch (error) {
+
+  //       if (error.response.data.error === 'Invalid authorization') {
+          
+  //         await AsyncStorage.removeItem('token');
+  //         navigation.navigate("SignIn");
+
+  //       }
+
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
+
+  useFocusEffect(
+    useCallback(() => {
+
     const fetchUserData = async () => {
       try {
         const response = await api.get('/doctor/profile');
-
-        // console.log(response.data)
-
-        setprofileimg(response.data.doctor.ProfileIMG)
-        setname(response.data.doctor.name)
-        const doctorData = response.data.doctor;
-        await AsyncStorage.setItem('doctorData', JSON.stringify(doctorData));
-
+              console.log(response.data)
+              setprofileimg(response.data.doctor.ProfileIMG)
+              setname(response.data.doctor.name)
       } catch (error) {
-
         if (error.response.data.error === 'Invalid authorization') {
-          
           await AsyncStorage.removeItem('token');
           navigation.navigate("SignIn");
-
         }
-
       }
+
     };
 
     fetchUserData();
-  }, []);
-
-
+  }, [navigation]))
 
 
   const onDayPress = (day) => {
@@ -64,14 +83,20 @@ export default function HeaderComponent() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <View style={styles.top}>
         <View style={styles.row}>
           <Image
             source={{ uri: profilimg }} 
             style={styles.icon}
           />
-          <Ionicons name="notifications" size={30} color="white" />
+          <Ionicons name="notifications" size={30} color="white" style={{ 
+         borderWidth: 2, 
+         padding: 4, 
+         borderRadius: 50,
+         borderColor:"white" 
+        
+           }} />
         </View>
         <View style={styles.row1}>
           <Text style={styles.greeting}>Hello, {name} </Text>
@@ -86,6 +111,7 @@ export default function HeaderComponent() {
           />
         </View>
       </View>
+     <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
       <View style={styles.gdtext}>
         <Text style={styles.goodMorning}>Good morning,</Text>
         <Text style={styles.keep}>Keep it going!</Text>
@@ -127,21 +153,9 @@ export default function HeaderComponent() {
        />
 
       </View>
-      <View style={styles.buttonRow}>
-        <TouchableOpacity onPress={() => {/* Handle button 1 press */}} style={[styles.navButton1, styles.button]}>
-          <Ionicons name="ios-tooth" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 2 press */}} style={[styles.navButton2, styles.button]}>
-          <Ionicons name="ios-settings" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 3 press */}} style={[styles.navButton3, styles.button]}>
-          <Ionicons name="ios-settings" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {/* Handle button 4 press */}} style={[styles.navButton4, styles.button]}>
-          <Ionicons name="ios-chatbox" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+     
+    </View>
   );
 }
 
@@ -151,6 +165,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    flex: 1,
+  },
+  scrollContainer: {
+    display:'flex',
+    alignContent:'center',
+    paddingVertical: 5,
+    paddingHorizontal:20,
+    marginBottom:10,
+    width:'100%'
   },
   top: {
     backgroundColor: "#0165FC",
@@ -181,12 +204,17 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    borderWidth: 2, 
+    padding: 4, 
+    borderRadius: 50,
+    borderColor:"white" 
   },
   greeting: {
     fontSize: 19,
     color: 'white',
     marginTop: 26,
     marginRight: 10,
+    fontWeight:'bold'
   },
   row1: {
     flexDirection: "row",
@@ -220,27 +248,30 @@ const styles = StyleSheet.create({
   },
   gdtext: {
     marginTop: 35,
-    marginRight: 140,
+    // marginRight: 140,
+    fontWeight:"bold"
   },
   goodMorning: {
     fontSize: 15,
-    
+    fontWeight:"bold"
   },
   keep: {
     fontSize: 20,
     marginTop: 3,
+    fontWeight:"bold"
   },
   calendarContainer: {
     marginTop: 30,
     padding: 10,
-    backgroundColor: '#0165FC',
+    backgroundColor: 'white',
     borderRadius: 10,
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
   },
   calendar: {
     borderRadius: 10,
     width: '100%',
+    paddingHorizontal:20
   },
   buttonRow: {
     flexDirection: 'row',

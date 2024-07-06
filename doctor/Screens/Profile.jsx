@@ -13,7 +13,7 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 
 import { Ionicons } from '@expo/vector-icons';
-
+import { useNavigation } from '@react-navigation/native'; 
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import api from './api/doctorapi';
@@ -32,6 +32,7 @@ export default function Profile() {
   const [hasPermission, setPermission] = useState(null);
   const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
   const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
 
   const doctorData = useDoctorData();
   useEffect(() => {
@@ -121,7 +122,7 @@ export default function Profile() {
       });
       console.log('Form data save response:', response.data);
       Alert.alert('Successfull', 'Profile updated succefully!');
-     
+      navigation.navigate("Dashboard");
       return response.data;
     
     } catch (error) {

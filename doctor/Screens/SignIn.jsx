@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -13,6 +13,9 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from './api/doctorapi';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 
 
@@ -106,23 +109,27 @@ export default function SignIN() {
   };
 
 
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
 
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-          navigation.replace('Dashboard');
-        } else {
-          console.log("User must login..")
-        }
+  useFocusEffect(
+    useCallback(() => {
+
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/doctor/profile');
+              console.log(response.data)
+              navigation.navigate("Dashboard");
       } catch (error) {
-        console.error('AsyncStorage error:', error);
+        if (error.response.data.error === 'Invalid authorization') {
+          await AsyncStorage.removeItem('token');
+          navigation.navigate("SignIn");
+        }
       }
+
     };
 
-    checkToken();
-  }, [navigation]);
+    fetchUserData();
+  }, [navigation]))
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>

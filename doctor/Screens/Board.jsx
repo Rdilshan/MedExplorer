@@ -2,11 +2,18 @@ import React, { useState, useRef } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import ViewShot from 'react-native-view-shot';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from "@react-navigation/native";
+
 
 const { height, width } = Dimensions.get('window');
 
 export default function Board() {
+
+  const route = useRoute();
+  const { age, name,patientid } = route.params;
+
+
+
   const [path, setPath] = useState([]);
   const [currentPath, setCurrentPath] = useState([]);
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
@@ -42,7 +49,13 @@ export default function Board() {
       try {
         const uri = await viewShotRef.current.capture();
         console.log('Captured image URI:', uri);
-        navigation.navigate('ImagePreview', { imageUri: uri });
+        navigation.navigate('ImagePreview', {
+          imageUri: uri,
+          age: age,
+          name: name,
+          patientid:patientid
+        });
+        
       } catch (error) {
         console.error('Error capturing image:', error);
       }
