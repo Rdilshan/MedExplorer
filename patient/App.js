@@ -9,8 +9,46 @@ import Register from './screen/Register';
 import EnterNewPassword from './screen/EnterNewPassword';
 import LHomes from './screen/LHome'; 
 import Onboardings from './screen/OnBording';
-
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 const Stack = createNativeStackNavigator();
+
+const toastConfig = {
+	success: (props) => (
+	  <BaseToast
+		{...props}
+		style={{ borderLeftColor: 'green' }}
+		contentContainerStyle={{ paddingHorizontal: 20 }}
+		text1Style={{
+		  fontSize: 17,
+		  fontWeight: 'bold'
+		}}
+		text2Style={{
+			fontSize: 15
+		  }}
+	  />
+	),
+	
+	error: (props) => (
+	  <ErrorToast
+	  
+		{...props}
+		text1Style={{
+		  fontSize: 17
+		}}
+		text2Style={{
+		  fontSize: 15
+		}}
+	  />
+	),
+	
+	tomatoToast: ({ text1, props }) => (
+	  <View style={{ height: 60, width: '100%', backgroundColor: 'red' }}>
+		<Text>{text1}</Text>
+		<Text>{props.uuid}</Text>
+	  </View>
+	)
+  };
+  
 
 export default function App() {
   return (
@@ -23,6 +61,7 @@ export default function App() {
         <Stack.Screen name="MainContainer" component={MainContainer} />
         <Stack.Screen name="EnterNewPassword" component={EnterNewPassword} />
       </Stack.Navigator>
+      <Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
       <StatusBar style="auto" />
     </NavigationContainer>
   );
