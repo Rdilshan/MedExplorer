@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useCallback } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,19 +6,117 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from './api/patientapi';
+import { useFocusEffect } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default function SignIN() {
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const handleLogin = async () => {
+
+    setIsLoading(true);
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://med-explorer-backend.vercel.app/patient/login",
+        userData
+      );
+    
+      if (response.status === 200) {
+
+        const patientData = response.data.patient;
+        await AsyncStorage.setItem('patientData', JSON.stringify(patientData));
+        await AsyncStorage.setItem('token', response.data.token);
+        Toast.show({
+          type: 'success',
+          text1: 'Login successful!',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+
+        console.log('Login successful!');
+
+        setTimeout(() => {
+          // if (!doctorData.ProfileIMG) {
+          //   navigation.navigate("ProfileUpdate"); 
+          // } else {
+          //   navigation.navigate("Dashboard");
+          // }
+          navigation.navigate("MainContainer");
+        }, 2000);
+        setIsLoading(false);
+      }
+
+    } catch (error) {
+      if (error.response) {
+
+        if (error.response.status === 400) {
+          console.log("400 error:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'Invalid email or password.',
+            visibilityTime: 2000,
+          });
+          setIsLoading(false);
+
+        } else {
+          console.error("Unexpected error. status:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Login failed.',
+            text2: 'An unexpected error occurred. Please try again later.',
+            visibilityTime: 3000,
+          });
+          setIsLoading(false);
+
+        }
+      }
+
+      setIsLoading(false);
+    }
+    };
+
+        
+
+
+  useFocusEffect(
+    useCallback(() => {
+
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get('/patient/profile');
+              console.log(response.data)
+              navigation.navigate("MainContainer");
+      } catch (error) {
+        if (error.response.data.error === 'Invalid authorization') {
+          await AsyncStorage.removeItem('token');
+          navigation.navigate("SignIn");
+        }
+      }
+
+    };
+
+    fetchUserData();
+  }, [navigation]))
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -36,11 +134,11 @@ export default function SignIN() {
               autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
+              onChangeText={setEmail}
               placeholder="Email address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              value={form.email}
+              value={email}
             />
           </View>
 
@@ -50,12 +148,12 @@ export default function SignIN() {
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
+                onChangeText={setPassword}
                 placeholder="Password"
                 placeholderTextColor="#6b7280"
                 style={[styles.inputControl, { flex: 1 }]}
                 secureTextEntry={!showPassword}
-                value={form.password}
+                value={password}
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                 <Icon
@@ -70,9 +168,9 @@ export default function SignIN() {
           <Text style={styles.formLink}>Forgot password?</Text>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => navigation.navigate('MainContainer')}>
+            <TouchableOpacity  onPress={handleLogin} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+              {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Sign in</Text>}
               </View>
             </TouchableOpacity>
           </View>
