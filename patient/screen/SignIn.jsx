@@ -60,6 +60,7 @@ export default function SignIN() {
           //   navigation.navigate("Dashboard");
           // }
           navigation.navigate("MainContainer");
+          
         }, 2000);
         setIsLoading(false);
       }
