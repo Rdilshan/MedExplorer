@@ -26,7 +26,7 @@ function MainContainer() {
           if (rn === homeName) {
             iconName = focused ? 'home' : 'home-outline';
           } else if (rn === perceptionName) {
-            iconName = focused ? 'eye' : 'eye-outline';
+            iconName = focused ? 'list' : 'list-outline';
           } else if (rn === profileName) {
             iconName = focused ? 'person' : 'person-outline';
           }
