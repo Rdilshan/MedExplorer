@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-svg';
-import DetailedView from './DetailedView';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import usePatientData from "../store/usePatientData";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../api/patientapi'; 
 
 function Perception() {
+  const navigation = useNavigation();
+  const patientData = usePatientData();
+  const [prescriptions, setPrescriptions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState('');
   const [viewingCard, setViewingCard] = useState(null);
@@ -27,18 +33,49 @@ function Perception() {
     setViewingCard(null);
   };
 
-  // Sample data for cards
-  const cardData = [
-    { name: 'Dr. Munasigha', specialty: 'Cardiologist' },
-    { name: 'Dr. John Doe', specialty: 'Neurologist' },
-    { name: 'Dr. Jane Smith', specialty: 'Pediatrician' },
-  ];
+  useFocusEffect(
+    useCallback(() => {
+      const fetchUserData = async () => {
+        try {
+          const response = await api.get('/prescription/getpatient');
+          const prescriptionsData = response.data;
+          console.log('Prescriptions data:', prescriptionsData);
+          // Fetch doctor details for each prescription
+          const prescriptionsWithDoctorDetails = await Promise.all(
+            prescriptionsData.map(async (prescription) => {
+              const doctorResponse = await api.get(`/doctor/${prescription.doctorid}`);
+              console.log(`Doctor data for prescription ${prescription._id}:`, doctorResponse.data);
+              return {
+                ...prescription,
+                doctorName: doctorResponse.data.doctor.name,
+                
+              };
+            })
+           
+          );
+         
+          setPrescriptions(prescriptionsWithDoctorDetails);
+        } catch (error) {
+          if (error.response.data.error === 'Invalid authorization') {
+            await AsyncStorage.removeItem('token');
+            navigation.navigate("SignIn");
+          }
+        }
+      };
+
+      fetchUserData();
+    }, [navigation])
+  );
+
+  if (!patientData) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" type="material" color="#FFF" />
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>
@@ -49,11 +86,10 @@ function Perception() {
           </TouchableOpacity>
         </View>
       </View>
-      {viewingCard !== null ? (
-        <DetailedView onClose={handleMoreReadablePress} />
-      ) : (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {cardData.map((card, index) => (
+
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {prescriptions.length ? (
+          prescriptions.map((prescription, index) => (
             <TouchableOpacity key={index} onPress={() => handleViewPress(index)}>
               <View style={styles.cardOne}>
                 <View style={styles.cardOneHead}>
@@ -62,12 +98,12 @@ function Perception() {
                     style={styles.cardOneImage}
                   />
                   <View>
-                    <Text style={styles.cardOneName}>{card.name}</Text>
-                    <Text style={styles.cardOneSpecialty}>{card.specialty}</Text>
+                    <Text style={styles.cardOneName}>{prescription.doctorName}</Text>
+                
                   </View>
                 </View>
                 <View style={styles.buttonsContainer}>
-                  <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for ${card.name}`)}>
+                  <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for ${prescription.doctorName}`)}>
                     <Text style={styles.buttonText}>QR Code</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleViewPress(index)}>
@@ -76,9 +112,14 @@ function Perception() {
                 </View>
               </View>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-      )}
+          ))
+        ) : (
+          <Text style={styles.placeholderText}>
+            No prescriptions available
+          </Text>
+        )}
+      </ScrollView>
+
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -102,7 +143,6 @@ function Perception() {
 
 const styles = StyleSheet.create({
   container: {
-    
     backgroundColor: "#FFF",
     flex: 1,
   },
@@ -163,14 +203,14 @@ const styles = StyleSheet.create({
   cardOneImage: {
     width: wp(12),
     height: wp(12),
-    borderRadius: wp(6), // Circular image
+    borderRadius: wp(6),
     marginRight: wp(3),
   },
   cardOneName: {
     fontSize: wp(5),
     fontWeight: 'bold',
   },
-  cardOneSpecialty: {
+  cardOneId: {
     fontSize: wp(3.5),
     color: '#888',
   },
@@ -215,6 +255,12 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: wp(4),
+  },
+  placeholderText: {
+    textAlign: 'center',
+    marginTop: hp(20),
+    fontSize: wp(5),
+    color: '#888',
   },
 });
 
