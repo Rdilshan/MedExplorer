@@ -29,6 +29,7 @@ function Perception() {
   const handleViewPress = (index) => {
     setViewingCard(index);
     setSelectedPrescription(prescriptions[index]);
+  
   };
 
   const handleMoreReadablePress = () => {
@@ -53,7 +54,7 @@ function Perception() {
                 doctorName: doctorResponse.data.doctor.name,
                 doctorimg:doctorResponse.data.doctor.ProfileIMG,
                 doctorEmail:doctorResponse.data.doctor.email,
-                image:prescription.image
+                image: prescription.image
               };
             })
            
@@ -132,7 +133,7 @@ function Perception() {
       {viewingCard !== null && (
         <Modal
           visible={true}
-          transparent={true}
+          // transparent={true}
           animationType="slide"
           onRequestClose={handleMoreReadablePress} // Close modal on request
         >
