@@ -7,6 +7,7 @@ import usePatientData from "../store/usePatientData";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../api/patientapi'; 
+import DetailedView from './DetailedView' 
 
 function Perception() {
   const navigation = useNavigation();
@@ -15,7 +16,7 @@ function Perception() {
   const [modalVisible, setModalVisible] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState('');
   const [viewingCard, setViewingCard] = useState(null);
-
+  const [selectedPrescription, setSelectedPrescription] = useState(null);
   const handleQRCodePress = (value) => {
     setQrCodeValue(value);
     setModalVisible(true);
@@ -27,10 +28,12 @@ function Perception() {
 
   const handleViewPress = (index) => {
     setViewingCard(index);
+    setSelectedPrescription(prescriptions[index]);
   };
 
   const handleMoreReadablePress = () => {
     setViewingCard(null);
+   
   };
 
   useFocusEffect(
@@ -44,12 +47,13 @@ function Perception() {
           const prescriptionsWithDoctorDetails = await Promise.all(
             prescriptionsData.map(async (prescription) => {
               const doctorResponse = await api.get(`/doctor/${prescription.doctorid}`);
-              console.log(`Doctor data for prescription ${prescription._id}:`, doctorResponse.data);
+              // console.log(`Doctor data for prescription ${prescription._id}:`, doctorResponse.data);
               return {
                 ...prescription,
                 doctorName: doctorResponse.data.doctor.name,
                 doctorimg:doctorResponse.data.doctor.ProfileIMG,
-                doctorEmail:doctorResponse.data.doctor.email
+                doctorEmail:doctorResponse.data.doctor.email,
+                image:prescription.image
               };
             })
            
@@ -99,6 +103,7 @@ function Perception() {
                 <View style={styles.cardOneHead}>
                   <Image
                    source={{ uri: prescription.doctorimg }}
+                  //  source={{ uri: prescription.image }}
                     style={styles.cardOneImage}
                   />
                   <View>
@@ -124,8 +129,25 @@ function Perception() {
           </Text>
         )}
       </ScrollView>
+      {viewingCard !== null && (
+        <Modal
+          visible={true}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={handleMoreReadablePress} // Close modal on request
+        >
+          <TouchableWithoutFeedback onPress={handleMoreReadablePress}>
+            <View style={styles.modalOverlay}>
+              <DetailedView
+                onClose={handleMoreReadablePress}
+                prescription={selectedPrescription}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      )}
 
-      <Modal
+<Modal
         visible={modalVisible}
         transparent={true}
         animationType="slide"
@@ -142,6 +164,8 @@ function Perception() {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
+    
     </View>
   );
 }
