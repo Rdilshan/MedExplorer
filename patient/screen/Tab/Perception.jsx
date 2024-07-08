@@ -48,7 +48,8 @@ function Perception() {
               return {
                 ...prescription,
                 doctorName: doctorResponse.data.doctor.name,
-                
+                doctorimg:doctorResponse.data.doctor.ProfileIMG,
+                doctorEmail:doctorResponse.data.doctor.email
               };
             })
            
@@ -75,11 +76,14 @@ function Perception() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" type="material" color="#FFF" />
-          </TouchableOpacity>
+        <TouchableOpacity>
+              <Image
+                source={require("../image/profile.jpg")}
+                style={styles.profileImage}
+              />
+            </TouchableOpacity>
           <View style={styles.headerTextContainer}>
-            <Text style={styles.headerText}>Perception</Text>
+            <Text style={styles.headerText}>Prescription</Text>
           </View>
           <TouchableOpacity style={[styles.iconButton, styles.notificationButton]}>
             <Icon name="notifications" type="material" color="#FFF" />
@@ -94,19 +98,20 @@ function Perception() {
               <View style={styles.cardOne}>
                 <View style={styles.cardOneHead}>
                   <Image
-                    source={require('../image/image.jpg')}
+                   source={{ uri: prescription.doctorimg }}
                     style={styles.cardOneImage}
                   />
                   <View>
-                    <Text style={styles.cardOneName}>{prescription.doctorName}</Text>
+                    <Text style={styles.cardOneName}>Dr .{prescription.doctorName}</Text>
+                    <Text>{prescription.doctorEmail}</Text>
                 
                   </View>
                 </View>
                 <View style={styles.buttonsContainer}>
-                  <TouchableOpacity style={styles.button} onPress={() => handleQRCodePress(`QR Code for ${prescription.doctorName}`)}>
+                  <TouchableOpacity style={styles.buttonQr} onPress={() => handleQRCodePress(`QR Code for ${prescription.doctorName}`)}>
                     <Text style={styles.buttonText}>QR Code</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={() => handleViewPress(index)}>
+                  <TouchableOpacity style={styles.buttonView} onPress={() => handleViewPress(index)}>
                     <Text style={styles.buttonText}>View</Text>
                   </TouchableOpacity>
                 </View>
@@ -148,13 +153,24 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#0165FC",
-    height: hp(15),
-    borderBottomLeftRadius: wp(10),
-    borderBottomRightRadius: wp(10),
-    paddingHorizontal: wp(5),
-    marginTop: wp(6),
+    borderBottomLeftRadius: 18,
+    borderBottomRightRadius: 18,
+    paddingHorizontal: 20,
+    paddingVertical:30
+  
+  },
+  profileImage: {
+   
+    width: wp("15%"),
+    height: wp("15%"),
+    borderRadius: wp("10%"),
+    borderWidth: 2, 
+    padding: 4, 
+    borderRadius: 50,
+    borderColor:"white" 
   },
   headerContent: {
+    display:"flex",
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
@@ -166,17 +182,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontSize: wp(8),
+    fontSize: 25,
     color: "#FFF",
     fontWeight: "bold",
   },
   iconButton: {
     padding: wp(3),
+    borderWidth: 2, 
+    padding: 4, 
+    borderRadius: 50,
+    borderColor:"white" 
   },
   notificationButton: {
-    borderWidth: wp(0.5),
-    borderColor: '#FFF',
-    borderRadius: wp(3),
+    borderWidth: 2, 
+    padding: 4, 
+    borderRadius: 50,
+    borderColor:"white" 
   },
   scrollContainer: {
     marginHorizontal: wp(5),
@@ -192,8 +213,9 @@ const styles = StyleSheet.create({
     shadowRadius: hp(0.5),
     elevation: 1,
     marginBottom: hp(2),
-    borderWidth: wp(0.5),
-    borderColor: '#007BFF', 
+    borderWidth: 1,
+    borderColor: 'gray', 
+    
   },
   cardOneHead: {
     flexDirection: 'row',
@@ -218,11 +240,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
+  buttonQr: {
     flex: 1,
     marginHorizontal: wp(1),
     paddingVertical: hp(1),
-    backgroundColor: '#007BFF',
+    backgroundColor: 'red',
+    borderRadius: wp(2),
+    alignItems: 'center',
+  },
+  buttonView: {
+    flex: 1,
+    marginHorizontal: wp(1),
+    paddingVertical: hp(1),
+    backgroundColor: 'green',
     borderRadius: wp(2),
     alignItems: 'center',
   },
