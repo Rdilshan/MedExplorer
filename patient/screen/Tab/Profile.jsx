@@ -4,12 +4,16 @@ import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, TouchableWithou
 import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
 // Adjust the path according to the actual location
 const profileImage = require('../../assets/OIP.jpg');
 
 export default function Profile({ navigation }) {
+
+    const navigation =useNavigation();
+
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -56,7 +60,9 @@ export default function Profile({ navigation }) {
             </Modal>
              <View style={styles.container}>
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => {
+            navigation.navigate('Profile');
+          }}>
           <Ionicons name="person-outline" size={28} color="#0165FC" />
           <Text style={styles.menuText}>Your Profile</Text>
           <MaterialIcons style={styles.arrowIcon1} name="keyboard-arrow-right" size={28} color="#0165FC" />
