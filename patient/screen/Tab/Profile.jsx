@@ -12,7 +12,7 @@ const profileImage = require('../../assets/OIP.jpg');
 
 export default function Profile({ navigation }) {
 
-    const navigation =useNavigation();
+    // const navigation =useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,8 +60,8 @@ export default function Profile({ navigation }) {
             </Modal>
              <View style={styles.container}>
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuItem} onPress={() => {
-            navigation.navigate('Profile');
+        <TouchableOpacity style={styles.menuItem} 
+        onPress={() => { navigation.navigate('Profile');
           }}>
           <Ionicons name="person-outline" size={28} color="#0165FC" />
           <Text style={styles.menuText}>Your Profile</Text>
