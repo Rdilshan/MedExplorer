@@ -11,6 +11,7 @@ import LHomes from './screen/LHome';
 import Onboardings from './screen/OnBording';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import ProfileL from './screen/ProfileL';
+import Future from './screen/Future';
 const Stack = createNativeStackNavigator();
 
 const toastConfig = {
@@ -61,7 +62,8 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="MainContainer" component={MainContainer} />
         <Stack.Screen name="EnterNewPassword" component={EnterNewPassword} />
-		<Stack.Screen name="Profile" component={ProfileL} />
+		<Stack.Screen name="ProfileL" component={ProfileL} />
+		<Stack.Screen name="Future" component={Future} />
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
       <StatusBar style="auto" />
