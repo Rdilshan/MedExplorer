@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,31 +7,46 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function ProfileL() {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
     gender: '',
     phoneNumber: '',
   });
-
-  const [profileImage, setProfileImage] = useState(null);
-
-  const handleImagePicker = () => {
-    launchImageLibrary({}, (response) => {
-      if (response.assets) {
-        setProfileImage(response.assets[0].uri);
-      }
-    });
-  };
-
+  const [hasPermission, setPermission] = useState(null);
+  const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setPermission(galleryStatus.status === 'granted');
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    if (hasPermission === false) {
+      Alert.alert("No access to internal storage");
+      return;
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setProfileImage(result.uri);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -43,9 +58,9 @@ export default function ProfileL() {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={handleImagePicker} style={styles.imagePicker}>
+        <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
           {profileImage ? (
-            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            <Image source={{ uri: setProfileImage }} style={styles.profileImage} />
           ) : (
             <Ionicons name="camera" size={48} color="#6b7280" />
           )}
@@ -86,9 +101,9 @@ export default function ProfileL() {
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => { /* handle onPress */ navigation.navigate('Dashboard')}}>
+            <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Sign in</Text>
+                <Text style={styles.btnText}>Update</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -100,11 +115,11 @@ export default function ProfileL() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
-    width: 380,
   },
   header: {
     marginVertical: 36,
@@ -153,7 +168,7 @@ const styles = StyleSheet.create({
     color: '#222',
   },
   phoneContainer: {
-    width: "100%",
+    width: '100%',
     height: 48,
     backgroundColor: '#f1f5f9',
     borderRadius: 12,
@@ -164,10 +179,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   countryCode: {
-    width: "12%",
+    width: '12%',
     borderRightWidth: 1,
     borderRightColor: '#d1d5db',
-    height: "100%",
+    height: '100%',
     textAlign: 'center',
     backgroundColor: '#f1f5f9',
     fontSize: 15,
@@ -175,7 +190,7 @@ const styles = StyleSheet.create({
     color: '#222',
   },
   phoneInput: {
-    width: "88%",
+    width: '88%',
     paddingLeft: 10,
     fontSize: 15,
     fontWeight: '500',
