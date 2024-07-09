@@ -21,6 +21,7 @@
     "react": "18.2.0",
     "react-native": "0.74.2",
     "react-native-elements": "^3.4.3",
+    "react-native-image-picker": "^7.1.2",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-picker-select": "^9.1.3",
     "react-native-qrcode-svg": "^6.3.1",
