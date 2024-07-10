@@ -10,18 +10,18 @@ import {
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default function NewPasswordone() {
+export default function NewPasswordone({navigation}) {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
 
-  const navigation=useNavigation();
+  // const navigation=useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
-        <TouchableOpacity style={styles.headerAction} onPress={()=>{}}>
+        <TouchableOpacity style={styles.headerAction} onPress={()=>navigation.navigate("SignIn")}>
                     <FeatherIcon name="arrow-left" size={24} color="#000000"/>
                 </TouchableOpacity>
           <Text style={styles.title}>New Password</Text>
@@ -31,7 +31,7 @@ export default function NewPasswordone() {
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>SIMC ID</Text>
+            <Text style={styles.inputLabel}>Email address</Text>
 
             <TextInput
               autoCapitalize="none"
@@ -39,7 +39,7 @@ export default function NewPasswordone() {
               clearButtonMode="while-editing"
               keyboardType="email-address"
               onChangeText={email => setForm({ ...form, email })}
-              placeholder="Enter SIMC ID"
+              placeholder="Enter email address"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               value={form.email} />
@@ -65,22 +65,19 @@ export default function NewPasswordone() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width:380
+    paddingHorizontal:25,
+    paddingVertical:10
   },
   header: {
     marginVertical: 36,
   },
   headerAction: {
     width: 40,
-    height: 60,
-    backgroundColor: '#ffffff',
+    height: 40,
+    backgroundColor: '#f1f5f9',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 9999,
+    borderRadius: 30,
     marginBottom: 5
 },
   title: {

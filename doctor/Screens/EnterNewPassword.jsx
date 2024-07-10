@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-
+import { useNavigation } from "@react-navigation/native";
 export default function EnterNewPassword() {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
@@ -24,7 +25,7 @@ export default function EnterNewPassword() {
 
         <View style={styles.form}>
         <View style={styles.input}>
-            <Text style={styles.inputLabel}>Password</Text>
+            <Text style={styles.inputLabel}>New Password</Text>
 
             <TextInput
               autoCorrect={false}
@@ -36,24 +37,10 @@ export default function EnterNewPassword() {
               secureTextEntry={true}
               value={form.password} />
           </View>
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Password</Text>
-
-            <TextInput
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              onChangeText={password => setForm({ ...form, password })}
-              placeholder="********"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              secureTextEntry={true}
-              value={form.password} />
-          </View>
+         
           <View style={styles.formAction}>
             <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+              onPress={() => navigation.navigate("SignIn")}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Create New Password</Text>
               </View>
@@ -67,11 +54,8 @@ export default function EnterNewPassword() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    width:380
+   paddingHorizontal:25,
+   paddingVertical:20
   },
   header: {
     marginVertical: 36,
