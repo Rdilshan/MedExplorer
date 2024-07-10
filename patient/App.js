@@ -59,7 +59,7 @@ const toastConfig = {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Entercode" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="LHome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LHomes" component={LHomes} />
         <Stack.Screen name="onboarding" component={Onboardings} />
         <Stack.Screen name="SignIn" component={SignIN} />

@@ -165,8 +165,10 @@ export default function SignIN() {
               </TouchableOpacity>
             </View>
           </View>
-
+          <TouchableOpacity onPress={()=>navigation.navigate("newpassworddone")}>
           <Text style={styles.formLink}>Forgot password?</Text>
+          </TouchableOpacity>
+          
 
           <View style={styles.formAction}>
             <TouchableOpacity  onPress={handleLogin} disabled={isLoading}>

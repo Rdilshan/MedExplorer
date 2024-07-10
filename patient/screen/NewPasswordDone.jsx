@@ -50,7 +50,7 @@ export default function NewPasswordone({navigation}) {
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('EnterCode')
+                navigation.navigate('Entercode')
               }}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Next Progress</Text>
