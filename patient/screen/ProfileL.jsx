@@ -17,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import api from './api/patientapi';
 import axios from 'axios';
+import usePatientData from "./store/usePatientData";
 
 
 
@@ -30,7 +31,17 @@ export default function ProfileL() {
   const [profileImage, setProfileImage] = useState("https://previews.123rf.com/images/djvstock/djvstock1707/djvstock170702217/81514827-doctor-profile-cartoon-icon-vector-illustration-graphic-design.jpg");
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  const patientData = usePatientData();
 
+  useEffect(() => {
+    if (patientData) {
+      setProfileImage(patientData.ProfileIMG);
+      setForm({
+        gender: patientData.Gender,
+        phoneNumber: patientData.PhoneNumber,
+      });
+    }
+  }, [patientData]);
 
 
   useEffect(() => {
@@ -59,7 +70,6 @@ export default function ProfileL() {
       setProfileImage(result.assets[0].uri);
     }
   };
-
 
 
   const generateRandomName = () => {
