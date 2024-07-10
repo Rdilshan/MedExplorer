@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { useNavigation } from "@react-navigation/native";
 const DetailedView = ({ prescription, onClose }) => {
   if (!prescription) {
     return null;
@@ -9,14 +9,21 @@ const DetailedView = ({ prescription, onClose }) => {
   const handleImageError = (error) => {
     console.error('Image failed to load:', error.nativeEvent.error);
   };
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-      
+        <Text style={{ fontSize:15, fontWeight:'bold' }}>Prescription details</Text>
         <Image   source={{ uri: prescription.image}} style={styles.image} />
+        <View style={{ display:'flex',flexDirection:'row',gap:20 }}>
         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>Close</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Searchdrugs")} style={styles.readButton}>
+          <Text style={styles.readButtonText}>More Readeable</Text>
+        </TouchableOpacity>
+        </View>
+       
       </View>
     </View>
   );
@@ -58,10 +65,20 @@ const styles = StyleSheet.create({
   closeButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#0165FC',
+    backgroundColor: 'red',
     borderRadius: 5,
   },
   closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  readButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#0165FC',
+    borderRadius: 5,
+  },
+  readButtonText: {
     color: 'white',
     fontWeight: 'bold',
   },

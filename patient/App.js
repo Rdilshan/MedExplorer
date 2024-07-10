@@ -12,6 +12,7 @@ import Onboardings from './screen/OnBording';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import ProfileL from './screen/ProfileL';
 import Future from './screen/Future';
+import SearchDruges from './screen/SearchDruges';
 const Stack = createNativeStackNavigator();
 
 const toastConfig = {
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen name="EnterNewPassword" component={EnterNewPassword} />
 		<Stack.Screen name="ProfileL" component={ProfileL} />
 		<Stack.Screen name="Future" component={Future} />
+		<Stack.Screen name="Searchdrugs" component={SearchDruges} />
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
       <StatusBar style="auto" />
