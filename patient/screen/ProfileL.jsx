@@ -42,9 +42,12 @@ export default function ProfileL() {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
+
     if (!result.cancelled) {
-      setProfileImage(result.uri);
+      console.log("this img")
+      console.log(result);
+      console.log(result.assets[0].uri)
+      setProfileImage(result.assets[0].uri);
     }
   };
 
@@ -60,7 +63,7 @@ export default function ProfileL() {
 
         <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
           {profileImage ? (
-            <Image source={{ uri: setProfileImage }} style={styles.profileImage} />
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
           ) : (
             <Ionicons name="camera" size={48} color="#6b7280" />
           )}
