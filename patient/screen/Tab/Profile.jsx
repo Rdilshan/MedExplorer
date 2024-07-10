@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 // Adjust the path according to the actual location
 const profileImage = require("../../assets/OIP.jpg");
@@ -76,7 +78,7 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.menuItem}  onPress={() => navigation.navigate("Future")}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate("Future")}>
             <Ionicons name="heart-outline" size={28} color="#0165FC" />
             <Text style={styles.menuText}>Favourite</Text>
             <MaterialIcons
@@ -112,7 +114,15 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={async () => {
+
+            await AsyncStorage.removeItem('token');
+            await AsyncStorage.removeItem('patientData');
+
+            navigation.navigate("SignIn");
+
+          }}
+          >
             <Ionicons name="log-out-outline" size={28} color="#0165FC" />
             <Text style={styles.menuText}>Logout</Text>
             <MaterialIcons
