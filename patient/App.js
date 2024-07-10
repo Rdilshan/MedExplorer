@@ -15,6 +15,7 @@ import Future from './screen/Future';
 import SearchDruges from './screen/SearchDruges';
 import DrugItem from './screen/DrugItem';
 import NewPasswordone from './screen/NewPasswordDone';
+import EnterCode from './screen/EnterCode';
 const Stack = createNativeStackNavigator();
 
 const toastConfig = {
@@ -58,7 +59,7 @@ const toastConfig = {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="newpassworddone" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Entercode" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LHomes" component={LHomes} />
         <Stack.Screen name="onboarding" component={Onboardings} />
         <Stack.Screen name="SignIn" component={SignIN} />
@@ -70,6 +71,7 @@ export default function App() {
 		<Stack.Screen name="Searchdrugs" component={SearchDruges} />
 		<Stack.Screen name="drugItem" component={DrugItem} />
 		<Stack.Screen name="newpassworddone" component={NewPasswordone} />
+		<Stack.Screen name="Entercode" component={EnterCode} />
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
       <StatusBar style="auto" />
