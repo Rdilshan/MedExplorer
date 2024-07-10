@@ -13,6 +13,7 @@ import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import ProfileL from './screen/ProfileL';
 import Future from './screen/Future';
 import SearchDruges from './screen/SearchDruges';
+import DrugItem from './screen/DrugItem';
 const Stack = createNativeStackNavigator();
 
 const toastConfig = {
@@ -66,6 +67,7 @@ export default function App() {
 		<Stack.Screen name="ProfileL" component={ProfileL} />
 		<Stack.Screen name="Future" component={Future} />
 		<Stack.Screen name="Searchdrugs" component={SearchDruges} />
+		<Stack.Screen name="drugItem" component={DrugItem} />
       </Stack.Navigator>
       <Toast ref={(ref) => Toast.setRef(ref)} config={toastConfig} />
       <StatusBar style="auto" />
