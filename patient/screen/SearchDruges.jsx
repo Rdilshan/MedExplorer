@@ -1,29 +1,75 @@
-import React from 'react';
-import { View, StyleSheet, Image, Text, ScrollView } from 'react-native';
-import { EvilIcons } from '@expo/vector-icons';
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
+const drugs = [
+  { id: 1, name: "Vitamin D plus Capsule" },
+  { id: 2, name: "Aspirin 500mg Tablet" },
+  { id: 3, name: "Cough Syrup" },
+  { id: 4, name: "Antibiotic Cream" },
+  { id: 5, name: "Pain Relief Gel" },
+  { id: 6, name: "Multivitamin Tablets" },
+  { id: 7, name: "Calcium Supplement" },
+  { id: 8, name: "Omega 3 Capsules" },
+  { id: 9, name: "Probiotic Supplement" },
+  { id: 10, name: "Iron Tablets" },
+];
 export default function SearchDruges() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <EvilIcons style={styles.backIcon} name="arrow-left" size={48} color="white"
-           onPress={() => navigation.navigate("MainContainer", { screen: "Perception" })}
-
+        <EvilIcons
+          style={styles.backIcon}
+          name="arrow-left"
+          size={48}
+          color="white"
+          onPress={() =>
+            navigation.navigate("MainContainer", { screen: "Perception" })
+          }
         />
         <Image
-          source={require('../assets/3687af9d-7e14-43ee-999b-7c9f3a341b9d-fotor-bg-remover-20240702112145.png')}
+          source={require("../assets/Prescription.png")}
           style={styles.topImage}
         />
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text
+          style={{
+            fontSize: 25,
+            fontWeight: "bold",
+            textAlign: "center",
+            paddingTop: 20,
+          }}
+        >
+          Drugs in the Prescription
+        </Text>
+        <Text
+          style={{
+            paddingHorizontal: 10,
+            fontSize: 15,
+            textAlign: "center",
+            fontWeight: 300,
+            paddingBottom: 10,
+          }}
+        >
+          You can get more details about each drugs when click it !
+        </Text>
         <View style={styles.bottom}>
-          {Array(7).fill().map((_, index) => (
-            <View style={styles.itemContainer} key={index}>
-              <Text style={styles.text1}>Vitamin D plus Capsule</Text>
-              <Text style={styles.text2}>$20.00</Text>
-              <Text style={styles.text3}>A health supplement in the form of multivitamin with a special focus on Vitamin D. Vitamin D is used for preventing and treating Rickets.</Text>
-            </View>
+          {drugs.map((drug, index) => (
+            <TouchableOpacity style={styles.itemContainer} key={drug.id}>
+              <Text style={styles.text1}>
+                {index + 1} ) {drug.name}
+              </Text>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -34,7 +80,7 @@ export default function SearchDruges() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
   },
   top: {
     backgroundColor: "#0165FC",
@@ -43,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    shadowColor: '#000',
+    shadowColor: "#000",
     height: 337,
     shadowOffset: {
       width: 0,
@@ -63,8 +109,8 @@ const styles = StyleSheet.create({
   topImage: {
     width: 250,
     height: 240,
-    resizeMode: 'contain',
-    position: 'absolute',
+    resizeMode: "contain",
+    position: "absolute",
     bottom: 40,
     marginLeft: 70,
   },
@@ -72,16 +118,18 @@ const styles = StyleSheet.create({
   bottom: {
     backgroundColor: "white",
     paddingHorizontal: 20,
-    // padding: 30,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    display: "flex",
+    flexDirection: "column",
+    // alignItems: "center",
   },
   itemContainer: {
     padding: 5,
     marginTop: 5,
   },
   text1: {
-    fontWeight: "600",
+    fontWeight: "400",
     fontSize: 20,
   },
   text2: {
