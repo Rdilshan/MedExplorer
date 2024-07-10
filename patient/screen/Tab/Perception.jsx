@@ -83,7 +83,7 @@ function Perception() {
         <View style={styles.headerContent}>
         <TouchableOpacity>
               <Image
-                source={require("../image/profile.jpg")}
+                source={{ uri: patientData.ProfileIMG }}
                 style={styles.profileImage}
               />
             </TouchableOpacity>
