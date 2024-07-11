@@ -16,6 +16,7 @@ import SearchDruges from './screen/SearchDruges';
 import DrugItem from './screen/DrugItem';
 import NewPasswordone from './screen/NewPasswordDone';
 import EnterCode from './screen/EnterCode';
+import registerNNPushToken from 'native-notify';
 const Stack = createNativeStackNavigator();
 
 const toastConfig = {
@@ -57,6 +58,7 @@ const toastConfig = {
   
 
 export default function App() {
+	// registerNNPushToken(22433, '2d6M2ODwoZdhN50rZQHXXh');
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LHome" screenOptions={{ headerShown: false }}>

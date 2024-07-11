@@ -1,27 +1,33 @@
 {
-    "expo": {
-      "name": "patient",
-      "slug": "patient",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "icon": "./assets/mock.png",
-      "userInterfaceStyle": "light",
-      "splash": {
-        "image": "./assets/splash2.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#0165FC"
-      },
-      "ios": {
-        "supportsTablet": true
-      },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        }
-      },
-      "web": {
-        "favicon": "./assets/favicon.png"
+  "expo": {
+    "name": "patient",
+    "slug": "patient",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/mock.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash2.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0165FC"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       }
-    }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2354ff07-7d21-4690-baad-31de6e77660b"
+      }
+    },
+    "owner": "medexplorer"
   }
+}
