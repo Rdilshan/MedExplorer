@@ -4,16 +4,71 @@ import {
   Text,
   View,
   TextInput,
+  ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import FeatherIcon from "react-native-vector-icons/Feather";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+
+
 
 export default function EnterCode() {
+
+  const route = useRoute();
+  const { SIMC } = route.params;
+
   const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
+
+
+  async function onsubmit(){
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(
+        "https://med-explorer-backend.vercel.app/doctor/pwdpinget",
+        { SIMC: SIMC,
+          pin:code
+         }
+      );
+      if (response.status === 200) {
+        console.log(response.data);
+        const data = response.data.data;
+        console.log(data)
+        setIsLoading(false);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Pin is matched.',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+
+        navigation.navigate('EnterNewPassword', {
+          doctorid: data
+        });
+      }
+
+    } catch (error) {
+
+      console.log("400 error:", error.response.data);
+      Toast.show({
+        type: 'error',
+        text1: error.response.data.error,
+        text2: 'Please try again.',
+        visibilityTime: 2000,
+      });
+      setIsLoading(false);
+
+    }
+    
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -56,19 +111,19 @@ export default function EnterCode() {
           </View>
          
         </View>
+
+
         <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("EnterNewPassword");
-              }}
-            >
+            <TouchableOpacity onPress={onsubmit} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Next</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Next Progress</Text>}
               </View>
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {
+              navigation.navigate("NewPasswordone");
+          }}>
             <Text style={styles.formFooter}>
               Didn't get the email?{" "}
               <Text style={styles.formLink}>Resend code</Text>

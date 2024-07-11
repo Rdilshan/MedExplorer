@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 export default function EnterNewPassword() {
+
+
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -20,7 +24,10 @@ export default function EnterNewPassword() {
     setShowPassword(!showPassword);
   };
 
+
+
   return (
+    
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
@@ -49,6 +56,7 @@ export default function EnterNewPassword() {
               </TouchableOpacity>
             </View>
          
+
           <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignIn")}>
@@ -57,6 +65,8 @@ export default function EnterNewPassword() {
               </View>
             </TouchableOpacity>
           </View>
+
+
         </View>
       </View>
     </SafeAreaView>
