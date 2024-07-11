@@ -8,27 +8,27 @@ export default function Success() {
     const route = useRoute();
     const { patientName } = route.params;
 
-    // const handleClick = async (title) => {
-    //     const url = 'https://app.nativenotify.com/api/notification';
+    const handleClick = async (title) => {
+        const url = 'https://app.nativenotify.com/api/notification';
     
-    //     const data = {
-    //         appId: 22292,
-    //         appToken: "0OCZaZsKvWSdD51gjla2bL",
-    //         title: "Push title here as a string",
-    //         body: "Push message here as a string",
-    //         dateSent: "7-5-2024 11:37AM",
-    //         pushData: { yourProperty: "yourPropertyValue" },
-    //         bigPictureURL: "Big picture URL as a string"
-    //     };
+        const data = {
+        // appId: 22433,
+        // appToken: "2d6M2ODwoZdhN50rZQHXXh",
+        title: "MedExplorer Prescriptions",
+        body: "New Prescription recive from medExplorer, Take it and stay safe",
+        dateSent: "7-12-2024 3:18AM",
+        pushData: { yourProperty: "yourPropertyValue" },
+        bigPictureURL: "Big picture URL as a string"
+        };
     
-    //     try {
-    //       const response = await axios.post(url, data);
-    //       console.log(response.data);
-    //       navigation.navigate('Dashboard', { screen: 'Prescription', params: { patientName } });
-    //     } catch (error) {
-    //       console.error('Error:', error);
-    //     }
-    //   }
+        try {
+          const response = await axios.post(url, data);
+          console.log(response.data);
+          navigation.navigate('Dashboard', { screen: 'Prescription', params: { patientName } });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
     return (
         <View style={styles.container}>
             <View style={styles.viewStyle}>
@@ -43,8 +43,8 @@ export default function Success() {
                     {'Before sending the prescription, here are \n all the details we attached'}
                 </Text>
                 <TouchableOpacity style={styles.buttonStyle} 
-                // onPress={handleClick}
-               onPress={() => navigation.navigate('Dashboard', { screen: 'Prescription', params: { patientName } })}
+                onPress={handleClick}
+            //    onPress={() => navigation.navigate('Dashboard', { screen: 'Prescription', params: { patientName } })}
                >
                     <Text style={styles.buttonText}>Continue</Text>
                 </TouchableOpacity>
