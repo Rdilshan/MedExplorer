@@ -5,29 +5,81 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   TextInput,
 } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 
 export default function EnterNewPassword() {
 
+  const route = useRoute();
+  const { doctorid } = route.params;
 
   const [form, setForm] = useState({
-    email: '',
     password: '',
   });
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  async function onsubmit(){
 
+  if(form.password != ""){
+    console.log(form.password)
+
+    try {
+      const response = await axios.post(
+        "https://med-explorer-backend.vercel.app/doctor/updatepwd",
+        { doctorid: doctorid,
+          newpassword:form.password
+         }
+      );
+      if (response.status === 200) {
+
+        console.log(response.data);
+        setIsLoading(false);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Updated Successfully',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+
+        navigation.navigate("SignIn")
+      }
+      
+    } catch (error) {
+      console.log("400 error:", error.response.data);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Please try again.',
+          visibilityTime: 2000,
+        });
+    }
+
+  }else{
+    Toast.show({
+      type: 'error',
+      text1: 'Enter New Password',
+      text2: 'Please try again.',
+      visibilityTime: 2000,
+    });
+  }
+
+}
 
   return (
-    
+
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
@@ -57,11 +109,11 @@ export default function EnterNewPassword() {
             </View>
          
 
+
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SignIn")}>
+            <TouchableOpacity onPress={onsubmit} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Create New Password</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Create New Password</Text>}
               </View>
             </TouchableOpacity>
           </View>
