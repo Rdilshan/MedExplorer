@@ -1,43 +1,85 @@
-// DetailedView.js
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-
-function DetailedView({ onClose }) {
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+const DetailedView = ({ prescription, onClose }) => {
+  if (!prescription) {
+    return null;
+  }
+  console.log('Prescription data:', prescription.image);
+  const handleImageError = (error) => {
+    console.error('Image failed to load:', error.nativeEvent.error);
+  };
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../image/images.jpg')}
-        style={styles.fullImage}
-      />
-      <TouchableOpacity style={styles.moreReadableButton} onPress={onClose}>
-        <Text style={styles.moreReadableButtonText}>More Readable</Text>
-      </TouchableOpacity>
+      <View style={styles.content}>
+        <Text style={{ fontSize:15, fontWeight:'bold' }}>Prescription details</Text>
+        <Image   source={{ uri: prescription.image}} style={styles.image} />
+        <View style={{ display:'flex',flexDirection:'row',gap:20 }}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>Close</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Searchdrugs")} style={styles.readButton}>
+          <Text style={styles.readButtonText}>More Readeable</Text>
+        </TouchableOpacity>
+        </View>
+       
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    
   },
-  fullImage: {
-    width: '100%',
-    height: '80%',
+  content: {
+    width: '80%',
+    padding: 20,
+    height:'80%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'space-between',
+    alignItems: 'center',
+    
+  
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  image: {
+    width:500,
+    height:500,
     resizeMode: 'contain',
+    borderWidth:2,
+
   },
-  moreReadableButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    padding: 10,
-    backgroundColor: '#007BFF',
+  closeButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'red',
     borderRadius: 5,
   },
-  moreReadableButtonText: {
-    color: '#FFF',
+  closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  readButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#0165FC',
+    borderRadius: 5,
+  },
+  readButtonText: {
+    color: 'white',
     fontWeight: 'bold',
   },
 });

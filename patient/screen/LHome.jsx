@@ -16,9 +16,10 @@ export default function LHomes() {
           Read and Understand <Text style={{ color: '#0165FC' }}>Prescription</Text>
         </Text>
         <Text style={styles.bottom_des}>
-          is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+        MedExplorer is the platform for doctors to share their prescriptions
+          easily with patients
         </Text>
-        <TouchableOpacity style={styles.bottom_btn} onPress={() => navigation.navigate('Onboardings')}>
+        <TouchableOpacity style={styles.bottom_btn} onPress={() => navigation.navigate('onboarding')}>
           <Text style={styles.btn_dec}>Let’s Get Started</Text>
         </TouchableOpacity>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -42,6 +43,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bottom: {
+    // display: "flex",
+    // backgroundColor: "white",
+    // paddingHorizontal: 20,
+    // width: "100%",
+    // height: "auto",
+    // padding: 30,
+    // alignItems: "center",
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
+    // marginTop: -85,
+    // borderBottomLeftRadius: 15,
+    // borderBottomRightRadius: 15,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 10 },
+    // shadowOpacity: 0.12,
+    // shadowRadius: 10.32,
+    // elevation: 10,
     display: "flex",
     backgroundColor: "white",
     paddingHorizontal: 20,
@@ -52,13 +70,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginTop: -85,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.12,
-    shadowRadius: 10.32,
-    elevation: 10,
+    
   },
   bottom_head: {
     textAlign: "center",
