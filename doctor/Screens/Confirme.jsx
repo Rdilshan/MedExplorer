@@ -24,12 +24,13 @@ export default function Confirme() {
   const navigation = useNavigation();
 
   const route = useRoute();
-  const { imageUri, age, name,patientid } = route.params;
+  const { imageUri, age, name, patientid } = route.params;
 
-
+  const patientId = patientid;
   useEffect(() => {
     setPatientName(name);
     setenterage(age);
+  
   }, [name, age]);
 
   const handleSend = async () => {
@@ -53,7 +54,7 @@ export default function Confirme() {
           visibilityTime: 2000,
         });
 
-        navigation.navigate("Success" ,{ patientName });
+        navigation.navigate("Success" ,{ patientName, patientId });
         
       } catch (error) {
         console.error('Error saving form data:', error);
