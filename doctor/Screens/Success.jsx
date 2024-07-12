@@ -6,19 +6,17 @@ import axios from 'axios';
 export default function Success() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { patientName } = route.params;
+    const { patientName, patientId } = route.params;
 
     const handleClick = async (title) => {
-        const url = 'https://app.nativenotify.com/api/notification';
+        const url = 'https://app.nativenotify.com/api/indie/notification';
     
         const data = {
-        // appId: 22433,
-        // appToken: "2d6M2ODwoZdhN50rZQHXXh",
-        title: "MedExplorer Prescriptions",
-        body: "New Prescription recive from medExplorer, Take it and stay safe",
-        dateSent: "7-12-2024 3:18AM",
-        pushData: { yourProperty: "yourPropertyValue" },
-        bigPictureURL: "Big picture URL as a string"
+            subID: patientId.toString(),
+            // appId: 22433,
+            // appToken: "2d6M2ODwoZdhN50rZQHXXh",
+            title: "MedExplorer Prescriptions",
+            message: "New Prescription received from MedExplorer. Take it and stay safe.",
         };
     
         try {

@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from './api/patientapi';
 import { useFocusEffect } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { registerIndieID } from 'native-notify';
 
 export default function SignIN() {
   const [email, setEmail] = useState('');
@@ -38,12 +39,13 @@ export default function SignIN() {
         "https://med-explorer-backend.vercel.app/patient/login",
         userData
       );
-    
+      console.log('API response:', response.data); 
       if (response.status === 200) {
 
         const patientData = response.data.patient;
         await AsyncStorage.setItem('patientData', JSON.stringify(patientData));
         await AsyncStorage.setItem('token', response.data.token);
+        // registerIndieID(patientData._id.toString(), 22433, "2d6M2ODwoZdhN50rZQHXXh");
         Toast.show({
           type: 'success',
           text1: 'Login successful!',
