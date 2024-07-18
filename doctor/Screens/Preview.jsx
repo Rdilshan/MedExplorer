@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get("window");
 import api from './api/doctorapi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { usePredict } from './store/PredictContext';
 
 export default function Preview({ route }) {
 
@@ -25,7 +26,7 @@ export default function Preview({ route }) {
   const [uploadimg, setuploadimg] = useState("");
   const [predicresult, setpredicresult] = useState("");
 
-
+  const { predictResult, setPredictResult } = usePredict();
   const [showButtons, setShowButtons] = useState(false);
 
   const handleConvertToReadPress = async () => {
@@ -36,7 +37,7 @@ export default function Preview({ route }) {
       });
       console.log(response.data.data)
       setpredicresult(response.data.data)
-
+      setPredictResult(response.data.data)
     } catch (error) {
       if (error.response.data.error === 'Invalid authorization') {
         await AsyncStorage.removeItem('token');
@@ -108,7 +109,7 @@ export default function Preview({ route }) {
 
           {showButtons && (
             <>
-              <TouchableOpacity style={styles.sendButton} onPress={() => navigation.navigate('Pread', { predicresult: predicresult })}>
+              <TouchableOpacity style={styles.sendButton} onPress={() => navigation.navigate('Pread')}>
                 <Text style={styles.convertButtonText}>Checking</Text>
               </TouchableOpacity>
 

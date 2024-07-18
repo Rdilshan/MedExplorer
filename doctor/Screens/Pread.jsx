@@ -3,23 +3,26 @@ import { View, TextInput, StyleSheet, Dimensions, TouchableOpacity, Text } from 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const { height: screenHeight } = Dimensions.get('window');
+import { usePredict } from './store/PredictContext';
 
 
 
 export default function Pread() {
-  const route = useRoute();
-  const { predicresult } = route.params;
+  // const route = useRoute();
+  // const { predicresult } = route.params;
 
   const navigation = useNavigation();
+
+  const { predictResult, setPredictResult } = usePredict();
   const [text, setText] = useState('');
 
   useEffect(() => {
-    if (predicresult) {
-      const formattedResult = predicresult.map((drug) => `${drug}`).join('\n');
-      const updatedText = `${text}\n${formattedResult}`;
-      setText(updatedText);
+    if (predictResult && predictResult.length > 0) {
+      console.log(predictResult); // ["Gentamicin", "Penicillin V", "Amoxicillin", "Clavulanic acid"]
+      const formattedResult = predictResult.join('\n');
+      setText(formattedResult);
     }
-  }, [predicresult]);
+  }, [predictResult]);
 
   return (
     <View style={styles.container}>
@@ -31,7 +34,10 @@ export default function Pread() {
         onChangeText={(newText) => setText(newText)}
       />
 
-      <TouchableOpacity style={styles.sendButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.sendButton} onPress={() => {
+        setPredictResult(text.split('\n'));
+        navigation.goBack()
+      }}>
         <Text >Done</Text>
       </TouchableOpacity>
     </View>
