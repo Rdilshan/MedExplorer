@@ -59,7 +59,7 @@ export default function SearchDruges() {
             <TouchableOpacity
               style={styles.itemContainer}
               key={index}
-              onPress={() => navigation.navigate("drugItem", { drug: drugs.find(drug => drug.name === prediction) })}
+              onPress={() => navigation.navigate("drugItem", { drugName: prediction })}
             >
               <Text style={styles.text1}>
                 {index + 1}) {prediction}
