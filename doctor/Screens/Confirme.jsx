@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 import api from './api/doctorapi';
+import { usePredict } from './store/PredictContext';
 
 
 
@@ -22,6 +23,7 @@ export default function Confirme() {
   const [isOwner, setIsOwner] = useState(false);
   const [patientPhoneNumber, setPatientPhoneNumber] = useState("");
   const navigation = useNavigation();
+  const { predictResult, setPredictResult } = usePredict();
 
   const route = useRoute();
   const { imageUri, age, name,patientid } = route.params;
@@ -41,7 +43,8 @@ export default function Confirme() {
           PhoneNumber: patientPhoneNumber,
           image: imageUri,
           age: enterage,
-          patientid: patientid
+          patientid: patientid,
+          prediction:predictResult
         });
         console.log('Form data save response:', response.data);
   
@@ -52,7 +55,7 @@ export default function Confirme() {
           text2: 'Prescription created successfully!',
           visibilityTime: 2000,
         });
-
+        setPredictResult([]);
         navigation.navigate("Success" ,{ patientName });
         
       } catch (error) {
