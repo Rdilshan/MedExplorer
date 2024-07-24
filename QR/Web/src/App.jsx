@@ -1,6 +1,7 @@
 
 import './App.css'
 import Head from './components/Head'
+import InfoDrugs from './components/InfoDrugs'
 import PatientDetails from './components/PatientDetails'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <>
     <Head/>
     <PatientDetails/>
+    <InfoDrugs/>
     </>
   )
 }

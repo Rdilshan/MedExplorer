@@ -2,7 +2,7 @@ import React from "react";
 
 export default function PatientDetails() {
   return (
-    <div className="h-[100vh]  text-center mt-4">
+    <div className="h-auto  text-center mt-4">
       <h1 className="text-[30px] font-bold font-sans">Prescription Details</h1>
 
       <div className="container w-3/4 mx-auto mt-5">
