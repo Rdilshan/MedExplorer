@@ -1,5 +1,0 @@
-# ignore ALL .log files
-*.log
-
-.venv/
-__pycache__
