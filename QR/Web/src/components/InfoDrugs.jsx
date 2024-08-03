@@ -1,91 +1,84 @@
-import React from "react";
+import React ,{useState ,useEffect} from "react";
+import axios from 'axios'
 
-const medicalDrugs = [
-  {
-    name: "Aspirin",
-    genericName: "Acetylsalicylic Acid",
-    use: "Pain relief, anti-inflammatory, blood thinner",
-  },
-  {
-    name: "Tylenol",
-    genericName: "Acetaminophen",
-    use: "Pain relief, fever reducer",
-  },
-  { name: "Lipitor", genericName: "Atorvastatin", use: "Cholesterol-lowering" },
-  { name: "Amoxicillin", genericName: "Amoxicillin", use: "Antibiotic" },
-  { name: "Lasix", genericName: "Furosemide", use: "Diuretic" },
-  {
-    name: "Metformin",
-    genericName: "Metformin",
-    use: "Type 2 diabetes management",
-  },
-  { name: "Zoloft", genericName: "Sertraline", use: "Antidepressant" },
-  {
-    name: "Synthroid",
-    genericName: "Levothyroxine",
-    use: "Thyroid hormone replacement",
-  },
-  {
-    name: "Prilosec",
-    genericName: "Omeprazole",
-    use: "Acid reflux, heartburn",
-  },
-  { name: "Ventolin", genericName: "Albuterol", use: "Asthma, COPD" },
-];
+
 
 export default function InfoDrugs() {
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const fetchDatas = await axios.get('https://med-explorer-backend.vercel.app/prescription/get/669915637ae10ff9f4f5ecac');
+        const response = fetchDatas.data;
+        console.log(response);
+        setData(response);
+      
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>; 
+  }
+
   return (
-    <div className="my-10 ">
-      <h1 className="font-bold px-[170px] mt-5">Drugs information</h1>
-      <div className="grid grid-cols-2 px-[170px] mt-10">
-        <div>
+    <div className="my-10 sm:mx-auto lg:px-[170px] font-abc">
+     
+      <div className="sm-px-3 lg:grid grid-cols-2 ">
+     
+        <div className="sm:my-4">
+        <h1 className="font-bold  mt-5 sm:p-1">Drugs information</h1>
           <h1 className="font-semibold">
             Patient Name:{" "}
-            <span className="font-medium italic"> Kamal Pathirana</span>
+            <span className="font-medium italic"> {data.name}</span>
           </h1>
           <h1 className="font-semibold">
-            Patient Age: <span className="font-medium italic"> 23</span>
+            Patient Age: <span className="font-medium italic"> {data.age}</span>
           </h1>
           <h1 className="font-semibold">
-            Patient Email:{" "}
-            <span className="font-medium italic"> Pathirana@gmail.com</span>
+            Patient PhoneNumber:{" "}
+            <span className="font-medium italic"> {data.PhoneNumber}</span>
+          </h1>
+          <h1 className="font-semibold">
+            Release Date:{" "}
+            <span className="font-medium italic">{new Date(data.date).toLocaleDateString()}</span>
+          </h1>
+          <h1 className="font-semibold">
+            Release Time:{" "}
+            <span className="font-medium italic"> {new Date(data.date).toLocaleTimeString()}</span>
           </h1>
         </div>
-        <div>
-          <div className="w-full bg-[#add8e6] h-auto p-5 drop-shadow-md rounded">
+
+        <div className="mt-3 ">
+          <div className="sm:mt-3  bg-[#f0f8ff] h-auto  drop-shadow-md rounded p-7">
             <h1 className="font-bold text-[20px] text-center">Drug Details</h1>
             <div>
-              <ul>
-                {medicalDrugs.map((item, index) => (
-                  <li key={index}>{item.name}</li>
+            {data.prediction.map((item, index) => (
+                  <li key={index} className="font-semibold">{item}</li>
                 ))}
-              </ul>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-10 mx-auto px-[170px]">
-      <table className="table-auto mx-auto w-full border-collapse border border-gray-300">
-  <thead>
-    <tr>
-      <th className="px-4 py-2 border border-gray-300 bg-gray-200">Name</th>
-      <th className="px-4 py-2 border border-gray-300 bg-gray-200">Generic Name</th>
-      <th className="px-4 py-2 border border-gray-300 bg-gray-200">Use</th>
-    </tr>
-  </thead>
-  <tbody className="text-center">
-    {medicalDrugs.map((item, index) => (
-      <tr key={index} className="even:bg-gray-100">
-        <td className="px-4 py-2 border border-gray-300">{item.name}</td>
-        <td className="px-4 py-2 border border-gray-300">{item.genericName}</td>
-        <td className="px-4 py-2 border border-gray-300">{item.use}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
 
+      <div className="sm:mx-auto sm:container my-5">
+        <h1 className=" font-bold sm:my-5">Prescription Image</h1>
+        <img
+          className="sm:mx-auto p-10 w-[300px] h-[300px] bg-slate-500"
+          src={data.image}
+          alt="Prescription"
+        />
+        <p className="text-center">Release time: <span>{new Date(data.date).toLocaleTimeString()}</span></p>
       </div>
+
+ 
     </div>
   );
 }
