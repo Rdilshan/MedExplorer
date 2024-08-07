@@ -15,13 +15,14 @@ const DetailedView = ({ prescription, onClose }) => {
       <View style={styles.content}>
         <Text style={{ fontSize:15, fontWeight:'bold' }}>Prescription details</Text>
         <Image   source={{ uri: prescription.image}} style={styles.image} />
+        {/* <Text>{prescription.prediction}</Text> */}
         <View style={{ display:'flex',flexDirection:'row',gap:20 }}>
         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>Close</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate("Searchdrugs")} style={styles.readButton}>
-          <Text style={styles.readButtonText}>More Readeable</Text>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Searchdrugs", { predictions: prescription.prediction })} style={styles.readButton}>
+            <Text style={styles.readButtonText}>More Readable</Text>
+          </TouchableOpacity>
         </View>
        
       </View>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   View,
@@ -11,15 +11,42 @@ import {
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get("window");
+import api from './api/doctorapi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { usePredict } from './store/PredictContext';
 
 export default function Preview({ route }) {
+
   const navigation = useNavigation();
   const { imageUri } = route.params;
   const { age } = route.params;
   const { name } = route.params;
   const { patientid } = route.params;
 
-  const [uploadimg,setuploadimg] = useState("")
+  const [uploadimg, setuploadimg] = useState("");
+  const [predicresult, setpredicresult] = useState("");
+
+  const { predictResult, setPredictResult } = usePredict();
+  const [showButtons, setShowButtons] = useState(false);
+
+  const handleConvertToReadPress = async () => {
+
+    try {
+      const response = await api.post('/doctor/prediction', {
+        image: uploadimg
+      });
+      console.log(response.data.data)
+      setpredicresult(response.data.data)
+      setPredictResult(response.data.data)
+    } catch (error) {
+      if (error.response.data.error === 'Invalid authorization') {
+        await AsyncStorage.removeItem('token');
+        navigation.navigate("SignIn");
+      }
+    }
+
+    setShowButtons(true);
+  };
 
 
   const generateRandomName = () => {
@@ -72,13 +99,27 @@ export default function Preview({ route }) {
       <Image source={{ uri: imageUri }} style={styles.previewImage} />
       <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
         <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
-          <TouchableOpacity style={styles.sendButton} onPress={() => navigation.navigate('Pread')}>
-            <Text style={styles.convertButtonText}>Conver to Read</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
-            <Text style={styles.sendButtonText}>Done</Text>
-          </TouchableOpacity>
+
+          {!showButtons && (
+            <TouchableOpacity style={styles.sendButton} onPress={handleConvertToReadPress}>
+              <Text style={styles.convertButtonText}>Convert to Read</Text>
+            </TouchableOpacity>
+          )}
+
+          {showButtons && (
+            <>
+              <TouchableOpacity style={styles.sendButton} onPress={() => navigation.navigate('Pread')}>
+                <Text style={styles.convertButtonText}>Checking</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
+                <Text style={styles.sendButtonText}>Done</Text>
+              </TouchableOpacity>
+            </>
+          )}
+
+
         </View>
 
       </View>

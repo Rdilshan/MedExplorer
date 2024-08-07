@@ -1,16 +1,45 @@
-import React from "react";
-import { View, StyleSheet, Image, Text, ScrollView } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+
+
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image, Text, ScrollView, ActivityIndicator } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 export default function DrugItem() {
-  const navigation = useNavigation();
   const route = useRoute();
-  const { drug } = route.params;
+  const { drugName } = route.params;
+  const [drug, setDrug] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDrugDetails = async () => {
+      try {
+        const response = await fetch(`https://med-explorer-backend.vercel.app/drug/name/${drugName}`);
+        if (!response.ok) {
+          throw new Error('Drug not found');
+        }
+        const data = await response.json();
+        setDrug(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDrugDetails();
+  }, [drugName]);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (error) {
+    return <Text>{error}</Text>;
+  }
 
   return (
     <View style={styles.container}>
-   
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.drugName}>{drug.name}</Text>
         <Image source={{ uri: drug.img }} style={styles.drugImage} />
@@ -26,12 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
   },
-
-  backIcon: {
-    marginBottom: 175,
-    marginLeft: -25,
-  },
- 
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
@@ -47,8 +70,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     resizeMode: "contain",
-    // marginVertical: 20,
-    marginTop:20
+    marginTop: 20,
   },
   description: {
     paddingHorizontal: 20,
@@ -65,3 +87,4 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
+
