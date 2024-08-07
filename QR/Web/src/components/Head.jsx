@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 
-export default function Head() {
+export default function Head({ id }) {
 
 
   const [data, setData] = useState(null);
@@ -17,10 +17,11 @@ export default function Head() {
   });  
 
   useEffect(() => {
+    // console.log(id)
     async function fetchData() {
       try {
  
-        const fetchDatas = await axios.get('https://med-explorer-backend.vercel.app/prescription/get/669915637ae10ff9f4f5ecac');
+        const fetchDatas = await axios.get(`https://med-explorer-backend.vercel.app/prescription/get/${id}`);
         const response = fetchDatas.data;
         console.log('Prescription details:', response);
         setData(response);
