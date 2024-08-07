@@ -2,9 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
 export default function Head() {
+
+
   const [data, setData] = useState(null);
-  const [doctorDetails, setDoctorDetails] = useState(null);
+  const [doctorDetails, setDoctorDetails] = useState({
+    name:"",
+    PhoneNumber:"",
+    address:"",
+    email:"",
+    phone:"",
+  });  
 
   useEffect(() => {
     async function fetchData() {
@@ -21,7 +31,7 @@ export default function Head() {
         const fetchDoctorDetails = await axios.get(`https://med-explorer-backend.vercel.app/doctor/${doctorId}`);
         const doctorResponse = fetchDoctorDetails.data;
         console.log('Doctor details:', doctorResponse);
-        setDoctorDetails(doctorResponse);
+        setDoctorDetails(doctorResponse.doctor);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -35,9 +45,10 @@ export default function Head() {
     '>
         <h1 className='font-bold'>MedExplorer</h1>
         <div className='font-bold  sm:mx-auto md:px-2 lg:text-right'>
-            <p>{doctorDetails.doctor.name}</p>
-            <p>{doctorDetails.doctor.PhoneNumber}</p>
-            <p>{doctorDetails.doctor.email}</p>
+
+            <p>{doctorDetails.name}</p>
+            <p>{doctorDetails.PhoneNumber}</p>
+            <p>{doctorDetails.email}</p>
            
         </div>
       
