@@ -1,17 +1,13 @@
 
-import './App.css'
-import Head from './components/Head'
-import InfoDrugs from './components/InfoDrugs'
-import PatientDetails from './components/PatientDetails'
+import Pageprescription from "./Pageprescription";
+
 
 function App() {
 
 
   return (
     <>
-    <Head/>
-    {/* <PatientDetails/> */}
-    <InfoDrugs/>
+      <Pageprescription />
     </>
   )
 }
