@@ -5,21 +5,84 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   TextInput,
 } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
+
+
+
 export default function EnterNewPassword() {
+
+  const route = useRoute();
+  const { patientid } = route.params;
+
+
   const [form, setForm] = useState({
-    email: '',
     password: '',
   });
+  
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+
+  async function onsubmit(){
+
+    if(form.password != ""){
+      console.log(form.password)
+  
+      try {
+        const response = await axios.post(
+          "https://med-explorer-backend.vercel.app/patient/updatepwd",
+          { patientid: patientid,
+            newpassword:form.password
+           }
+        );
+        if (response.status === 200) {
+  
+          console.log(response.data);
+          setIsLoading(false);
+  
+          Toast.show({
+            type: 'success',
+            text1: 'Updated Successfully',
+            text2: 'Move to work.',
+            visibilityTime: 2000,
+          });
+  
+          navigation.navigate("SignIn")
+        }
+        
+      } catch (error) {
+        console.log("400 error:", error.response.data);
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: 'Please try again.',
+            visibilityTime: 2000,
+          });
+      }
+  
+    }else{
+      Toast.show({
+        type: 'error',
+        text1: 'Enter New Password',
+        text2: 'Please try again.',
+        visibilityTime: 2000,
+      });
+    }
+  
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -31,32 +94,46 @@ export default function EnterNewPassword() {
         </View>
 
         <View style={styles.form}>
-        <View style={styles.passwordContainer}>
-              <TextInput
-                autoCorrect={false}
-                clearButtonMode="while-editing"
-                onChangeText={password => setForm({ ...form, password })}
-                placeholder="********"
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-                secureTextEntry={!showPassword} 
-                value={form.password}
-              />
-              <TouchableOpacity
-                style={styles.toggleIcon}
-                onPress={togglePasswordVisibility}
-              >
-                <Icon name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#6b7280" />
-              </TouchableOpacity>
-            </View>
-          <View style={styles.formAction}>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={password => setForm({ ...form, password })}
+              placeholder="********"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              secureTextEntry={!showPassword}
+              value={form.password}
+            />
+            <TouchableOpacity
+              style={styles.toggleIcon}
+              onPress={togglePasswordVisibility}
+            >
+              <Icon name={showPassword ? 'eye' : 'eye-slash'} size={20} color="#6b7280" />
+            </TouchableOpacity>
+          </View>
+
+
+          {/* <View style={styles.formAction}>
             <TouchableOpacity
               onPress={() => navigation.navigate("SignIn")}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Create New Password</Text>
               </View>
             </TouchableOpacity>
+          </View> */}
+
+
+          <View style={styles.formAction}>
+            <TouchableOpacity onPress={onsubmit} disabled={isLoading}>
+              <View style={styles.btn}>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Create New Password</Text>}
+              </View>
+            </TouchableOpacity>
           </View>
+
+
+
         </View>
       </View>
     </SafeAreaView>

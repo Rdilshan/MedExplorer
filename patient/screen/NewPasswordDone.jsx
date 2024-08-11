@@ -6,24 +6,69 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   TextInput,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
-export default function NewPasswordone({navigation}) {
+
+export default function NewPasswordone({ navigation }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: ''
   });
 
+
+  async function onsubmit() {
+    setIsLoading(true);
+    console.log(form)
+
+
+    try {
+      const response = await axios.post(
+        "https://med-explorer-backend.vercel.app/patient/otpsend",
+        { email: form.email }
+      );
+      if (response.status === 200) {
+
+        setIsLoading(false);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Email send successfully.',
+          text2: 'Move to work.',
+          visibilityTime: 2000,
+        });
+
+        navigation.navigate('Entercode', {
+          email: form.email
+        });
+
+      }
+
+    } catch (error) {
+
+      console.log("400 error:", error.response.data);
+      Toast.show({
+        type: 'error',
+        text1: 'failed.',
+        text2: 'Try agin!',
+        visibilityTime: 2000,
+      });
+      setIsLoading(false);
+
+    }
+  }
   // const navigation=useNavigation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <View style={styles.header}>
-        <TouchableOpacity style={styles.headerAction} onPress={()=>navigation.navigate("SignIn")}>
-                    <FeatherIcon name="arrow-left" size={24} color="#000000"/>
-                </TouchableOpacity>
+          <TouchableOpacity style={styles.headerAction} onPress={() => navigation.navigate("SignIn")}>
+            <FeatherIcon name="arrow-left" size={24} color="#000000" />
+          </TouchableOpacity>
           <Text style={styles.title}>New Password</Text>
 
           <Text style={styles.subtitle}>Your new password must be different with previously used password</Text>
@@ -46,17 +91,16 @@ export default function NewPasswordone({navigation}) {
           </View>
 
 
-
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Entercode')
-              }}>
+            <TouchableOpacity onPress={onsubmit} disabled={isLoading}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Next Progress</Text>
+                {isLoading ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Next Progress</Text>}
               </View>
             </TouchableOpacity>
           </View>
+
+
+
         </View>
       </View>
     </SafeAreaView>
@@ -65,8 +109,8 @@ export default function NewPasswordone({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal:25,
-    paddingVertical:10
+    paddingHorizontal: 25,
+    paddingVertical: 10
   },
   header: {
     marginVertical: 36,
@@ -79,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 30,
     marginBottom: 5
-},
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
