@@ -130,9 +130,6 @@ export default function Confirme() {
             value={patientPhoneNumber}
             onChangeText={setPatientPhoneNumber}
             placeholder="Enter patient phone number"
-            keyboardType="phone-pad"
-            
-
           />
         </View>
 
