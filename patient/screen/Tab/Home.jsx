@@ -22,15 +22,18 @@ import {
 const { width } = Dimensions.get("window");
 
 export default function Home({ navigation }) {
+
   const [search, setSearch] = useState("");
-  const [profilimg,setprofileimg] = useState("https://storage.googleapis.com/medexplorer-10c83.appspot.com/photo_pp867y7mh.jpg?GoogleAccessId=firebase-adminsdk-s1sao%40medexplorer-10c83.iam.gserviceaccount.com&Expires=1741478400&Signature=OVCz7haRCuJqHL6YLQxV0ZR3%2BOPCzleeaMIHwHqHMh6pVz0RqV9ESwkQZezCxO2CAdD4SZVGodJgR83I8Ra9pjEBQMHzAnHj6ukuV%2BhJ8VbxrMuUQg1MGxS%2FlnWuo7YHvxohguhVmnHrZsX2FVOoabp5I5fa4c%2Fzmy5w4tIySjEm3m1X5m2w0olvnJln9g91Jr3DGdOpe22W1NLQlbm%2FerCfAyZsn8aDDkGfME2%2Bkb5H%2BmUdZKWBgJ%2BQjpGXlyoQ5pAfreC0HGiybKf5%2FamFQ6nkQjJ2VtQ3mTacOzdzMsxc1jY91VE3qVgVKPTEAgJfTdSFoZaxkJkX0ThyGuwTHw%3D%3D")
+  const [profilimg, setprofileimg] = useState("https://storage.googleapis.com/medexplorer-10c83.appspot.com/photo_pp867y7mh.jpg?GoogleAccessId=firebase-adminsdk-s1sao%40medexplorer-10c83.iam.gserviceaccount.com&Expires=1741478400&Signature=OVCz7haRCuJqHL6YLQxV0ZR3%2BOPCzleeaMIHwHqHMh6pVz0RqV9ESwkQZezCxO2CAdD4SZVGodJgR83I8Ra9pjEBQMHzAnHj6ukuV%2BhJ8VbxrMuUQg1MGxS%2FlnWuo7YHvxohguhVmnHrZsX2FVOoabp5I5fa4c%2Fzmy5w4tIySjEm3m1X5m2w0olvnJln9g91Jr3DGdOpe22W1NLQlbm%2FerCfAyZsn8aDDkGfME2%2Bkb5H%2BmUdZKWBgJ%2BQjpGXlyoQ5pAfreC0HGiybKf5%2FamFQ6nkQjJ2VtQ3mTacOzdzMsxc1jY91VE3qVgVKPTEAgJfTdSFoZaxkJkX0ThyGuwTHw%3D%3D")
   const [name, setname] = useState("loading..");
+  const [datadocotor, setdatadocotor] = useState([]);
+
   useFocusEffect(
     useCallback(() => {
       const fetchUserData = async () => {
         try {
           const response = await api.get("/patient/profile");
-          console.log(response.data);
+          // console.log(response.data);
           setprofileimg(response.data.patient.ProfileIMG)
           setname(response.data.patient.name);
         } catch (error) {
@@ -41,12 +44,29 @@ export default function Home({ navigation }) {
         }
       };
 
+
+      const getlistofdoctor = async () => {
+        try {
+          const response = await api.get("/patient/yourdoctor");
+          // console.log("here is doctor details :", response.data);
+          setdatadocotor(response.data.doctors)
+
+        } catch (error) {
+          if (error.response.data.error === "Invalid authorization") {
+            await AsyncStorage.removeItem("token");
+            navigation.navigate("SignIn");
+          }
+        }
+      };
+
       fetchUserData();
+      getlistofdoctor();
+
     }, [navigation])
   );
   const updateSearch = (text) => {
     setSearch(text);
-    console.log(text);
+    // console.log(text);
   };
 
   return (
@@ -56,7 +76,7 @@ export default function Home({ navigation }) {
           <View style={styles.headerTextContainer}>
             <TouchableOpacity>
               <Image
-                source={{ uri: profilimg }} 
+                source={{ uri: profilimg }}
                 style={styles.profileImage}
               />
             </TouchableOpacity>
@@ -114,36 +134,28 @@ export default function Home({ navigation }) {
         showsHorizontalScrollIndicator={false}
         style={{ height: hp("30%") }}
       >
-        <TouchableOpacity onPress={() => {}} style={styles.card}>
-          <Image
-            source={require("../image/image.jpg")}
-            style={styles.cardImage}
-          />
-          <View style={styles.cardTextContainer}>
-            <Text style={styles.cardTitle}>Dr. Munasigha</Text>
-          </View>
-          <Text style={styles.cardLocation}>4.5</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.card}>
-          <Image
-            source={require("../image/image.jpg")}
-            style={styles.cardImage}
-          />
-          <View style={styles.cardTextContainer}>
-            <Text style={styles.cardTitle}>Dr. Munasigha</Text>
-          </View>
-          <Text style={styles.cardLocation}>4.5</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.card}>
-          <Image
-            source={require("../image/image.jpg")}
-            style={styles.cardImage}
-          />
-          <View style={styles.cardTextContainer}>
-            <Text style={styles.cardTitle}>Dr. Munasigha</Text>
-          </View>
-          <Text style={styles.cardLocation}>4.5</Text>
-        </TouchableOpacity>
+        {datadocotor.length ? (
+        datadocotor.map((item,index) => {
+          return (
+            <TouchableOpacity key={index} onPress={() => { }} style={styles.card}>
+              <Image
+                // source={require("../image/image.jpg")}
+                source={{ uri: item.ProfileIMG }}
+                style={styles.cardImage}
+              />
+              <View style={styles.cardTextContainer}>
+                <Text style={styles.cardTitle}>Dr. {item.name}</Text>
+              </View>
+              <Text style={styles.cardLocation}>{item.PhoneNumber}</Text>
+            </TouchableOpacity>
+          )
+        }))
+        : (
+          <Text style={styles.placeholderText}>
+            No Doctor available
+          </Text>
+        )}
+      
       </ScrollView>
     </View>
   );
@@ -181,18 +193,18 @@ const styles = StyleSheet.create({
     width: wp("15%"),
     height: wp("15%"),
     borderRadius: wp("10%"),
-    borderWidth: 2, 
-    padding: 4, 
+    borderWidth: 2,
+    padding: 4,
     borderRadius: 50,
-    borderColor:"white" 
+    borderColor: "white"
   },
   iconButton: {
     marginLeft: wp("5%"),
     marginTop: wp("10%"),
-    borderWidth: 2, 
-    padding: 4, 
+    borderWidth: 2,
+    padding: 4,
     borderRadius: 50,
-    borderColor:"white" 
+    borderColor: "white"
   },
   searchBarInputContainer: {
     backgroundColor: "#FFF",
