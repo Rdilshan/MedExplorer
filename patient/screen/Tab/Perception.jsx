@@ -114,7 +114,7 @@ function Perception() {
                   </View>
                 </View>
                 <View style={styles.buttonsContainer}>
-                  <TouchableOpacity style={styles.buttonQr} onPress={() => handleQRCodePress(`QR Code for ${prescription.doctorName}`)}>
+                  <TouchableOpacity style={styles.buttonQr} onPress={() => handleQRCodePress(`https://qr-scanner-brown.vercel.app/prescription/${prescription._id}`)}>
                     <Text style={styles.buttonText}>QR Code</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.buttonView} onPress={() => handleViewPress(index)}>
