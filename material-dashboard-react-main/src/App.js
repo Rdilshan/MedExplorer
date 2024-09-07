@@ -41,7 +41,7 @@ export default function App() {
       )}
       <Routes>
         {getRoutes(routes)}
-        <Route path="/profile" element={<Overview />} /> {/* Add profile route */}
+        <Route path="/profile" element={<Overview />} /> 
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>

@@ -1,17 +1,38 @@
-// @mui material components
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Grid from "@mui/material/Grid";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 function Dashboard() {
+  const [counts, setCounts] = useState({
+    doctorCount: 0,
+    patientCount: 0,
+    prescriptionCount: 2300, // Hardcoded example value
+  });
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/admin/count");
+        console.log(response.data); // Check the data in the console
+        setCounts({
+          doctorCount: response.data.doctorCount,
+          patientCount: response.data.patientCount,
+          prescriptionCount: counts.prescriptionCount, // Preserve the hardcoded prescription count
+        });
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    };
+
+    fetchCounts();
+  }, []); // Empty dependency array to run only once on mount
+
   return (
     <DashboardLayout>
       <MDBox py={10}>
@@ -22,10 +43,8 @@ function Dashboard() {
                 color="dark"
                 icon={<PersonPinIcon />}
                 title="Doctor's count"
-                count={281}
-                percentage={{
-                  color: "success",
-                }}
+                count={counts.doctorCount}
+                percentage={{ color: "success" }}
               />
             </MDBox>
           </Grid>
@@ -34,10 +53,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon={<LeaderboardIcon />}
                 title="Prescription's count"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                }}
+                count={counts.prescriptionCount}
+                percentage={{ color: "success" }}
               />
             </MDBox>
           </Grid>
@@ -47,11 +64,8 @@ function Dashboard() {
                 color="primary"
                 icon={<PersonAddIcon />}
                 title="Patient's count"
-                count="91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                }}
+                count={counts.patientCount}
+                percentage={{ color: "success" }}
               />
             </MDBox>
           </Grid>
