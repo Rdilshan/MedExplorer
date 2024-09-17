@@ -1,27 +1,33 @@
 {
-    "expo": {
-      "name": "patient",
-      "slug": "patient",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "icon": "./assets/mock.png",
-      "userInterfaceStyle": "light",
-      "splash": {
-        "image": "./assets/splash2.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#0165FC"
+  "expo": {
+    "name": "patient",
+    "slug": "patient",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splash2.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash2.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0165FC"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
-      "ios": {
-        "supportsTablet": true
-      },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        }
-      },
-      "web": {
-        "favicon": "./assets/favicon.png"
+      "package": "com.rdilshan2000.patient"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "76364aa9-1e6d-41f6-bcd1-bbf0b283c911"
       }
     }
   }
+}
