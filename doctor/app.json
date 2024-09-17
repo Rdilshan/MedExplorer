@@ -4,7 +4,7 @@
     "slug": "Medoctoor",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/splash2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash2.png",
@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rdilshan2000.Medoctoor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c4e3783f-98d0-4e1a-9a95-1da95136f2ec"
+      }
     }
   }
 }
